@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cherry_Bomb_One } from "next/font/google";
 import localFont from "next/font/local";
+import DeviceIndicator from "../components/DeviceIndicator";
 import "./globals.css";
 
 const cherryBombOne = Cherry_Bomb_One({
@@ -27,9 +28,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const DEVMODE = process.env.NEXT_PUBLIC_DEVMODE === "true";
   return (
     <html lang="en" className={`${cherryBombOne.variable} ${Genty.variable}`}>
-      <body className="antialiased">{children}</body>
+      <body className="flex flex-col m-0 p-0 antialiased">
+        {DEVMODE && <DeviceIndicator />}
+        {children}
+      </body>
     </html>
   );
 }
