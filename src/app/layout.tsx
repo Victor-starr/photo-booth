@@ -13,7 +13,6 @@ const cherryBombOne = Cherry_Bomb_One({
 
 const Genty = localFont({
   src: [{ path: "../../public/fonts/GentyDemo-Regular.ttf" }],
-  display: "swap",
   variable: "--font-genty",
 });
 
@@ -30,8 +29,10 @@ export default function RootLayout({
 }>) {
   const DEVMODE = process.env.NEXT_PUBLIC_DEVMODE === "true";
   return (
-    <html lang="en" className={`${cherryBombOne.variable} ${Genty.variable}`}>
-      <body className="flex flex-col m-0 p-0 antialiased">
+    <html lang="en">
+      <body
+        className={`flex flex-col m-0 p-0 antialiased ${Genty.variable} ${cherryBombOne.variable}`}
+      >
         {DEVMODE && <DeviceIndicator />}
         {children}
       </body>
