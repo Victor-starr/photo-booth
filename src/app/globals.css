@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-cherry-bomb: var(--font-cherry-bomb-one), cursive;
+  --font-cherry: var(--font-cherry-bomb-one), cursive;
   --font-genty: var(--font-genty), sans-serif;
   --color-pink-2: #feaeeacc;
   --color-pink-5: #ffd9f5;
@@ -12,9 +12,14 @@
   --color-blue-9: #4389cccc;
 }
 
-html,
+@layer base {
+  body {
+    font-family: var(--font-cherry-bomb-one), var(--font-genty), cursive,
+      sans-serif;
+  }
+}
+
 body {
-  font-family: var(--font-cherry-bomb);
   overflow-x: hidden;
   width: 100%;
 }
@@ -25,6 +30,12 @@ body {
 
 .shadow-custom-position {
   text-shadow: 4px 4px 0px var(--tw-shadow-color, currentColor);
+}
+
+.text-cst {
+  color: white;
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.44);
+  text-shadow: 2px 4px 0px var(--tw-shadow-color, currentColor);
 }
 
 .hero_bg_img {
