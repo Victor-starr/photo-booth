@@ -12,6 +12,29 @@
   --color-blue-9: #4389cccc;
 }
 
+html,
 body {
   font-family: var(--font-cherry-bomb);
+  overflow-x: hidden;
+  width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.shadow-custom-position {
+  text-shadow: 4px 4px 0px var(--tw-shadow-color, currentColor);
+}
+
+.hero_bg_img {
+  background-image: url("/img/hero-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.opp-0 {
+  background-color: rgba(0, 0, 0, 0.3);
 }
