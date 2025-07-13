@@ -30,6 +30,9 @@ export default function RootLayout({
   const DEVMODE = process.env.NEXT_PUBLIC_DEVMODE === "true";
   return (
     <html lang="en">
+      <head>
+        <meta property="og:image" content="/og-image.png" />
+      </head>
       <body
         className={`flex flex-col m-0 p-0 antialiased ${Genty.variable} ${cherryBombOne.variable}`}
       >
