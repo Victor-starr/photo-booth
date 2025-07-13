@@ -7,6 +7,44 @@ import { FaLocationDot } from "react-icons/fa6";
 import { FaPaintBrush } from "react-icons/fa";
 import { IoTimer } from "react-icons/io5";
 
+const features = [
+  {
+    icon: (
+      <FaLocationDot
+        color="00B2FF"
+        size={48}
+        className="sm:size-10 md:size-15 lg:size-20"
+      />
+    ),
+    title: "Use It Anywhere",
+    description:
+      "Take photos with anyone, anytime — no matter where they are in the world.",
+  },
+  {
+    icon: (
+      <FaPaintBrush
+        color="00B2FF"
+        size={48}
+        className="sm:size-10 md:size-15 lg:size-20"
+      />
+    ),
+    title: "Make It Yours",
+    description:
+      "Pick your background, frame, and layout to match your vibe and style.",
+  },
+  {
+    icon: (
+      <IoTimer
+        color="00B2FF"
+        size={48}
+        className="sm:size-10 md:size-15 lg:size-20"
+      />
+    ),
+    title: "Quick & Easy",
+    description:
+      "Jump in, snap a photo, and share it — all in just a few taps.",
+  },
+];
 export default function Home() {
   return (
     <>
@@ -84,47 +122,43 @@ export default function Home() {
           className="z-1 relative w-full md:h-[60vh] lg:h-full lg:scale-100"
         />
       </section>
-      <section className="flex flex-col justify-center items-center bg-pink-5 shadow-blue-5 my-15 px-25 py-5 text-cst">
-        <h2 className="mt-5 mb-10 text-5xl">Why Use This App</h2>
-        <div className="flex md:flex-row lg:flex-row flex-col justify-center items-center gap-15 w-full">
-          <div className="flex flex-col justify-center items-center bg-white shadow-blue-5 shadow-custom-position px-5 py-10 rounded-2xl w-[400px] text-center">
-            <FaLocationDot color="00B2FF" size={65} />
-            <h3 className="my-4 text-3xl">Use It Anywhere</h3>
-            <p className="text-lg">
-              Take photos with anyone, anytime — no matter where they are in the
-              world.
-            </p>
-          </div>
-          <div className="flex flex-col justify-center items-center bg-white shadow-blue-5 shadow-custom-position px-5 py-10 rounded-2xl w-[400px] text-center">
-            <FaPaintBrush color="00B2FF" size={65} />
-            <h3 className="my-4 text-3xl">Make It Yours</h3>
-            <p className="text-lg">
-              Pick your background, frame, and layout to match your vibe and
-              style.
-            </p>
-          </div>
-          <div className="flex flex-col justify-center items-center bg-white shadow-blue-5 shadow-custom-position px-5 py-10 rounded-2xl w-[400px] text-center">
-            <IoTimer color="00B2FF" size={65} />
-            <h3 className="my-4 text-3xl">Quick & Easy</h3>
-            <p className="text-lg">
-              Jump in, snap a photo, and share it — all in just a few taps.
-            </p>
-          </div>
+      <section className="flex flex-col justify-center items-center bg-pink-5 shadow-blue-5 my-8 sm:my-12 md:my-16 lg:my-20 px-4 sm:px-8 md:px-16 lg:px-24 py-5 text-cst">
+        <h2 className="mt-5 mb-8 sm:mb-10 text-3xl sm:text-4xl md:text-5xl">
+          Why Use This App
+        </h2>
+        <div className="flex lg:flex-row flex-col md:flex-wrap justify-center items-center gap-6 sm:gap-10 md:gap-12 lg:gap-16 w-full">
+          {features.map(({ icon, title, description }, idx) => (
+            <div
+              key={title}
+              className={`flex flex-col justify-center items-center bg-white shadow-blue-5 shadow-custom-position ${
+                idx < 2 ? "mb-6 md:mb-0" : ""
+              } px-4 sm:px-6 md:px-8 py-6 sm:py-8 md:py-10 rounded-2xl w-full sm:w-[350px] md:w-[350px] lg:w-[400px] lg:min-h-[300px] text-center`}
+            >
+              {icon}
+              <h3 className="my-3 sm:my-4 text-xl sm:text-2xl md:text-3xl">
+                {title}
+              </h3>
+              <p className="text-base sm:text-lg">{description}</p>
+            </div>
+          ))}
         </div>
       </section>
-      <section className="flex justify-center items-center">
-        <div className="flex flex-row items-center bg-blue-2 shadow-lg mx-5 my-10 px-25 py-15 rounded-2xl w-[60vw] h-[60vh]">
-          <FormFeedBack />
-          <div className="flex flex-col flex-1 justify-center items-center h-[100%]">
-            <h2 className="py-5 text-white text-5xl text-center">
+
+      <section className="flex justify-center items-center mb-8 px-4 min-h-screen">
+        <div className="flex md:flex-row flex-col gap-6 bg-blue-2 shadow-2xl p-6 md:p-10 rounded-3xl w-full max-w-7xl">
+          <div className="flex justify-center items-center order-last md:order-first lg:order-first w-full md:w-1/2">
+            <FormFeedBack />
+          </div>
+          <div className="flex flex-col justify-center items-center px-4 w-full md:w-1/2 text-center">
+            <h2 className="mb-6 font-bold text-white text-3xl sm:text-4xl md:text-5xl">
               Send Us Your Feedback
             </h2>
             <Image
-              src={"/svg/idea-chart.svg"}
-              alt="Feedback Image"
-              width={0}
-              height={0}
-              className="w-full h-[90%]"
+              src="/svg/idea-chart.svg"
+              alt="Feedback Illustration"
+              width={220}
+              height={220}
+              className="w-40 sm:w-56 md:w-64 lg:w-72 h-auto"
             />
           </div>
         </div>
