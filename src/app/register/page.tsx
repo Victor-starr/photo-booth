@@ -6,7 +6,7 @@ export default function Login() {
   return (
     <>
       <Nav />
-      <section className="flex flex-col justify-center items-center w-full h-[90vh]">
+      <section className="flex flex-col items-center w-screen h-screen">
         <h2 className="shadow-red-500 text-cst text-4xl md:text-5xl lg:text-8xl text-center">
           Create Account
         </h2>
