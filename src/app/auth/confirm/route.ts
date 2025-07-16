@@ -8,10 +8,11 @@ export async function GET(request: NextRequest) {
   const token_hash = searchParams.get("token_hash");
   const type = searchParams.get("type") as EmailOtpType | null;
   const next = "/";
-  const redirectTo = request.nextUrl.clone();
+
+  // Use NEXT_PUBLIC_SITE_URL if available, otherwise localhost:3000
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const redirectTo = new URL(baseUrl);
   redirectTo.pathname = next;
-  redirectTo.searchParams.delete("token_hash");
-  redirectTo.searchParams.delete("type");
 
   if (token_hash && type) {
     const supabase = await createClient();
@@ -21,11 +22,12 @@ export async function GET(request: NextRequest) {
       token_hash,
     });
     if (!error) {
-      redirectTo.searchParams.delete("next");
       return NextResponse.redirect(redirectTo);
     }
   }
 
-  redirectTo.pathname = "/error";
-  return NextResponse.redirect(redirectTo);
+  // Redirect to error page with the same base URL logic
+  const errorRedirectTo = new URL(baseUrl);
+  errorRedirectTo.pathname = "/error";
+  return NextResponse.redirect(errorRedirectTo);
 }
