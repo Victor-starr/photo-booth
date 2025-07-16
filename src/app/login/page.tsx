@@ -2,7 +2,7 @@ import Footer from "@/components/_Footer";
 import Nav from "@/components/_Nav";
 import LoginForm from "@/components/LoginForm";
 
-export default function Login() {
+export default function LoginPage() {
   return (
     <>
       <Nav />

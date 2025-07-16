@@ -2,7 +2,7 @@ import Footer from "@/components/_Footer";
 import Nav from "@/components/_Nav";
 import SingUpForm from "@/components/SingUpForm";
 
-export default function Login() {
+export default function RegisterPage() {
   return (
     <>
       <Nav />
