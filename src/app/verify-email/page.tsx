@@ -6,20 +6,19 @@ import { createClient } from "@/utils/supabase/client";
 import Footer from "@/components/_Footer";
 import Nav from "@/components/_Nav";
 import { FaCheck } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 export default function VerifyEmail() {
   const { user, loading, isEmailVerified } = useAuth();
   const [isResending, setIsResending] = useState(false);
   const [resendMessage, setResendMessage] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
-    // Redirect to home if user is authenticated and email is confirmed
     if (user && isEmailVerified && !loading) {
-      const redirectUrl =
-        process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-      window.location.href = redirectUrl;
+      router.push("/");
     }
-  }, [user, isEmailVerified, loading]);
+  }, [user, isEmailVerified, loading, router]);
 
   const handleResendEmail = async () => {
     if (!user?.email) return;
@@ -32,11 +31,6 @@ export default function VerifyEmail() {
       const { error } = await supabase.auth.resend({
         type: "signup",
         email: user.email,
-        options: {
-          emailRedirectTo: `${
-            process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-          }/auth/confirm`,
-        },
       });
 
       if (error) {
