@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import Footer from "@/components/_Footer";
 import Nav from "@/components/_Nav";
+import { FaCheck } from "react-icons/fa";
 
 export default function VerifyEmail() {
   const { user, loading, isEmailVerified } = useAuth();
@@ -53,7 +54,7 @@ export default function VerifyEmail() {
         <section className="flex flex-col justify-center items-center px-4 min-h-screen">
           <div className="bg-blue-2 shadow-lg p-8 rounded-2xl w-full max-w-md text-center">
             <div className="mx-auto mb-4 border-b-2 border-blue-8 rounded-full w-12 h-12 animate-spin"></div>
-            <p className="text-blue-9 text-lg">
+            <p className="text-blue-8 text-xl">
               Checking verification status...
             </p>
           </div>
@@ -66,42 +67,24 @@ export default function VerifyEmail() {
   return (
     <>
       <Nav />
-      <section className="flex flex-col justify-center items-center px-4 min-h-screen">
-        <div className="bg-blue-2 shadow-lg p-8 rounded-2xl w-full max-w-md text-center">
-          <h1 className="mb-6 font-bold text-blue-9 text-cst text-3xl">
-            Check Your Email
-          </h1>
-
-          <div className="mb-6">
-            <svg
-              className="mx-auto mb-4 w-16 h-16 text-blue-8"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 8l7.89 7.89a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-              />
-            </svg>
+      <section className="flex flex-col items-center px-4 min-h-screen">
+        <div className="flex flex-col justify-center items-center bg-blue-2 shadow-lg mt-30 mb-8 p-8 rounded-2xl w-full max-w-md text-center">
+          <div className="inline-flex justify-center items-center bg-green-500 mb-6 rounded-full">
+            <FaCheck className="mx-4 my-4 text-white" size={32} />
           </div>
-
-          <p className="mb-4 text-blue-9 text-lg">
-            We&apos;ve sent you a verification email!
-          </p>
-
-          <p className="mb-6 text-blue-7 text-base">
-            Please check your email inbox and click the verification link to
-            activate your account.
+          <h2 className="shadow-blue-9 mb-2 font-bold text-cst text-3xl md:text-4xl lg:text-5xl text-center">
+            Check Your Email
+          </h2>
+          <p className="mt-1 mb-6 px-2 text-gray-700 text-base md:text-lg text-center">
+            Please check your inbox and click the verification link to activate
+            your account.
           </p>
 
           <div className="bg-blue-1 mb-6 p-4 border border-blue-3 rounded-lg">
-            <h3 className="mb-2 font-semibold text-blue-9">
+            <h3 className="shadow-blue-9 mb-2 text-cst text-lg">
               Can&apos;t find the email?
             </h3>
-            <ul className="space-y-1 mb-4 text-blue-7 text-sm text-left">
+            <ul className="space-y-1 mb-4 text-gray-500 text-sm text-left">
               <li>• Check your spam or junk folder</li>
               <li>• Make sure you entered the correct email address</li>
               <li>• Wait a few minutes - emails can take time to arrive</li>
@@ -110,7 +93,7 @@ export default function VerifyEmail() {
             <button
               onClick={handleResendEmail}
               disabled={isResending || !user?.email}
-              className="bg-blue-8 hover:bg-blue-9 disabled:bg-blue-4 px-4 py-2 rounded-lg w-full font-semibold text-white text-sm transition disabled:cursor-not-allowed"
+              className="bg-blue-8 hover:bg-blue-9 disabled:bg-blue-4 px-4 py-2 rounded-lg w-full text-white text-sm transition disabled:cursor-not-allowed"
             >
               {isResending ? "Sending..." : "Resend Verification Email"}
             </button>
@@ -127,11 +110,6 @@ export default function VerifyEmail() {
               </p>
             )}
           </div>
-
-          <p className="text-blue-6 text-sm">
-            Once verified, you&apos;ll be automatically redirected to your
-            dashboard.
-          </p>
         </div>
       </section>
       <Footer />

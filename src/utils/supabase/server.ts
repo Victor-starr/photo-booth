@@ -26,6 +26,13 @@ export async function createClient() {
           }
         },
       },
+      auth: {
+        // Use the proper site URL for redirects
+        flowType: "pkce",
+        autoRefreshToken: true,
+        persistSession: true,
+        detectSessionInUrl: true,
+      },
     }
   );
 }

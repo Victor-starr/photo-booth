@@ -16,9 +16,20 @@ const SingUpForm = () => {
     event.preventDefault();
     setFormMsg(null);
     setIsLoading(true);
+
     try {
       const formData = new FormData(event.currentTarget);
-      await signup(formData);
+      const result = await signup(formData);
+
+      // Check if there's an error returned from the server action
+      if (result?.error) {
+        setIsLoading(false);
+        setIsFormLocked(true);
+        setFormMsg({ message: result.error });
+        return;
+      }
+
+      // If no error, signup was successful and redirect will happen
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);

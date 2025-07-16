@@ -12,20 +12,20 @@ export async function login(formData: FormData) {
     password: formData.get("password") as string,
   };
   if (!data.email || !data.password) {
-    throw new Error("All fields are required");
+    return { error: "All fields are required" };
   }
   if (data.password.length < 6) {
-    throw new Error("Password must be at least 6 characters long");
+    return { error: "Password must be at least 6 characters long" };
   }
   const isValidEmail = validateEmail(data.email);
   if (!isValidEmail) {
-    throw new Error("Please enter a valid email address.");
+    return { error: "Please enter a valid email address." };
   }
 
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
-    throw new Error(error.message);
+    return { error: error.message };
   }
 
   revalidatePath("/", "layout");

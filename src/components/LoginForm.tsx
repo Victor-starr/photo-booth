@@ -16,9 +16,20 @@ const LoginForm = () => {
     event.preventDefault();
     setFormMsg(null);
     setIsLoading(true);
+
     try {
       const formData = new FormData(event.currentTarget);
-      await login(formData);
+      const result = await login(formData);
+
+      // Check if there's an error returned from the server action
+      if (result?.error) {
+        setIsLoading(false);
+        setIsFormLocked(true);
+        setFormMsg({ message: result.error });
+        return;
+      }
+
+      // If no error, login was successful and redirect will happen
       setIsLoading(false);
       setFormMsg({ message: "Login successful! Redirecting...", status: true });
     } catch (error) {

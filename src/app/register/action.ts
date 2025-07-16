@@ -12,18 +12,22 @@ export async function signup(formData: FormData) {
   const password = formData.get("password") as string;
   const confirmPassword = formData.get("confirmPassword") as string;
 
+  // Validation checks - return errors instead of throwing
   if (!username || !email || !password || !confirmPassword) {
-    throw new Error("All fields are required.");
+    return { error: "All fields are required." };
   }
+
   if (password !== confirmPassword) {
-    throw new Error("Passwords do not match");
+    return { error: "Passwords do not match" };
   }
+
   if (password.length < 6) {
-    throw new Error("Password must be at least 6 characters long");
+    return { error: "Password must be at least 6 characters long" };
   }
+
   const isValidEmail = validateEmail(email);
   if (!isValidEmail) {
-    throw new Error("Please enter a valid email address.");
+    return { error: "Please enter a valid email address." };
   }
 
   const { data, error } = await supabase.auth.signUp({
@@ -33,11 +37,14 @@ export async function signup(formData: FormData) {
       data: {
         username,
       },
+      emailRedirectTo: `${
+        process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+      }/auth/confirm`,
     },
   });
 
   if (error) {
-    throw new Error(error.message);
+    return { error: error.message };
   }
 
   // Create profile for newly registered users
