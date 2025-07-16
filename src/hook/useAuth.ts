@@ -6,6 +6,7 @@ import { createClient } from "@/utils/supabase/client";
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [loading, setLoading] = useState(true);
   const supabase = createClient();
 
@@ -32,6 +33,15 @@ export function useAuth() {
     return () => subscription.unsubscribe();
   }, [supabase.auth]);
 
+  useEffect(() => {
+    if (user) {
+      // Supabase user has email_confirmed_at (date string or null)
+      setIsEmailVerified(!!user.email_confirmed_at);
+    } else {
+      setIsEmailVerified(false);
+    }
+  }, [user]);
+
   const logout = async () => {
     setLoading(true);
     try {
@@ -45,6 +55,7 @@ export function useAuth() {
     user,
     loading,
     isAuthenticated: !!user,
+    isEmailVerified,
     logout,
   };
 }

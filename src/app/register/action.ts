@@ -40,6 +40,7 @@ export async function signup(formData: FormData) {
     throw new Error(error.message);
   }
 
+  // Create profile for newly registered users
   if (data.user && !data.user.email_confirmed_at) {
     try {
       const { error: profileError } = await supabase.from("profiles").insert([
@@ -59,5 +60,11 @@ export async function signup(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/");
+
+  // Redirect based on email verification status
+  if (!data.user?.email_confirmed_at) {
+    redirect("/verify-email");
+  } else {
+    redirect("/");
+  }
 }
