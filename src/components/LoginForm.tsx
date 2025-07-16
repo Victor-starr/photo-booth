@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
-import { loginAction } from "@/app/login/action";
-import { useRouter } from "next/navigation";
+import { login } from "@/app/login/action";
 import Link from "next/link";
 
 const LoginForm = () => {
@@ -12,7 +11,6 @@ const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isFormLocked, setIsFormLocked] = useState(false);
-  const navigation = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -20,10 +18,9 @@ const LoginForm = () => {
     setIsLoading(true);
     try {
       const formData = new FormData(event.currentTarget);
-      await loginAction(formData);
+      await login(formData);
       setIsLoading(false);
-      setFormMsg({ message: "Login successful!", status: true });
-      navigation.push("/");
+      setFormMsg({ message: "Login successful! Redirecting...", status: true });
     } catch (error) {
       setIsLoading(false);
       setIsFormLocked(true);

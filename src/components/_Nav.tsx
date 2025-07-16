@@ -1,8 +1,23 @@
+"use client";
+
+import { useAuth } from "@/hook/useAuth";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 const Nav = () => {
-  // TEMP user auth nav displayer
-  const isAuthenticated = false;
+  const { isAuthenticated, logout } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      router.push("/");
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
+
   return (
     <nav className="flex justify-between items-end bg-pink-2 px-4 sm:px-8 md:px-10 pt-2 pb-4 sm:pb-6 w-full h-auto overflow-hidden">
       <Link className="flex-shrink-0" href={"/"}>
@@ -16,12 +31,21 @@ const Nav = () => {
         />
       </Link>
       <div className="flex flex-row flex-shrink-0 items-end gap-3 sm:gap-6">
-        <Link
-          href={isAuthenticated ? "/logout" : "/login"}
-          className="bg-pink-400 hover:bg-pink-8 shadow-red-600 px-2 sm:px-4 pt-0.5 sm:pt-1 pb-1 sm:pb-2 rounded-lg text-cst text-white text-base sm:text-lg md:text-xl transition-colors duration-200"
-        >
-          {isAuthenticated ? "Log Out" : "Log In"}
-        </Link>
+        {isAuthenticated ? (
+          <button
+            onClick={handleLogout}
+            className="bg-pink-400 hover:bg-pink-8 disabled:bg-gray-400 shadow-red-600 px-2 sm:px-4 pt-0.5 sm:pt-1 pb-1 sm:pb-2 rounded-lg text-cst text-white text-base sm:text-lg md:text-xl transition-colors duration-200"
+          >
+            Log Out
+          </button>
+        ) : (
+          <Link
+            href={"/login"}
+            className="bg-pink-400 hover:bg-pink-8 shadow-red-600 px-2 sm:px-4 pt-0.5 sm:pt-1 pb-1 sm:pb-2 rounded-lg text-cst text-white text-base sm:text-lg md:text-xl transition-colors duration-200"
+          >
+            Log In
+          </Link>
+        )}
 
         <Link
           href="https://github.com/Victor-starr/photo-booth"

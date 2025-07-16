@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { registerForm } from "@/app/register/action";
+import { signup } from "@/app/register/action";
+
 const SingUpForm = () => {
   const [formMsg, setFormMsg] = useState<{
     message: string;
@@ -11,7 +11,6 @@ const SingUpForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isFormLocked, setIsFormLocked] = useState(false);
-  const navigation = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -19,10 +18,8 @@ const SingUpForm = () => {
     setIsLoading(true);
     try {
       const formData = new FormData(event.currentTarget);
-      await registerForm(formData);
+      await signup(formData);
       setIsLoading(false);
-      setFormMsg({ message: "Created account successful!", status: true });
-      navigation.push("/");
     } catch (error) {
       setIsLoading(false);
       setIsFormLocked(true);
@@ -104,7 +101,7 @@ const SingUpForm = () => {
       </div>
       <div className="relative flex flex-col w-full">
         <label
-          htmlFor="re-password"
+          htmlFor="confirmPassword"
           className="mb-1 font-medium text-blue-9 text-lg md:text-xl"
         >
           Confirm Password:
@@ -112,8 +109,8 @@ const SingUpForm = () => {
         <input
           className="bg-blue-1 p-3 border border-blue-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-5 placeholder:text-blue-3 text-base transition"
           type={showPassword ? "text" : "password"}
-          id="re-password"
-          name="re-password"
+          id="confirmPassword"
+          name="confirmPassword"
           placeholder="Confirm your password"
           onChange={handleInputInteraction}
         />
@@ -134,7 +131,7 @@ const SingUpForm = () => {
         disabled={isLoading || isFormLocked}
         className="bg-blue-8 hover:bg-blue-9 disabled:bg-blue-2 mb-2 py-3 rounded-xl w-full font-semibold text-white transition"
       >
-        Log In
+        Sign Up
       </button>
       <Link
         href={"/login"}
