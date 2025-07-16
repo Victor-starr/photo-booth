@@ -116,13 +116,7 @@ const SingUpForm = () => {
         />
       </div>
       {formMsg && (
-        <div
-          className={`${
-            formMsg.status
-              ? "bg-green-100 border-green-400 text-green-700"
-              : "bg-red-100 border-red-400 text-red-700"
-          } shadow-sm my-2 px-4 py-2 border  rounded-lg w-full text-center`}
-        >
+        <div className="bg-red-100 shadow-sm my-2 px-4 py-2 border border-red-400 rounded-lg w-full text-red-700 text-center">
           {formMsg.message}
         </div>
       )}
