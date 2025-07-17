@@ -6,7 +6,7 @@ import { createClient } from "@/utils/supabase/client";
 import Footer from "@/components/_Footer";
 import Nav from "@/components/_Nav";
 import { FaCheck } from "react-icons/fa";
-import { EmailVerificationGuardWrapper } from "@/guard/Guards";
+import { GuestGuardWrapper } from "@/guard/Guards";
 
 export default function VerifyEmail() {
   const { user, loading } = useAuth();
@@ -41,7 +41,7 @@ export default function VerifyEmail() {
   // Show loading state while checking auth
   if (loading) {
     return (
-      <EmailVerificationGuardWrapper>
+      <GuestGuardWrapper>
         <Nav />
         <section className="flex flex-col justify-center items-center px-4 min-h-screen">
           <div className="bg-blue-2 shadow-lg p-8 rounded-2xl w-full max-w-md text-center">
@@ -52,12 +52,12 @@ export default function VerifyEmail() {
           </div>
         </section>
         <Footer />
-      </EmailVerificationGuardWrapper>
+      </GuestGuardWrapper>
     );
   }
 
   return (
-    <EmailVerificationGuardWrapper>
+    <GuestGuardWrapper>
       <Nav />
       <section className="flex flex-col items-center px-4 min-h-screen">
         <div className="flex flex-col justify-center items-center bg-blue-2 shadow-lg mt-30 mb-8 p-8 rounded-2xl w-full max-w-md text-center">
@@ -105,6 +105,6 @@ export default function VerifyEmail() {
         </div>
       </section>
       <Footer />
-    </EmailVerificationGuardWrapper>
+    </GuestGuardWrapper>
   );
 }

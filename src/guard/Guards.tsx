@@ -31,30 +31,3 @@ export function GuestGuardWrapper({ children }: { children: React.ReactNode }) {
   if (loading || user) return null;
   return <>{children}</>;
 }
-
-export function EmailVerificationGuardWrapper({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const { user, isEmailVerified, loading } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!loading) {
-      if (!user) {
-        router.replace("/login");
-        return;
-      }
-      if (isEmailVerified) {
-        router.replace("/");
-        return;
-      }
-    }
-  }, [user, isEmailVerified, loading, router]);
-
-  if (loading) return null;
-  if (!user) return null;
-  if (isEmailVerified) return null;
-  return <>{children}</>;
-}

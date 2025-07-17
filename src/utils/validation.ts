@@ -5,7 +5,7 @@ export interface FeedbackFormData {
 }
 
 export const validateEmail = (email: string): boolean => {
-  const emailPattern = /^[\w.-]+@([\w-]+\.)+[\w-]{2,}$/i;
+  const emailPattern = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i;
   return emailPattern.test(email.trim());
 };
 
