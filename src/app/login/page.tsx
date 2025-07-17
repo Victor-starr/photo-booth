@@ -1,8 +1,9 @@
 import Footer from "@/components/_Footer";
 import Nav from "@/components/_Nav";
 import LoginForm from "@/components/LoginForm";
+import { GuestOnly } from "@/guard/Guards";
 
-export default function LoginPage() {
+function LoginPage() {
   return (
     <>
       <Nav />
@@ -20,3 +21,4 @@ export default function LoginPage() {
     </>
   );
 }
+export default GuestOnly(LoginPage);

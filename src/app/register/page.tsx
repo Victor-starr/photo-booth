@@ -1,8 +1,9 @@
 import Footer from "@/components/_Footer";
 import Nav from "@/components/_Nav";
 import SingUpForm from "@/components/SingUpForm";
+import { GuestOnly } from "@/guard/Guards";
 
-export default function RegisterPage() {
+function RegisterPage() {
   return (
     <>
       <Nav />
@@ -20,3 +21,4 @@ export default function RegisterPage() {
     </>
   );
 }
+export default GuestOnly(RegisterPage);

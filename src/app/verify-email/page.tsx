@@ -1,24 +1,17 @@
 "use client";
 
 import { useAuth } from "@/hook/useAuth";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import Footer from "@/components/_Footer";
 import Nav from "@/components/_Nav";
 import { FaCheck } from "react-icons/fa";
-import { useRouter } from "next/navigation";
+import { NeedsEmailVerification } from "@/guard/Guards";
 
-export default function VerifyEmail() {
-  const { user, loading, isEmailVerified } = useAuth();
+function VerifyEmail() {
+  const { user, loading } = useAuth();
   const [isResending, setIsResending] = useState(false);
   const [resendMessage, setResendMessage] = useState<string | null>(null);
-  const router = useRouter();
-
-  useEffect(() => {
-    if (user && isEmailVerified && !loading) {
-      router.push("/");
-    }
-  }, [user, isEmailVerified, loading, router]);
 
   const handleResendEmail = async () => {
     if (!user?.email) return;
@@ -115,3 +108,5 @@ export default function VerifyEmail() {
     </>
   );
 }
+
+export default NeedsEmailVerification(VerifyEmail);
