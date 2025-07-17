@@ -1,3 +1,5 @@
+"use client";
+
 import { useAuth } from "@/hook/useAuth";
 import { useRouter } from "next/navigation";
 import { useEffect, ComponentType } from "react";
@@ -34,22 +36,6 @@ function withGuestGuard<T extends object>(Component: ComponentType<T>) {
   };
 }
 
-function isEmailVerified<T extends object>(Component: ComponentType<T>) {
-  return function EmailVerifiedGuard(props: T) {
-    const { isEmailVerified, loading } = useAuth();
-    const router = useRouter();
-
-    useEffect(() => {
-      if (!loading && !isEmailVerified) {
-        router.replace("/verify-email");
-      }
-    }, [isEmailVerified, loading, router]);
-
-    if (loading || !isEmailVerified) return null;
-    return <Component {...props} />;
-  };
-}
-
 function requiresEmailVerification<T extends object>(
   Component: ComponentType<T>
 ) {
@@ -80,5 +66,4 @@ function requiresEmailVerification<T extends object>(
 
 export const Protected = withAuthGuard;
 export const GuestOnly = withGuestGuard;
-export const EmailVerified = isEmailVerified;
 export const NeedsEmailVerification = requiresEmailVerification;
