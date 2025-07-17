@@ -2,68 +2,59 @@
 
 import { useAuth } from "@/hook/useAuth";
 import { useRouter } from "next/navigation";
-import { useEffect, ComponentType } from "react";
+import { useEffect } from "react";
 
-function withAuthGuard<T extends object>(Component: ComponentType<T>) {
-  return function AuthGuard(props: T) {
-    const { user, loading } = useAuth();
-    const router = useRouter();
+export function AuthGuardWrapper({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth();
+  const router = useRouter();
 
-    useEffect(() => {
-      if (!loading && !user) {
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace("/login");
+    }
+  }, [user, loading, router]);
+
+  if (loading || !user) return null;
+  return <>{children}</>;
+}
+
+export function GuestGuardWrapper({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && user) {
+      router.replace("/");
+    }
+  }, [user, loading, router]);
+
+  if (loading || user) return null;
+  return <>{children}</>;
+}
+
+export function EmailVerificationGuardWrapper({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { user, isEmailVerified, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
         router.replace("/login");
+        return;
       }
-    }, [user, loading, router]);
-
-    if (loading || !user) return null;
-    return <Component {...props} />;
-  };
-}
-
-function withGuestGuard<T extends object>(Component: ComponentType<T>) {
-  return function GuestGuard(props: T) {
-    const { user, loading } = useAuth();
-    const router = useRouter();
-
-    useEffect(() => {
-      if (!loading && user) {
+      if (isEmailVerified) {
         router.replace("/");
+        return;
       }
-    }, [user, loading, router]);
+    }
+  }, [user, isEmailVerified, loading, router]);
 
-    if (loading || user) return null;
-    return <Component {...props} />;
-  };
+  if (loading) return null;
+  if (!user) return null;
+  if (isEmailVerified) return null;
+  return <>{children}</>;
 }
-
-function requiresEmailVerification<T extends object>(
-  Component: ComponentType<T>
-) {
-  return function RequiresEmailVerificationGuard(props: T) {
-    const { user, isEmailVerified, loading } = useAuth();
-    const router = useRouter();
-
-    useEffect(() => {
-      if (!loading) {
-        if (!user) {
-          router.replace("/login");
-          return;
-        }
-
-        if (isEmailVerified) {
-          router.replace("/");
-          return;
-        }
-      }
-    }, [user, isEmailVerified, loading, router]);
-
-    if (loading) return null;
-    if (!user) return null;
-    if (isEmailVerified) return null;
-    return <Component {...props} />;
-  };
-}
-
-export const Protected = withAuthGuard;
-export const GuestOnly = withGuestGuard;
-export const NeedsEmailVerification = requiresEmailVerification;

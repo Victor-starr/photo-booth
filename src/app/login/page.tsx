@@ -1,11 +1,11 @@
 import Footer from "@/components/_Footer";
 import Nav from "@/components/_Nav";
 import LoginForm from "@/components/LoginForm";
-import { GuestOnly } from "@/guard/Guards";
+import { GuestGuardWrapper } from "@/guard/Guards";
 
-function LoginPage() {
+export default function LoginPage() {
   return (
-    <>
+    <GuestGuardWrapper>
       <Nav />
       <section className="flex flex-col items-center w-full h-[84vh]">
         <h2 className="shadow-red-500 text-cst text-4xl md:text-5xl lg:text-8xl text-center">
@@ -18,7 +18,6 @@ function LoginPage() {
         <LoginForm />
       </section>
       <Footer />
-    </>
+    </GuestGuardWrapper>
   );
 }
-export default GuestOnly(LoginPage);
