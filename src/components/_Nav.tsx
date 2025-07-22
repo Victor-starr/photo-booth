@@ -19,7 +19,7 @@ const Nav = () => {
   };
 
   return (
-    <nav className="flex justify-between items-end bg-pink-2 px-4 sm:px-8 md:px-10 pt-2 pb-4 sm:pb-6 w-full h-auto overflow-hidden">
+    <nav className="z-3 flex justify-between items-end bg-pink-2 px-4 sm:px-8 md:px-10 pt-2 pb-4 sm:pb-6 w-full h-auto overflow-hidden">
       <Link className="flex-shrink-0" href={"/"}>
         <Image
           src="/svg/NavLogo.svg"
