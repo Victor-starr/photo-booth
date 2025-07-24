@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import PhotoCountDown from "./CaptureCountdown";
-import CameraControls from "./PhotoCaptureControls";
+import CaptureCountdown from "./CaptureCountdown";
+import PhotoCaptureControls from "./PhotoCaptureControls";
 
 interface CameraRef {
   takePhoto: () => string;
@@ -9,7 +9,7 @@ interface CameraRef {
   getNumberOfCameras?: () => number;
 }
 
-const CameraSection = () => {
+const CameraWorkspace = () => {
   const camera = useRef<CameraRef>(null!);
   const [cameraAspectRatio, setCameraAspectRatio] = useState(false);
   const [image, setImage] = useState<string | undefined>(undefined);
@@ -65,15 +65,18 @@ const CameraSection = () => {
 
   return (
     <>
-      <PhotoCountDown image={image} triggerCountdown={countdownTrigger} />
+      <CaptureCountdown image={image} triggerCountdown={countdownTrigger} />
       <div
-        className={`relative bg-black shadow-2xl border-4 border-blue-8 rounded-2xl flex justify-center items-center transition-all duration-300 ${
-          cameraAspectRatio ? "w-[65%] h-[75%]" : "w-[50%] h-full"
+        className={`relative w-full  sm:max-w-[400px] md:max-w-none bg-black shadow-2xl border-4 border-blue-8 rounded-2xl flex justify-center items-center transition-all duration-300 ${
+          cameraAspectRatio ? " h-[75%]" : " lg:w-[50%] h-full"
         }`}
       >
+        <div className="md:hidden top-2 left-2 z-10 absolute bg-black/70 backdrop-blur-sm px-3 py-1 rounded-full text-white text-xs">
+          💡 Rotate phone for landscape
+        </div>
         {permissionStatus !== "prompt" ? (
           permissionStatus === "granted" ? (
-            <CameraControls
+            <PhotoCaptureControls
               cameraRef={camera}
               onTakePhoto={handleTakePhoto}
               onToggleAspectRatio={cameraAspectRatioChange}
@@ -99,4 +102,4 @@ const CameraSection = () => {
   );
 };
 
-export default CameraSection;
+export default CameraWorkspace;

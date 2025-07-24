@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
 import { FaCamera } from "react-icons/fa";
-import CameraSection from "./CameraWorkspace";
+import CameraWorkspace from "./CameraWorkspace";
 
-const SessionStartContainer = () => {
+const SessionLauncher = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isStarting, setIsStarting] = useState(false);
 
@@ -17,15 +17,17 @@ const SessionStartContainer = () => {
     }, 2000);
   };
   return (
-    <div className="z-10 flex flex-col justify-center items-center bg-blue-2 shadow-xl mx-auto px-6 py-6 border-2 border-blue-8 rounded-2xl w-[60vw] h-[600px]">
+    <div className="-top-8 z-10 flex flex-col justify-center items-center bg-blue-2 shadow-xl mx-auto px-6 py-6 border-2 border-blue-8 rounded-2xl w-[95vw] md:w-[70vw] lg:w-[60vw] h-[70vh]">
       {!isStarting ? (
         <>
           <span className="bg-pink-400 mb-6 p-6 rounded-full">
             <FaCamera size={50} color="white" />
           </span>
           <article className="flex flex-col items-center gap-4 shadow-blue-8 mb-10 w-[85%] text-cst text-center">
-            <h1 className="text-3xl">Ready to Start?</h1>
-            <p className="text-xl">
+            <h1 className="text-[clamp(1.75rem,3vw,2.5rem)]">
+              Ready to Start?
+            </h1>
+            <p className="text-[clamp(1.25rem,2vw,1.5rem)]">
               You will take 4 photos, then customize your photo strip with
               filters, stickers, and themes.
             </p>
@@ -39,10 +41,10 @@ const SessionStartContainer = () => {
           </button>
         </>
       ) : (
-        <CameraSection />
+        <CameraWorkspace />
       )}
     </div>
   );
 };
 
-export default SessionStartContainer;
+export default SessionLauncher;

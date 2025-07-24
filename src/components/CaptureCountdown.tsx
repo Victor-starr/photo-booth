@@ -7,7 +7,8 @@ interface PhotoCountDownProps {
   triggerCountdown: boolean;
 }
 
-const PhotoCountDown = ({ image, triggerCountdown }: PhotoCountDownProps) => {
+
+const CaptureCountdown = ({ image, triggerCountdown }: PhotoCountDownProps) => {
   const [count, setCount] = useState(3);
   const [showPhoto, setShowPhoto] = useState(false);
 
@@ -35,7 +36,7 @@ const PhotoCountDown = ({ image, triggerCountdown }: PhotoCountDownProps) => {
   if (!triggerCountdown) return null;
 
   return (
-    <div className="top-0 left-0 z-50 absolute flex justify-center items-center bg-black/80 text-shadow-pink2 backdrop-blur-sm w-screen h-screen text-cst text-7xl">
+    <div className="-top-20 left-0 z-50 absolute flex justify-center items-center bg-black/80 text-shadow-pink2 backdrop-blur-sm w-screen h-screen text-cst text-7xl">
       {showPhoto && image ? (
         <div className="relative flex justify-center items-center w-full h-full">
           <Image
@@ -53,4 +54,4 @@ const PhotoCountDown = ({ image, triggerCountdown }: PhotoCountDownProps) => {
   );
 };
 
-export default PhotoCountDown;
+export default CaptureCountdown;

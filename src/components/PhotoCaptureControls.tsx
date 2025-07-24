@@ -22,7 +22,8 @@ interface CameraControlsProps {
   setCameraCount: (count: number) => void;
 }
 
-const CameraControls = ({
+
+const PhotoCaptureControls = ({
   cameraRef,
   onTakePhoto,
   onToggleAspectRatio,
@@ -44,10 +45,9 @@ const CameraControls = ({
           canvas: "Canvas is not supported.",
         }}
       />
-
       <button
         onClick={onToggleAspectRatio}
-        className="top-2 right-2 absolute bg-white/50 hover:bg-white/70 shadow-lg p-2 rounded-full text-white"
+        className="hidden md:block top-2 right-2 absolute bg-white/50 hover:bg-white/70 shadow-lg p-2 rounded-full text-white"
         title="Toggle Aspect Ratio"
       >
         <IoMdQrScanner />
@@ -78,4 +78,4 @@ const CameraControls = ({
   );
 };
 
-export default CameraControls;
+export default PhotoCaptureControls;
