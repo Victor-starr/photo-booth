@@ -1,36 +1,24 @@
-"use client";
-
 import { Camera } from "react-camera-pro";
 import { FaCamera } from "react-icons/fa";
 import { MdOutlineFlipCameraAndroid } from "react-icons/md";
 import { IoMdQrScanner } from "react-icons/io";
-import { RefObject } from "react";
+import { UseCameraReturn } from "@/lib/types/camera";
 
-interface CameraRef {
-  takePhoto: () => string;
-  switchCamera?: () => void;
-  getNumberOfCameras?: () => number;
+interface PhotoCaptureControlsProps {
+  camera: UseCameraReturn;
 }
 
-interface CameraControlsProps {
-  cameraRef: RefObject<CameraRef>;
-  onTakePhoto: () => void;
-  onToggleAspectRatio: () => void;
-  onSwitchCamera: () => void;
-  cameraCount: number;
-  loading: boolean;
-  setCameraCount: (count: number) => void;
-}
+const PhotoCaptureControls = ({ camera }: PhotoCaptureControlsProps) => {
+  const {
+    cameraRef,
+    takePhoto,
+    switchCamera,
+    toggleAspectRatio,
+    numberOfCameras,
+    isCapturing,
+    setCameraCount,
+  } = camera;
 
-const CameraControls = ({
-  cameraRef,
-  onTakePhoto,
-  onToggleAspectRatio,
-  onSwitchCamera,
-  cameraCount,
-  loading,
-  setCameraCount,
-}: CameraControlsProps) => {
   return (
     <>
       <Camera
@@ -46,28 +34,28 @@ const CameraControls = ({
       />
 
       <button
-        onClick={onToggleAspectRatio}
-        className="top-2 right-2 absolute bg-white/50 hover:bg-white/70 shadow-lg p-2 rounded-full text-white"
+        onClick={toggleAspectRatio}
+        className="hidden md:block lg:block top-2 right-2 absolute bg-white/50 hover:bg-white/70 shadow-lg p-2 rounded-full text-white"
         title="Toggle Aspect Ratio"
       >
         <IoMdQrScanner />
       </button>
 
       <button
-        onClick={onTakePhoto}
-        disabled={loading}
+        onClick={takePhoto}
+        disabled={isCapturing}
         className="bottom-2 left-1/2 z-10 absolute bg-pink-400 hover:bg-pink-500 active:bg-pink-600 disabled:opacity-75 shadow-lg p-4 rounded-full font-bold text-white hover:scale-105 transition-all -translate-x-1/2 duration-200 transform"
       >
-        {loading ? (
+        {isCapturing ? (
           <span className="inline-block border-2 border-white border-t-transparent rounded-full w-6 h-6 animate-spin"></span>
         ) : (
           <FaCamera size={24} />
         )}
       </button>
 
-      {cameraCount > 1 && (
+      {numberOfCameras > 1 && (
         <button
-          onClick={onSwitchCamera}
+          onClick={switchCamera}
           className="top-4 right-4 absolute bg-black/50 hover:bg-black/70 shadow-lg backdrop-blur-sm p-3 rounded-full text-white transition-all duration-200"
           title="Switch Camera"
         >
@@ -78,4 +66,4 @@ const CameraControls = ({
   );
 };
 
-export default CameraControls;
+export default PhotoCaptureControls;
