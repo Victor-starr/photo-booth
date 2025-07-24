@@ -70,7 +70,7 @@ export default function Home() {
             your own background, frame, and style.
           </p>
           <Link
-            href="/"
+            href="/session"
             className="bg-pink-8 hover:bg-pink-400 mt-4 mb-10 px-4 pt-1 lg:pt-3 pb-2 lg:pb-4 rounded-2xl text-md sm:text-2xl md:text-3xl lg:text-4xl active:scale-110 transition-all duration-200"
           >
             Give it a Try

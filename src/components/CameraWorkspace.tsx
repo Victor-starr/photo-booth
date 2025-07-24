@@ -71,7 +71,6 @@ const CameraWorkspace = () => {
           cameraAspectRatio ? " h-[75%]" : " lg:w-[50%] h-full"
         }`}
       >
-        {/* Mobile rotation hint - only shows on small screens */}
         <div className="md:hidden top-2 left-2 z-10 absolute bg-black/70 backdrop-blur-sm px-3 py-1 rounded-full text-white text-xs">
           💡 Rotate phone for landscape
         </div>

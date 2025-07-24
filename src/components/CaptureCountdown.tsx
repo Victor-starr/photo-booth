@@ -7,6 +7,7 @@ interface PhotoCountDownProps {
   triggerCountdown: boolean;
 }
 
+
 const CaptureCountdown = ({ image, triggerCountdown }: PhotoCountDownProps) => {
   const [count, setCount] = useState(3);
   const [showPhoto, setShowPhoto] = useState(false);

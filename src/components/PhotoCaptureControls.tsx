@@ -22,6 +22,7 @@ interface CameraControlsProps {
   setCameraCount: (count: number) => void;
 }
 
+
 const PhotoCaptureControls = ({
   cameraRef,
   onTakePhoto,
@@ -44,7 +45,6 @@ const PhotoCaptureControls = ({
           canvas: "Canvas is not supported.",
         }}
       />
-      {/* Only show aspect ratio toggle on non-mobile devices */}
       <button
         onClick={onToggleAspectRatio}
         className="hidden md:block top-2 right-2 absolute bg-white/50 hover:bg-white/70 shadow-lg p-2 rounded-full text-white"
