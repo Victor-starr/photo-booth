@@ -20,9 +20,6 @@ const SessionLauncher = ({ camera }: SessionLauncherProps) => {
             <h1 className="text-[clamp(1.75rem,3vw,2.5rem)]">
               Ready to Start?
             </h1>
-            <h1 className="text-[clamp(1.75rem,3vw,2.5rem)]">
-              Ready to Start?
-            </h1>
             <p className="text-[clamp(1.25rem,2vw,1.5rem)]">
               You will take 4 photos, then customize your photo strip with
               filters, stickers, and themes.
