@@ -1,4 +1,3 @@
-"use client";
 import Footer from "@/components/_Footer";
 import Nav from "@/components/_Nav";
 import SessionLauncher from "@/components/SessionLauncher";

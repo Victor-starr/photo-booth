@@ -32,7 +32,6 @@ const PhotoCaptureControls = ({ camera }: PhotoCaptureControlsProps) => {
           canvas: "Canvas is not supported.",
         }}
       />
-
       <button
         onClick={toggleAspectRatio}
         className="hidden md:block lg:block top-2 right-2 absolute bg-white/50 hover:bg-white/70 shadow-lg p-2 rounded-full text-white"
