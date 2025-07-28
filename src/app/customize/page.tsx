@@ -12,7 +12,7 @@ import { useState } from "react";
 export default function SessionPage() {
   const [frameType, setFrameType] =
     useState<PhotoFramesProps["type"]>("classic");
-  const { photosArr } = useCamera();
+  const { photosArr, startOverAgain } = useCamera();
 
   if (photosArr.length === 0) {
     return (
@@ -80,7 +80,10 @@ export default function SessionPage() {
           <hr className="mb-4 border-gray-400 border-t w-full" />
 
           <div className="flex sm:flex-row flex-col gap-4 sm:gap-6 w-full">
-            <button className="flex justify-center items-center gap-2 bg-gray-100 hover:bg-pink-8 shadow-black shadow-custom-position px-4 sm:px-6 py-2 border border-black rounded-lg w-full sm:w-auto text-black hover:text-white">
+            <button
+              onClick={startOverAgain}
+              className="flex justify-center items-center gap-2 bg-gray-100 hover:bg-pink-8 shadow-black shadow-custom-position px-4 sm:px-6 py-2 border border-black rounded-lg w-full sm:w-auto text-black hover:text-white"
+            >
               <VscDebugRestart className="mr-1" /> Start Over
             </button>
             <button className="flex justify-center items-center gap-2 bg-blue-9 hover:bg-white shadow-black shadow-custom-position px-4 sm:px-6 py-2 border border-black rounded-lg w-full sm:w-auto text-white hover:text-blue-9">
