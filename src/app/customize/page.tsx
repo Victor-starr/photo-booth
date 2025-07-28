@@ -18,18 +18,11 @@ export default function SessionPage() {
   const exportRef = useRef<HTMLDivElement>(null);
 
   const handleExport = async () => {
-    if (!exportRef.current) {
-      alert("No element to export");
-      return;
-    }
-
-    console.log(`Attempting to export ${frameType} frame...`);
+    if (!exportRef.current) return;
 
     try {
       await exportPhotoStrip(exportRef.current, frameType);
-      console.log("Export successful!");
     } catch (error) {
-      console.error("Export error:", error);
       const errorMessage =
         error instanceof Error ? error.message : "Failed to export image";
       alert(errorMessage);
