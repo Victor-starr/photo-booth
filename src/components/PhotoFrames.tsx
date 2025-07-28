@@ -34,9 +34,10 @@ const ClassicFrame = ({
           key={index}
           src={photo}
           alt={`Captured photo ${index + 1}`}
-          className="bg-cover shadow-lg w-[150px] h-[150px]"
-          width={1}
-          height={1}
+          className="shadow-lg object-cover"
+          width={140}
+          height={140}
+          unoptimized
         />
       ))}
     </div>
@@ -57,9 +58,10 @@ const RetroFrame = ({ photosArr, bg }: { photosArr: string[]; bg: string }) => {
             key={index}
             src={photo}
             alt={`Captured photo ${index + 1}`}
-            className="bg-cover shadow-lg w-[150px] h-[150px]"
-            width={1}
-            height={1}
+            className="shadow-lg object-cover"
+            width={140}
+            height={140}
+            unoptimized
           />
         ))}
       </div>
