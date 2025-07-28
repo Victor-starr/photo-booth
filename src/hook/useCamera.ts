@@ -1,5 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import type {
   PermissionState,
   CameraRef,
@@ -8,8 +9,9 @@ import type {
 
 export const useCamera = (): UseCameraReturn => {
   const cameraRef = useRef<CameraRef>(null!);
+  const router = useRouter();
 
-  // Simplified state
+  // TODO: GROUPED STATE THEM
   const [permissionStatus, setPermissionStatus] =
     useState<PermissionState>("prompt");
   const [isRequestingPermission, setIsRequestingPermission] = useState(false);
@@ -20,9 +22,23 @@ export const useCamera = (): UseCameraReturn => {
   const [numberOfCameras, setNumberOfCameras] = useState(0);
   const [isWideAspectRatio, setIsWideAspectRatio] = useState(false);
   const [isSessionActive, setIsSessionActive] = useState(false);
+  const [numOfTakenPhotos, setNumOfTakenPhotos] = useState(4);
+  const [photosArr, setPhotosArr] = useState<string[]>([]);
 
-  // Check permissions once on mount
   useEffect(() => {
+    const initializePhotos = () => {
+      try {
+        const storedPhotos = localStorage.getItem("photos");
+        const parsedPhotos = storedPhotos ? JSON.parse(storedPhotos) : [];
+        setPhotosArr(parsedPhotos);
+        setNumOfTakenPhotos(4 - parsedPhotos.length);
+      } catch (error) {
+        console.error("Failed to parse localStorage photos:", error);
+      }
+    };
+
+    initializePhotos();
+
     navigator.permissions
       ?.query({ name: "camera" as PermissionName })
       .then((result) => {
@@ -32,7 +48,6 @@ export const useCamera = (): UseCameraReturn => {
       .catch(() => setPermissionStatus("prompt"));
   }, []);
 
-  // Handle countdown and photo capture
   useEffect(() => {
     if (!isCountdownActive) return;
 
@@ -43,26 +58,43 @@ export const useCamera = (): UseCameraReturn => {
       );
       return () => clearTimeout(timer);
     } else {
-      // Take photo when countdown reaches 0
       if (cameraRef.current) {
         const photo = cameraRef.current.takePhoto();
         console.log("Photo captured:", photo ? "Success" : "Failed");
         setCapturedImage(photo);
+        const existingPhotos = JSON.parse(
+          localStorage.getItem("photos") || "[]"
+        );
+        const updatedPhotos = [...existingPhotos, photo];
+
+        localStorage.setItem("photos", JSON.stringify(updatedPhotos));
+        setPhotosArr(updatedPhotos);
+        setNumOfTakenPhotos(4 - updatedPhotos.length);
+
+        if (updatedPhotos.length >= 4) {
+          setTimeout(() => {
+            setIsSessionActive(false);
+            setIsCountdownActive(false);
+            setIsCapturing(false);
+            setCountdownValue(3);
+            setCapturedImage(undefined);
+            router.push("/customize");
+          }, 3000);
+          return;
+        }
       }
 
-      // Auto-hide after 4 seconds to show the photo longer
       const hideTimer = setTimeout(() => {
         setIsCountdownActive(false);
         setIsCapturing(false);
         setCountdownValue(3);
-        setCapturedImage(undefined); // Clear the image when hiding
+        setCapturedImage(undefined);
       }, 3000);
 
       return () => clearTimeout(hideTimer);
     }
-  }, [isCountdownActive, countdownValue]);
+  }, [isCountdownActive, countdownValue, router]);
 
-  // Simplified functions
   const requestPermission = async (): Promise<boolean> => {
     if (permissionStatus === "granted") return true;
 
@@ -99,6 +131,10 @@ export const useCamera = (): UseCameraReturn => {
   };
 
   const startSession = () => {
+    localStorage.removeItem("photos");
+    setPhotosArr([]);
+    setNumOfTakenPhotos(4);
+    setCapturedImage(undefined);
     setIsSessionActive(true);
   };
 
@@ -120,6 +156,8 @@ export const useCamera = (): UseCameraReturn => {
     requestPermission,
     hasPermission: permissionStatus === "granted",
     capturedImage,
+    numOfTakenPhotos,
+    photosArr,
     isCapturing,
     takePhoto,
     clearPhoto,

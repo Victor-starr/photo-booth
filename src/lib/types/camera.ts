@@ -23,6 +23,8 @@ export interface UseCameraReturn {
 
   // Photo capture
   capturedImage: string | undefined;
+  numOfTakenPhotos: number;
+  photosArr: string[];
   isCapturing: boolean;
   takePhoto: () => void;
   clearPhoto: () => void;
@@ -46,48 +48,7 @@ export interface UseCameraReturn {
   endSession: () => void;
 }
 
-// Component props interfaces
-export interface CameraControlsProps {
-  cameraRef: RefObject<CameraRef>;
-  onTakePhoto: () => void;
-  onToggleAspectRatio: () => void;
-  onSwitchCamera: () => void;
-  cameraCount: number;
-  loading: boolean;
-  setCameraCount: (count: number) => void;
-}
-
-export interface PhotoCountDownProps {
-  image: string | undefined;
-  triggerCountdown: boolean;
-  count?: number;
-}
-
-// Camera error messages interface
-export interface CameraErrorMessages {
-  noCameraAccessible: string;
-  permissionDenied: string;
-  switchCamera: string;
-  canvas: string;
-}
-
-// Session related types
-export interface SessionState {
-  isActive: boolean;
-  photosCount: number;
-  maxPhotos: number;
-  currentPhoto: number;
-}
-
-// Photo data interface
-export interface PhotoData {
-  id: string;
-  imageUrl: string;
-  timestamp: Date;
-  metadata?: {
-    width: number;
-    height: number;
-    aspectRatio: string;
-    cameraUsed?: string;
-  };
+export interface PhotoFramesProps {
+  photoArr: string[];
+  type: "classic" | "dark" | "retro" | "moon" | "party";
 }
