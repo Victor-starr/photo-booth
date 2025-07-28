@@ -145,8 +145,10 @@ export const useCamera = (): UseCameraReturn => {
     setIsCapturing(false);
   };
 
-  const clearPhoto = () => {
-    setCapturedImage(undefined);
+  const startOverAgain = () => {
+    endSession();
+    startSession();
+    router.replace("/session");
   };
 
   return {
@@ -154,13 +156,11 @@ export const useCamera = (): UseCameraReturn => {
     permissionStatus,
     isRequestingPermission,
     requestPermission,
-    hasPermission: permissionStatus === "granted",
     capturedImage,
     numOfTakenPhotos,
     photosArr,
     isCapturing,
     takePhoto,
-    clearPhoto,
     isCountdownActive,
     countdownValue,
     numberOfCameras,
@@ -171,5 +171,6 @@ export const useCamera = (): UseCameraReturn => {
     isSessionActive,
     startSession,
     endSession,
+    startOverAgain,
   };
 };

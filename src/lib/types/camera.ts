@@ -19,7 +19,6 @@ export interface UseCameraReturn {
   permissionStatus: PermissionState;
   isRequestingPermission: boolean;
   requestPermission: () => Promise<boolean>;
-  hasPermission: boolean;
 
   // Photo capture
   capturedImage: string | undefined;
@@ -27,7 +26,6 @@ export interface UseCameraReturn {
   photosArr: string[];
   isCapturing: boolean;
   takePhoto: () => void;
-  clearPhoto: () => void;
 
   // Countdown
   isCountdownActive: boolean;
@@ -46,6 +44,7 @@ export interface UseCameraReturn {
   isSessionActive: boolean;
   startSession: () => void;
   endSession: () => void;
+  startOverAgain: () => void;
 }
 
 export interface PhotoFramesProps {
