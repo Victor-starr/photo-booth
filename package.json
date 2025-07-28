@@ -12,6 +12,7 @@
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.51.0",
     "axios": "^1.10.0",
+    "html2canvas": "^1.4.1",
     "next": "15.3.5",
     "react": "^19.1.0",
     "react-camera-pro": "^1.4.0",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/html2canvas": "^1.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

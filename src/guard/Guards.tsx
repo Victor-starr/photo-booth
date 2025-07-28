@@ -52,7 +52,19 @@ export function MaxPhotoCountWrapper({
     }
   }, [photosArr.length, router, user, loading]);
 
-  if (loading || user) return <LoadingcheckAuth loading={loading} />;
+  if (loading) {
+    return <LoadingScreen title="Checking authentication..." showSpinner />;
+  }
+
+  if (!user) {
+    return (
+      <LoadingScreen
+        title="You need to be logged in!"
+        subtitle="Redirecting to login page..."
+        showSpinner
+      />
+    );
+  }
 
   if (photosArr.length >= 4) {
     return (
