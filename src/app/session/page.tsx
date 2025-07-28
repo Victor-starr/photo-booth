@@ -12,7 +12,7 @@ export default function SessionPage() {
   return (
     <MaxPhotoCountWrapper>
       <Nav />
-      <section className="z-1 relative flex flex-col items-center w-screen h-[85vh] overflow-hidden">
+      <section className="z-1 relative flex flex-col justify-center items-center mb-35 w-screen h-screen overflow-x-hidden">
         <Image
           src={"/svg/retro_photo_3.svg"}
           alt="Retro Photo Background"

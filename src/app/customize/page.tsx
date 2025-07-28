@@ -68,8 +68,8 @@ export default function SessionPage() {
   return (
     <AuthGuardWrapper>
       <Nav />
-      <section className="relative flex lg:flex-row flex-col justify-center items-center gap-10 bg-[#F2EDF1] px-4 pt-20 overflow-y-auto">
-        <h2 className="top-5 left-1/2 absolute shadow-pink-8 text-[clamp(2rem,2vw,3rem)] text-cst text-center -translate-x-1/2">
+      <section className="relative flex lg:flex-row flex-col justify-center items-center gap-10 bg-[#F2EDF1] mb-35 px-4 pt-20 overflow-y-auto">
+        <h2 className="top-5 left-1/2 absolute shadow-pink-8 text-[clamp(1.25rem,1.5vw,2rem)] text-cst text-center -translate-x-1/2">
           Customize Your Strip
         </h2>
 
