@@ -2,39 +2,15 @@
 import Footer from "@/components/_Footer";
 import Nav from "@/components/_Nav";
 import SessionLauncher from "@/components/SessionLauncher";
-import { AuthGuardWrapper } from "@/guard/Guards";
+import { MaxPhotoCountWrapper } from "@/guard/Guards";
 import Image from "next/image";
 import { useCamera } from "@/hook/useCamera";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 
 export default function SessionPage() {
-  const router = useRouter();
   const camera = useCamera();
 
-  useEffect(() => {
-    if (camera.photosArr.length >= 4) {
-      router.push("/customize");
-    }
-  }, [camera.photosArr.length, router]);
-
-  if (camera.photosArr.length >= 4) {
-    return (
-      <AuthGuardWrapper>
-        <Nav />
-        <div className="flex flex-col justify-center items-center h-[85vh]">
-          <div className="text-center">
-            <h2 className="mb-4 text-2xl">You already have enough photos!</h2>
-            <p>Redirecting to customize page...</p>
-          </div>
-        </div>
-        <Footer />
-      </AuthGuardWrapper>
-    );
-  }
-
   return (
-    <AuthGuardWrapper>
+    <MaxPhotoCountWrapper>
       <Nav />
       <section className="z-1 relative flex flex-col items-center w-screen h-[85vh] overflow-hidden">
         <Image
@@ -57,6 +33,6 @@ export default function SessionPage() {
         />
       </section>
       <Footer />
-    </AuthGuardWrapper>
+    </MaxPhotoCountWrapper>
   );
 }
