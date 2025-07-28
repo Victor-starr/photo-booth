@@ -41,18 +41,38 @@ export const exportElementAsImage = async (
       throw new Error("Failed to create blob from canvas");
     }
 
+    // Mobile-friendly download approach
     const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${fileName}.${format}`;
 
-    // Append to body, click, and remove
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // Check if we're on mobile
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-    // Clean up the object URL
-    URL.revokeObjectURL(url);
+    if (isMobile) {
+      // For mobile: open blob URL in new window/tab for user to save manually
+      const newWindow = window.open(url, "_blank");
+      if (!newWindow) {
+        // Fallback: try to navigate to the blob URL
+        window.location.href = url;
+      }
+
+      // Clean up after a delay to allow the download/view to start
+      setTimeout(() => {
+        URL.revokeObjectURL(url);
+      }, 1000);
+    } else {
+      // Desktop: use download attribute
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${fileName}.${format}`;
+
+      // Append to body, click, and remove
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Clean up the object URL
+      URL.revokeObjectURL(url);
+    }
   } catch (error) {
     console.error("Export failed:", error);
     const errorMessage =

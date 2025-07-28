@@ -22,7 +22,7 @@ const PhotoCaptureControls = ({ camera }: PhotoCaptureControlsProps) => {
 
   return (
     <>
-      <h2 className="inline-block sm:top-10 md:top-2 lg:top-2 left-2 z-10 absolute bg-black/50 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm">
+      <h2 className="inline-block top-10 lg:top-2 left-2 z-10 absolute bg-black/70 backdrop-blur-sm px-3 py-1 rounded-full text-white text-xs">
         You have {numOfTakenPhotos} photos left
       </h2>
       <Camera
