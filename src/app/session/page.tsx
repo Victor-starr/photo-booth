@@ -36,7 +36,7 @@ export default function SessionPage() {
   return (
     <AuthGuardWrapper>
       <Nav />
-      <section className="z-1 relative flex flex-col items-center w-screen h-[85vh] overflow-hidden">
+      <section className="z-1 relative flex flex-col items-center w-screen h-screen overflow-x-hidden">
         <Image
           src={"/svg/retro_photo_3.svg"}
           alt="Retro Photo Background"
@@ -44,7 +44,7 @@ export default function SessionPage() {
           height={1}
           className="lg:top-15 -left-15 md:left-0 lg:left-0 z-1 absolute w-82 h-screen lg:scale-140"
         />
-        <h2 className="z-2 shadow-pink-8 my-4 text-[clamp(2rem,2.5vw,3rem)] text-cst text-center">
+        <h2 className="z-2 shadow-pink-8 my-4 text-[clamp(1.25rem,2.5vw,3rem)] text-cst sm:text-[clamp(2rem,2.5vw,3rem)] text-center">
           Capture 4 photos * Customize * Share
         </h2>
         <SessionLauncher camera={camera} />
