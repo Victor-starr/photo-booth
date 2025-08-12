@@ -29,7 +29,6 @@ export const exportElementAsImage = async (
       logging: false,
       width: element.offsetWidth,
       height: element.offsetHeight,
-      foreignObjectRendering: true,
     });
 
     // Convert canvas to blob with Promise
