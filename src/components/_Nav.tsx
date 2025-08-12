@@ -18,8 +18,8 @@ const Nav = () => {
         break;
       case "/logout":
         try {
-          await logout();
           router.push("/");
+          await logout();
         } catch (error) {
           console.error("Error logging out:", error);
         }
