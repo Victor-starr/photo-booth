@@ -1,65 +1,66 @@
 "use client";
 
 import { useAuth } from "@/hook/useAuth";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { IoCamera } from "react-icons/io5";
+import { LuLogOut, LuLogIn } from "react-icons/lu";
+import { FaGithub } from "react-icons/fa";
 
 const Nav = () => {
   const { isAuthenticated, logout } = useAuth();
   const router = useRouter();
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-      router.push("/");
-    } catch (error) {
-      console.error("Error logging out:", error);
+  const handleRoute = async (navigate: "/login" | "/logout") => {
+    switch (navigate) {
+      case "/login":
+        router.push("/login");
+        break;
+      case "/logout":
+        try {
+          await logout();
+          router.push("/");
+        } catch (error) {
+          console.error("Error logging out:", error);
+        }
     }
   };
 
   return (
-    <nav className="z-3 flex justify-between items-end bg-pink-2 px-4 sm:px-8 md:px-10 pt-2 pb-4 sm:pb-6 w-full h-auto overflow-hidden">
-      <Link className="flex-shrink-0" href={"/"}>
-        <Image
-          src="/svg/NavLogo.svg"
-          alt="Photo Booth Logo"
-          width={180}
-          height={40}
-          priority
-          className="w-[120px] sm:w-[180px] md:w-[270px] h-auto"
-        />
+    <nav className="z-3 flex justify-around bg-pink-2 px-6 md:px-10 py-4 md:py-6 w-full h-auto overflow-hidden">
+      <Link
+        className="relative flex items-center shadow-red-500 h-auto text-cst"
+        href={"/"}
+      >
+        <h2 className="text-2xl md:text-3xl lg:text-4xl">Photo Booth</h2>
+        <IoCamera className="hidden md:inline relative ml-2 size-7 sm:size-8 md:size-9 lg:size-10 rotate-25" />
       </Link>
-      <div className="flex flex-row flex-shrink-0 items-end gap-3 sm:gap-6">
+      <div className="flex flex-row flex-shrink-0 items-center gap-2 lg:gap-6">
         {isAuthenticated ? (
           <button
-            onClick={handleLogout}
-            className="bg-pink-400 hover:bg-pink-8 disabled:bg-gray-400 shadow-red-600 px-2 sm:px-4 pt-0.5 sm:pt-1 pb-1 sm:pb-2 rounded-lg text-cst text-white text-base sm:text-lg md:text-xl transition-colors duration-200"
+            onClick={() => handleRoute("/logout")}
+            className="flex justify-center items-center bg-pink-400 hover:bg-pink-8 disabled:bg-gray-400 md:px-4 md:py-2 rounded-2xl text-white text-xl md:text-2xl transition-colors duration-200"
           >
-            Log Out
+            <LuLogOut className="md:hidden block size-6" />
+            <span className="hidden md:inline">Log Out</span>
           </button>
         ) : (
-          <Link
-            href={"/login"}
-            className="bg-pink-400 hover:bg-pink-8 shadow-red-600 px-2 sm:px-4 pt-0.5 sm:pt-1 pb-1 sm:pb-2 rounded-lg text-cst text-white text-base sm:text-lg md:text-xl transition-colors duration-200"
+          <button
+            onClick={() => handleRoute("/login")}
+            className="flex justify-center items-center bg-pink-400 hover:bg-pink-8 disabled:bg-gray-400 md:px-4 md:py-2 rounded-2xl text-white text-xl md:text-2xl transition-colors duration-200"
           >
-            Log In
-          </Link>
+            <LuLogIn className="md:hidden block size-6" />
+            <span className="hidden md:inline">Log In</span>
+          </button>
         )}
 
         <Link
           href="https://github.com/Victor-starr/photo-booth"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-end"
+          className="flex justify-center items-center bg-pink-400 hover:bg-pink-8 rounded-2xl w-8 sm:w-9 md:w-11 h-8 sm:h-9 md:h-11"
         >
-          <Image
-            src="/svg/github.svg"
-            alt="github Icon"
-            width={36}
-            height={36}
-            className="w-7 sm:w-8 md:w-10 h-7 sm:h-8 md:h-10"
-          />
+          <FaGithub className="size-6 text-white" />
         </Link>
       </div>
     </nav>

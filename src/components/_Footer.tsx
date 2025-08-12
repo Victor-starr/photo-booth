@@ -2,8 +2,8 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="fixed bottom-0 left-0 flex justify-center items-center bg-pink-2 px-8 pt-2 pb-4 w-full h-auto z-50">
-      <div className="text-white text-sm sm:text-base text-center">
+    <footer className="flex justify-center items-center bg-pink-2 mt-auto px-4 sm:px-8 py-3 sm:py-4 w-full">
+      <div className="text-white text-xs sm:text-sm text-center">
         <p>
           &copy; {new Date().getFullYear()} Photo Booth |{" "}
           <Link
