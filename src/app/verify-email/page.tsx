@@ -7,6 +7,7 @@ import Footer from "@/components/_Footer";
 import Nav from "@/components/_Nav";
 import { FaCheck } from "react-icons/fa";
 import { GuestGuardWrapper } from "@/guard/Guards";
+import Link from "next/link";
 
 export default function VerifyEmail() {
   const { user, loading } = useAuth();
@@ -80,6 +81,16 @@ export default function VerifyEmail() {
               <li>• Check your spam or junk folder</li>
               <li>• Make sure you entered the correct email address</li>
               <li>• Wait a few minutes - emails can take time to arrive</li>
+              <li>
+                • If you have already verified your email but are not
+                redirected, try logging in:
+                <Link
+                  href="/login"
+                  className="ml-2 py-1 rounded text-blue-5 hover:text-blue-8 active:text-blue-8 text-xs underline transition"
+                >
+                  Go to Login
+                </Link>
+              </li>
             </ul>
 
             <button

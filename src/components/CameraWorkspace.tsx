@@ -26,11 +26,11 @@ const CameraWorkspace = ({ camera }: CameraWorkspaceProps) => {
 
       <div
         className={`relative bg-black shadow-2xl border-4 border-blue-8 rounded-2xl flex justify-center items-center transition-all duration-300
-          w-full h-full sm:w-[90%] sm:h-full
+          w-full min-h-[300px] sm:min-h-[400px] sm:w-[90%] 
           ${
             isWideAspectRatio
-              ? "md:w-full md:h-[50%] lg:w-full lg:h-[60%]"
-              : "md:w-[45%] md:h-full lg:w-[50%] lg:h-full"
+              ? "md:w-full md:h-[400px] lg:w-full lg:h-[450px]"
+              : "md:w-[80%] md:h-[400px] lg:w-[70%] lg:h-[450px]"
           }
         `}
       >

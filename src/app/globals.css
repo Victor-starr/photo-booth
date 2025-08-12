@@ -23,10 +23,44 @@
 body {
   overflow-x: hidden;
   width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 * {
   box-sizing: border-box;
+}
+
+/* Improve mobile touch scrolling */
+body,
+section,
+div {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  /* Prevent zoom on input focus */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  /* Improve touch targets */
+  button,
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
 }
 
 .shadow-custom-position {
@@ -38,7 +72,7 @@ body {
   -webkit-text-stroke: 1px rgba(0, 0, 0, 0.44);
   text-shadow: 2px 4px 0px var(--tw-shadow-color, currentColor);
 }
-.sm-text-cst {
+.small-text-cst {
   color: white;
   -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.44);
   text-shadow: 1px 2px 0px var(--tw-shadow-color, currentColor);

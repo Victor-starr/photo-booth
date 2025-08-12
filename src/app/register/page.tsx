@@ -7,11 +7,11 @@ export default function RegisterPage() {
   return (
     <GuestGuardWrapper>
       <Nav />
-      <section className="flex flex-col items-center w-screen h-screen">
-        <h2 className="shadow-red-500 text-cst text-4xl md:text-5xl lg:text-8xl text-center">
+      <section className="flex flex-col items-center px-4 py-8 w-full min-h-[calc(100vh-160px)]">
+        <h2 className="shadow-red-500 text-cst text-3xl sm:text-4xl md:text-5xl lg:text-8xl text-center">
           Create Account
         </h2>
-        <p className="mt-2 px-10 text-gray-600 text-sm md:text-lg text-center">
+        <p className="mt-2 mb-6 px-4 sm:px-10 text-gray-600 text-sm sm:text-base md:text-lg text-center">
           Sign up to start your personalized photo booth experience and manage
           your photos.
         </p>

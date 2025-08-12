@@ -49,29 +49,29 @@ export default function Home() {
   return (
     <>
       <Nav />
-      <header className="z-2 relative flex flex-col justify-center items-center sm:h-[40vh] md:h-[50vh] lg:h-[60vh] overflow-hidden hero_bg_img">
-        <div className="z-3 flex flex-col justify-center items-center shadow-red-600 px-4 w-full h-full text-cst text-white opp-0">
+      <header className="z-2 relative flex flex-col justify-center items-center sm:h-[40vh] md:h-[50vh] lg:h-[60vh] min-h-[50vh] overflow-hidden hero_bg_img">
+        <div className="z-3 flex flex-col justify-center items-center shadow-red-600 px-4 w-full sm:h-[40vh] md:h-[50vh] lg:h-[60vh] min-h-[50vh] text-cst text-white opp-0">
           <div className="relative flex justify-center items-center mx-auto w-auto max-w-4xl">
-            <h2 className="mt-10 px-2 font-genty text-4xl sm:text-6xl lg:text-8xl text-center">
+            <h2 className="mt-6 sm:mt-10 px-2 font-genty text-3xl sm:text-4xl md:text-6xl lg:text-8xl text-center">
               Photo Booth
             </h2>
-            <div className="-top-5 sm:-top-5 lg:-top-8 -right-10 sm:-right-15 md:-right-20 absolute">
+            <div className="-top-3 sm:-top-5 lg:-top-8 -right-8 sm:-right-10 md:-right-15 lg:-right-20 absolute">
               <Image
                 src={"/svg/camera-icon.svg"}
                 alt="Camera Icon"
                 width={60}
                 height={60}
-                className="w-12 sm:w-16 lg:w-20 h-12 sm:h-16 lg:h-20"
+                className="w-8 sm:w-12 md:w-16 lg:w-20 h-8 sm:h-12 md:h-16 lg:h-20"
               />
             </div>
           </div>
-          <p className="my-2 px-2 w-full max-w-xl text-base sm:text-xl lg:text-3xl text-center">
+          <p className="my-2 px-2 w-full max-w-xl text-sm sm:text-base md:text-xl lg:text-3xl text-center">
             Snap photos with friends and family no matter where they are. Choose
             your own background, frame, and style.
           </p>
           <Link
             href="/session"
-            className="bg-pink-8 hover:bg-pink-400 mt-4 mb-10 px-4 pt-1 lg:pt-3 pb-2 lg:pb-4 rounded-2xl text-md sm:text-2xl md:text-3xl lg:text-4xl active:scale-110 transition-all duration-200"
+            className="bg-pink-8 hover:bg-pink-400 mt-3 sm:mt-4 mb-6 sm:mb-10 px-3 sm:px-4 py-2 sm:pt-1 lg:pt-3 sm:pb-2 lg:pb-4 rounded-2xl sm:text-md text-lg md:text-2xl lg:text-3xl xl:text-4xl active:scale-110 transition-all duration-200"
           >
             Give it a Try
           </Link>

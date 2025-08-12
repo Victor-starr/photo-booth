@@ -12,24 +12,26 @@ export default function SessionPage() {
   return (
     <MaxPhotoCountWrapper>
       <Nav />
-      <section className="z-1 relative flex flex-col justify-center items-center mb-35 w-screen h-screen overflow-x-hidden">
+      <section className="z-1 relative flex flex-col justify-center items-center px-4 py-8 w-full h-[90vh] overflow-hidden">
         <Image
           src={"/svg/retro_photo_3.svg"}
           alt="Retro Photo Background"
           width={1}
           height={1}
-          className="lg:top-15 -left-15 md:left-0 lg:left-0 z-1 absolute w-82 h-screen lg:scale-140"
+          className="lg:top-15 -left-15 md:left-0 lg:left-0 z-0 absolute w-82 h-full max-h-full object-contain lg:scale-140"
         />
-        <h2 className="z-2 shadow-pink-8 my-4 text-[clamp(1.25rem,2.5vw,3rem)] text-cst sm:text-[clamp(2rem,2.5vw,3rem)] text-center">
+        <h2 className="top-4 lg:top-5 left-1/2 z-10 absolute shadow-pink-8 px-4 w-full text-[clamp(1.25rem,4vw,1.5rem)] text-cst sm:text-2xl md:text-3xl lg:text-4xl text-center -translate-x-1/2">
           Capture 4 photos * Customize * Share
         </h2>
-        <SessionLauncher camera={camera} />
+        <div className="z-10 flex justify-center mt-16 lg:mt-20 w-full">
+          <SessionLauncher camera={camera} />
+        </div>
         <Image
           src={"/svg/retro_photo_4.svg"}
           alt="Retro Photo Background"
           width={1}
           height={1}
-          className="lg:top-15 -right-15 md:right-0 lg:right-0 z-1 absolute w-82 h-screen lg:scale-140"
+          className="lg:top-15 -right-15 md:right-0 lg:right-0 z-0 absolute w-82 h-full max-h-full object-contain lg:scale-140"
         />
       </section>
       <Footer />
