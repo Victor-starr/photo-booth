@@ -37,6 +37,7 @@ const ClassicFrame = ({
           src={photo}
           alt={`Captured photo ${index + 1}`}
           className="shadow-lg rounded-md object-cover"
+          crossOrigin="anonymous"
           width={120}
           height={120}
           unoptimized
@@ -69,6 +70,7 @@ const RetroFrame = ({ photosArr, bg }: { photosArr: string[]; bg: string }) => {
             key={index}
             src={photo}
             alt={`Captured photo ${index + 1}`}
+            crossOrigin="anonymous"
             className="shadow-lg rounded-sm object-cover"
             width={120}
             height={120}

@@ -20,16 +20,24 @@ export const exportElementAsImage = async (
     quality = 1,
   } = options;
 
+  // Detect iOS
+  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
   try {
+    // Adjust html2canvas options for iOS Safari quirks
     const canvas = await html2canvas(element, {
       backgroundColor,
-      scale,
-      useCORS: true,
-      allowTaint: true,
+      scale: isIOS ? 1.5 : scale, // Lower scale for iOS to avoid memory issues
+      useCORS: true, // Images must be served with Access-Control-Allow-Origin: *
+      allowTaint: false, // Block tainted images (important for iOS)
       logging: false,
       width: element.offsetWidth,
       height: element.offsetHeight,
+      foreignObjectRendering: false, // Avoid Safari bug
     });
+
+    // Debug: append canvas to DOM to check if blank (uncomment for troubleshooting)
+    // if (isIOS) document.body.appendChild(canvas);
 
     const blob = await new Promise<Blob | null>((resolve) => {
       canvas.toBlob(resolve, `image/${format}`, quality);
@@ -38,8 +46,6 @@ export const exportElementAsImage = async (
     if (!blob) {
       throw new Error("Failed to create blob from canvas");
     }
-
-    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
     if (
       isIOS &&
