@@ -44,6 +44,7 @@ export function useAuth() {
 
   const logout = async () => {
     setLoading(true);
+    localStorage.removeItem("photos");
     try {
       await supabase.auth.signOut();
     } catch (error) {

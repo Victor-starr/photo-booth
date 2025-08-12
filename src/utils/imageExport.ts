@@ -31,7 +31,6 @@ export const exportElementAsImage = async (
       height: element.offsetHeight,
     });
 
-    // Convert canvas to blob with Promise
     const blob = await new Promise<Blob | null>((resolve) => {
       canvas.toBlob(resolve, `image/${format}`, quality);
     });
@@ -40,36 +39,42 @@ export const exportElementAsImage = async (
       throw new Error("Failed to create blob from canvas");
     }
 
-    // Mobile-friendly download approach
-    const url = URL.createObjectURL(blob);
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-    // Check if we're on mobile
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-    if (isMobile) {
-      // For mobile: open blob URL in new window/tab for user to save manually
+    if (
+      isIOS &&
+      navigator.canShare &&
+      navigator.canShare({
+        files: [new File([blob], `${fileName}.${format}`, { type: blob.type })],
+      })
+    ) {
+      // Use native share if available
+      const file = new File([blob], `${fileName}.${format}`, {
+        type: blob.type,
+      });
+      await navigator.share({
+        files: [file],
+        title: "Your Photo Strip",
+        text: "Save or share your photo strip!",
+      });
+    } else if (isIOS) {
+      // Fallback for iOS Safari: open image in new tab for manual saving
+      const url = URL.createObjectURL(blob);
       const newWindow = window.open(url, "_blank");
       if (!newWindow) {
-        // Fallback: try to navigate to the blob URL
         window.location.href = url;
       }
-
-      // Clean up after a delay to allow the download/view to start
-      setTimeout(() => {
-        URL.revokeObjectURL(url);
-      }, 1000);
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      // Optionally, show a tooltip: "Tap and hold the image to save it to your device."
     } else {
       // Desktop: use download attribute
+      const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
       link.download = `${fileName}.${format}`;
-
-      // Append to body, click, and remove
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-
-      // Clean up the object URL
       URL.revokeObjectURL(url);
     }
   } catch (error) {
