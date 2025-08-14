@@ -2,19 +2,20 @@
 
 import Footer from "@/components/_Footer";
 import Nav from "@/components/_Nav";
-import { AuthGuardWrapper } from "@/guard/Guards";
+import { NoPhotosWrapper } from "@/guard/Guards";
 import { useCamera } from "@/hook/useCamera";
 import PhotoFrames from "@/components/PhotoFrames";
 import { PhotoFramesProps } from "@/lib/types/camera";
 import { VscDebugRestart } from "react-icons/vsc";
 import { FaDownload } from "react-icons/fa";
+import { FaSave } from "react-icons/fa";
 import { useState, useRef } from "react";
 import { exportPhotoStrip } from "@/utils/imageExport";
 
 export default function SessionPage() {
   const [frameType, setFrameType] =
     useState<PhotoFramesProps["type"]>("classic");
-  const { photosArr, startOverAgain } = useCamera();
+  const { photosArr, startOverAgain, savePhotos } = useCamera();
   const exportRef = useRef<HTMLDivElement>(null);
 
   const handleExport = async () => {
@@ -29,33 +30,38 @@ export default function SessionPage() {
     }
   };
 
+  const handleSave = async () => {
+    try {
+      await savePhotos(frameType);
+      alert("Photos saved successfully!");
+    } catch {
+      alert("Failed to save photos.");
+    }
+  };
+
   if (photosArr.length < 4) {
     return (
-      <AuthGuardWrapper>
+      <NoPhotosWrapper>
         <Nav />
-        <div className="flex flex-col justify-center items-center px-4 py-8 min-h-[calc(100vh-160px)]">
-          {photosArr.length === 0 ? (
-            <p className="text-lg">Loading photos...</p>
-          ) : (
-            <>
-              <h2 className="mb-4 text-xl sm:text-2xl text-center">
-                Not enough photos!
-              </h2>
-              <p className="mb-6 text-center">
-                You have {photosArr.length} photo
-                {photosArr.length > 1 ? "s" : ""}. Need 4 to customize.
-              </p>
-              <a
-                href="/session"
-                className="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg font-medium text-white transition-colors"
-              >
-                Go take more
-              </a>
-            </>
-          )}
+        <div className="flex flex-col justify-center items-center px-4 py-8 min-h-[calc(100vh-140px)]">
+          <>
+            <h2 className="mb-4 text-xl sm:text-2xl text-center">
+              Not enough photos!
+            </h2>
+            <p className="mb-6 text-center">
+              You have {photosArr.length} photo
+              {photosArr.length > 1 ? "s" : ""}. Need 4 to customize.
+            </p>
+            <a
+              href="/session"
+              className="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg font-medium text-white transition-colors"
+            >
+              Go take more
+            </a>
+          </>
         </div>
         <Footer />
-      </AuthGuardWrapper>
+      </NoPhotosWrapper>
     );
   }
 
@@ -68,9 +74,9 @@ export default function SessionPage() {
   ];
 
   return (
-    <AuthGuardWrapper>
+    <NoPhotosWrapper>
       <Nav />
-      <section className="relative flex lg:flex-row flex-col lg:justify-center items-center gap-6 lg:gap-10 bg-[#F2EDF1] px-4 py-8 lg:py-18 min-h-[calc(100vh-160px)] overflow-y-auto">
+      <section className="relative flex lg:flex-row flex-col lg:justify-center items-center gap-6 lg:gap-10 bg-[#F2EDF1] px-4 py-8 lg:py-18 min-h-[calc(100vh-140px)] overflow-y-auto">
         <h2 className="lg:top-5 lg:left-1/2 static lg:absolute shadow-pink-8 px-4 small-text-cst text-[clamp(1.25rem,4vw,2rem)] md:text-cst lg:text-[clamp(2rem,2vw,3rem)] text-center lg:-translate-x-1/2">
           Customize Your Strip
         </h2>
@@ -102,6 +108,12 @@ export default function SessionPage() {
 
           <div className="flex lg:flex-row flex-col gap-3 lg:gap-4">
             <button
+              onClick={() => handleSave()}
+              className="flex justify-center items-center gap-2 bg-blue-8 hover:bg-white shadow-blue-950 shadow-custom-position px-4 lg:px-6 py-2 border border-black rounded-lg text-white hover:text-blue-500 text-sm lg:text-base transition-colors"
+            >
+              <FaSave /> Save
+            </button>
+            <button
               onClick={startOverAgain}
               className="flex justify-center items-center gap-2 bg-gray-100 hover:bg-pink-8 shadow-custom-position px-4 lg:px-6 py-2 border border-black rounded-lg hover:text-white text-sm lg:text-base transition-colors"
             >
@@ -117,6 +129,6 @@ export default function SessionPage() {
         </aside>
       </section>
       <Footer />
-    </AuthGuardWrapper>
+    </NoPhotosWrapper>
   );
 }

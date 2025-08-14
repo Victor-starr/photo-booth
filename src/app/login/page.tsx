@@ -7,7 +7,7 @@ export default function LoginPage() {
   return (
     <GuestGuardWrapper>
       <Nav />
-      <section className="flex flex-col items-center px-4 py-8 w-full min-h-[calc(100vh-160px)]">
+      <section className="flex flex-col items-center px-4 py-8 w-full min-h-[calc(100vh-140px)]">
         <h2 className="shadow-red-500 text-cst text-3xl sm:text-4xl md:text-5xl lg:text-8xl text-center">
           Welcome Back
         </h2>

@@ -45,6 +45,7 @@ export interface UseCameraReturn {
   startSession: () => void;
   endSession: () => void;
   startOverAgain: () => void;
+  savePhotos: (frameType: string) => Promise<void>;
 }
 
 export interface PhotoFramesProps {

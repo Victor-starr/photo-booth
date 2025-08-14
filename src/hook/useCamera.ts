@@ -6,6 +6,8 @@ import type {
   CameraRef,
   UseCameraReturn,
 } from "@/lib/types/camera";
+import { createClient } from "@/utils/supabase/client";
+import { useAuth } from "./useAuth";
 
 export const useCamera = (): UseCameraReturn => {
   const cameraRef = useRef<CameraRef>(null!);
@@ -24,6 +26,8 @@ export const useCamera = (): UseCameraReturn => {
   const [isSessionActive, setIsSessionActive] = useState(false);
   const [numOfTakenPhotos, setNumOfTakenPhotos] = useState(4);
   const [photosArr, setPhotosArr] = useState<string[]>([]);
+  const supabase = createClient();
+  const { user } = useAuth();
 
   useEffect(() => {
     const initializePhotos = () => {
@@ -78,7 +82,7 @@ export const useCamera = (): UseCameraReturn => {
             setIsCapturing(false);
             setCountdownValue(3);
             setCapturedImage(undefined);
-            router.push("/customize");
+            router.replace("/customize");
           }, 3000);
           return;
         }
@@ -129,6 +133,59 @@ export const useCamera = (): UseCameraReturn => {
   const toggleAspectRatio = () => {
     setIsWideAspectRatio(!isWideAspectRatio);
   };
+  const savePhotos = async (frameType: string) => {
+    const photoArr = localStorage.getItem("photos")
+      ? JSON.parse(localStorage.getItem("photos")!)
+      : [];
+
+    if (photoArr.length < 4) {
+      console.warn("Not enough photos to save.");
+      return;
+    }
+
+    try {
+      const uploadedUrls: string[] = [];
+
+      for (const photo of photoArr) {
+        const base64Data = photo.split(",")[1];
+        const byteCharacters = atob(base64Data);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let j = 0; j < byteCharacters.length; j++) {
+          byteNumbers[j] = byteCharacters.charCodeAt(j);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: "image/jpeg" });
+
+        const filePath = `${user?.id}/${crypto.randomUUID()}.jpg`;
+
+        const { error: uploadError } = await supabase.storage
+          .from("photos")
+          .upload(filePath, blob, {
+            contentType: "image/jpeg",
+          });
+
+        if (uploadError) throw uploadError;
+
+        const { data: publicUrlData } = supabase.storage
+          .from("photos")
+          .getPublicUrl(filePath);
+
+        uploadedUrls.push(publicUrlData.publicUrl);
+      }
+
+      const { error: dbError } = await supabase.from("photo_sessions").insert({
+        profile_id: user?.id,
+        frame_style: frameType || "default",
+        photo_urls: uploadedUrls,
+      });
+
+      if (dbError) throw dbError;
+
+      localStorage.removeItem("photos");
+    } catch (err) {
+      console.error("Failed to save photos:", err);
+    }
+  };
 
   const startSession = () => {
     localStorage.removeItem("photos");
@@ -172,5 +229,6 @@ export const useCamera = (): UseCameraReturn => {
     startSession,
     endSession,
     startOverAgain,
+    savePhotos,
   };
 };

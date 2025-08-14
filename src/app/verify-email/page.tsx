@@ -60,7 +60,7 @@ export default function VerifyEmail() {
   return (
     <GuestGuardWrapper>
       <Nav />
-      <section className="flex flex-col items-center px-4 min-h-screen">
+      <section className="flex flex-col items-center px-4 min-h-[calc(100vh-140px)]">
         <div className="flex flex-col justify-center items-center bg-blue-2 shadow-lg mt-30 mb-8 p-8 rounded-2xl w-full max-w-md text-center">
           <div className="inline-flex justify-center items-center bg-green-500 mb-6 rounded-full">
             <FaCheck className="mx-4 my-4 text-white" size={32} />

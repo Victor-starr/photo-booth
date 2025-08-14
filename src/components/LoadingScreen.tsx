@@ -29,14 +29,24 @@ export default function LoadingScreen({
   );
 }
 
-export const LoadingcheckAuth = ({ loading }: { loading: boolean }) => {
-  return (
-    <LoadingScreen
-      title={
-        loading ? "Checking authentication..." : "You are already logged in!"
-      }
-      subtitle={loading ? undefined : "Redirecting to home page..."}
-      showSpinner
-    />
-  );
+export const LoadingcheckAuth = ({
+  loading,
+  noAccess,
+}: {
+  loading: boolean;
+  noAccess?: boolean;
+}) => {
+  if (loading) {
+    return <LoadingScreen title="Checking authentication..." showSpinner />;
+  }
+  if (noAccess) {
+    return (
+      <LoadingScreen
+        title="You do not have access."
+        subtitle="Redirecting to login page..."
+        showSpinner
+      />
+    );
+  }
+  return null;
 };
