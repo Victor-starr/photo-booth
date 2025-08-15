@@ -42,7 +42,7 @@ export default function SessionPage() {
   if (photosArr.length < 4) {
     return (
       <NoPhotosWrapper>
-        <Nav />
+        <Nav currentPage="customize" />
         <div className="flex flex-col justify-center items-center px-4 py-8 min-h-[calc(100vh-140px)]">
           <>
             <h2 className="mb-4 text-xl sm:text-2xl text-center">
@@ -75,7 +75,7 @@ export default function SessionPage() {
 
   return (
     <NoPhotosWrapper>
-      <Nav />
+      <Nav currentPage="customize" />
       <section className="relative flex lg:flex-row flex-col lg:justify-center items-center gap-6 lg:gap-10 bg-[#F2EDF1] px-4 py-8 lg:py-18 min-h-[calc(100vh-140px)] overflow-y-auto">
         <h2 className="lg:top-5 lg:left-1/2 static lg:absolute shadow-pink-8 px-4 small-text-cst text-[clamp(1.25rem,4vw,2rem)] md:text-cst lg:text-[clamp(2rem,2vw,3rem)] text-center lg:-translate-x-1/2">
           Customize Your Strip

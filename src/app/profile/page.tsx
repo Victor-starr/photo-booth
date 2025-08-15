@@ -16,7 +16,7 @@ function ProfilePage() {
   if (loading) {
     return (
       <>
-        <Nav />
+        <Nav currentPage="profile" />
         <section className="flex flex-col justify-center items-center bg-[#F2EDF1] px-4 py-8 lg:py-18 min-h-[calc(100vh-140px)]">
           <h2 className="text-2xl md:text-3xl lg:text-4xl text-center">
             Checking profile information...
@@ -28,7 +28,7 @@ function ProfilePage() {
   }
   return (
     <AuthGuardWrapper>
-      <Nav />
+      <Nav currentPage="profile" />
       <section className="flex flex-col items-center min-h-screen">
         <header className="flex lg:flex-row flex-col flex-1 justify-center items-center gap-6 lg:gap-12 shadow-md px-6 py-10 rounded-xl w-full text-center">
           <div className="group relative flex flex-col items-center gap-3 mb-4 lg:mb-0">
