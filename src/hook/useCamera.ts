@@ -5,6 +5,7 @@ import type {
   PermissionState,
   CameraRef,
   UseCameraReturn,
+  PhotosSession,
 } from "@/lib/types/camera";
 import { createClient } from "@/utils/supabase/client";
 import { useAuth } from "./useAuth";
@@ -26,8 +27,31 @@ export const useCamera = (): UseCameraReturn => {
   const [isSessionActive, setIsSessionActive] = useState(false);
   const [numOfTakenPhotos, setNumOfTakenPhotos] = useState(4);
   const [photosArr, setPhotosArr] = useState<string[]>([]);
+  const [listOfSavedSessions, setListOfSavedSessions] = useState<
+    PhotosSession[]
+  >([]);
   const supabase = createClient();
   const { user } = useAuth();
+
+  // Automatically fetch user sessions when user is available
+  useEffect(() => {
+    if (user?.id) {
+      (async () => {
+        try {
+          const { data, error } = await supabase
+            .from("photo_sessions")
+            .select("*")
+            .eq("profile_id", user.id);
+          setListOfSavedSessions(data || []);
+          if (error) {
+            console.error("Error fetching user saved sessions:", error);
+          }
+        } catch (error) {
+          console.error("Failed to fetch user saved sessions:", error);
+        }
+      })();
+    }
+  }, [user?.id]);
 
   useEffect(() => {
     const initializePhotos = () => {
@@ -167,11 +191,13 @@ export const useCamera = (): UseCameraReturn => {
 
         if (uploadError) throw uploadError;
 
-        const { data: publicUrlData } = supabase.storage
+        const { data: signedData, error: signError } = await supabase.storage
           .from("photos")
-          .getPublicUrl(filePath);
+          .createSignedUrl(filePath, 60 * 60 * 24 * 365);
 
-        uploadedUrls.push(publicUrlData.publicUrl);
+        if (signError) throw signError;
+
+        uploadedUrls.push(signedData.signedUrl);
       }
 
       const { error: dbError } = await supabase.from("photo_sessions").insert({
@@ -183,8 +209,25 @@ export const useCamera = (): UseCameraReturn => {
       if (dbError) throw dbError;
 
       localStorage.removeItem("photos");
+      setPhotosArr([]);
     } catch (err) {
       console.error("Failed to save photos:", err);
+    }
+  };
+
+  const userSavedSessionsList = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("photo_sessions")
+        .select("*")
+        .eq("profile_id", user?.id);
+      setListOfSavedSessions(data || []);
+
+      if (error) {
+        console.error("Error fetching user saved sessions:", error);
+      }
+    } catch (error) {
+      console.error("Failed to fetch user saved sessions:", error);
     }
   };
 
@@ -231,5 +274,7 @@ export const useCamera = (): UseCameraReturn => {
     endSession,
     startOverAgain,
     savePhotos,
+    userSavedSessionsList,
+    listOfSavedSessions,
   };
 };

@@ -9,6 +9,13 @@ export interface CameraRef {
   switchCamera?: () => void;
   getNumberOfCameras?: () => number;
 }
+export interface PhotosSession {
+  id: string;
+  profile_id: string;
+  created_at: string;
+  frame_style: string;
+  photo_urls: string[];
+}
 
 // Main camera hook return type
 export interface UseCameraReturn {
@@ -46,6 +53,8 @@ export interface UseCameraReturn {
   endSession: () => void;
   startOverAgain: () => void;
   savePhotos: (frameType: string) => Promise<void>;
+  userSavedSessionsList: () => Promise<void>;
+  listOfSavedSessions: PhotosSession[];
 }
 
 export interface PhotoFramesProps {
