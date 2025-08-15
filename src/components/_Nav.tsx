@@ -9,7 +9,7 @@ import { FaGithub } from "react-icons/fa";
 import NavSuggestion from "./NavSuggestion";
 
 const Nav = () => {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, loading, logout } = useAuth();
   const router = useRouter();
 
   const handleRoute = async (navigate: "/login" | "/logout") => {
@@ -26,6 +26,28 @@ const Nav = () => {
         }
     }
   };
+
+  if (loading) {
+    return (
+      <nav className="z-3 flex justify-around bg-pink-2 px-6 md:px-10 py-4 md:py-6 w-full h-auto overflow-hidden">
+        <Link
+          className="relative flex items-center shadow-red-500 h-auto text-cst"
+          href={"/"}
+        >
+          <h2 className="text-2xl md:text-3xl lg:text-4xl">Photo Booth</h2>
+          <IoCamera className="hidden md:inline relative ml-2 size-7 sm:size-8 md:size-9 lg:size-10 rotate-25" />
+        </Link>
+        <Link
+          href="https://github.com/Victor-starr/photo-booth"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex justify-center items-center bg-pink-400 hover:bg-pink-8 rounded-2xl w-8 sm:w-9 md:w-11 h-8 sm:h-9 md:h-11"
+        >
+          <FaGithub className="size-6 text-white" />
+        </Link>
+      </nav>
+    );
+  }
 
   return (
     <>

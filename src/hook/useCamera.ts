@@ -76,6 +76,7 @@ export const useCamera = (): UseCameraReturn => {
         setNumOfTakenPhotos(4 - updatedPhotos.length);
 
         if (updatedPhotos.length >= 4) {
+          localStorage.setItem("showNavSuggestion", "true");
           setTimeout(() => {
             setIsSessionActive(false);
             setIsCountdownActive(false);
