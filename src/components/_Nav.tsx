@@ -7,8 +7,12 @@ import { IoCamera, IoPersonSharp } from "react-icons/io5";
 import { LuLogOut, LuLogIn } from "react-icons/lu";
 import { FaGithub } from "react-icons/fa";
 import NavSuggestion from "./NavSuggestion";
+import { FaCameraRetro } from "react-icons/fa";
 
-const Nav = () => {
+interface NavProps {
+  currentPage?: string;
+}
+const Nav = ({ currentPage }: NavProps) => {
   const { isAuthenticated, loading, logout } = useAuth();
   const router = useRouter();
 
@@ -62,13 +66,24 @@ const Nav = () => {
         <div className="flex flex-row flex-shrink-0 items-center gap-2 lg:gap-6">
           {isAuthenticated ? (
             <>
-              <Link
-                href="/profile"
-                className="flex justify-center items-center bg-pink-400 hover:bg-pink-8 disabled:bg-gray-400 md:px-4 md:py-2 rounded-2xl text-white text-xl md:text-2xl transition-colors duration-200"
-              >
-                <span className="hidden md:inline">Profile</span>
-                <IoPersonSharp className="md:hidden block size-6" />
-              </Link>
+              {currentPage !== "profile" && (
+                <Link
+                  href="/profile"
+                  className="flex justify-center items-center bg-pink-400 hover:bg-pink-8 disabled:bg-gray-400 md:px-4 md:py-2 rounded-2xl text-white text-xl md:text-2xl transition-colors duration-200"
+                >
+                  <span className="hidden md:inline">Profile</span>
+                  <IoPersonSharp className="md:hidden block size-6" />
+                </Link>
+              )}
+              {currentPage !== "session" && currentPage !== "customize" && (
+                <Link
+                  href="/session"
+                  className="flex justify-center items-center bg-pink-400 hover:bg-pink-8 disabled:bg-gray-400 md:px-4 md:py-2 rounded-2xl text-white text-xl md:text-2xl transition-colors duration-200"
+                >
+                  <span className="hidden md:inline">Session</span>
+                  <FaCameraRetro className="md:hidden block size-6" />
+                </Link>
+              )}
               <button
                 onClick={() => handleRoute("/logout")}
                 className="flex justify-center items-center bg-pink-400 hover:bg-pink-8 disabled:bg-gray-400 md:px-4 md:py-2 rounded-2xl text-white text-xl md:text-2xl transition-colors duration-200"

@@ -11,7 +11,7 @@ export default function SessionPage() {
 
   return (
     <MaxPhotoCountWrapper>
-      <Nav />
+      <Nav currentPage="session" />
       <section className="z-1 relative flex flex-col justify-center items-center px-4 py-8 w-full h-[90vh] overflow-hidden">
         <Image
           src={"/svg/retro_photo_3.svg"}
