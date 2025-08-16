@@ -7,11 +7,20 @@ import Image from "next/image";
 import { useState } from "react";
 import { useCamera } from "@/hook/useCamera";
 import SessionPhotos from "@/components/SessionPhotos";
+import { useRouter } from "next/navigation";
+import { PhotosSession } from "@/lib/types/camera";
 
 function ProfilePage() {
   const { user, loading } = useAuth();
   const [invalidImage, setInvalidImage] = useState(false);
   const { listOfSavedSessions } = useCamera();
+  const router = useRouter();
+
+  const handleRedirectionToCustomize = (session: PhotosSession) => {
+    localStorage.removeItem("selectedSession");
+    localStorage.setItem("selectedSession", JSON.stringify(session));
+    router.push(`/customize/${session.id}`);
+  };
 
   if (loading) {
     return (
@@ -75,7 +84,10 @@ function ProfilePage() {
             </p>
           </div>
         </header>
-        <SessionPhotos listOfSavedSessions={listOfSavedSessions} />
+        <SessionPhotos
+          listOfSavedSessions={listOfSavedSessions}
+          onEdit={handleRedirectionToCustomize}
+        />
       </section>
       <Footer />
     </AuthGuardWrapper>

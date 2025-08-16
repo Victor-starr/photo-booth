@@ -50,3 +50,10 @@ export const LoadingcheckAuth = ({
   }
   return null;
 };
+
+export const Spinner = ({ text }: { text?: string }) => (
+  <div className="flex flex-col justify-center items-center w-full h-full">
+    <div className="mx-auto mb-2 border-white border-b-2 rounded-full w-20 h-20 animate-spin"></div>
+    {text && <span className="mt-1 text-white text-xl">{text}</span>}
+  </div>
+);

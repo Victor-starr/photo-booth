@@ -50,7 +50,7 @@ export default function Home() {
     <>
       <Nav />
       <header className="z-2 relative flex flex-col justify-center items-center sm:h-[40vh] md:h-[50vh] lg:h-[60vh] min-h-[50vh] overflow-hidden hero_bg_img">
-        <div className="z-3 flex flex-col justify-center items-center shadow-red-600 px-4 w-full sm:h-[40vh] md:h-[50vh] lg:h-[60vh] min-h-[50vh] text-cst text-white opp-0">
+        <div className="z-3 flex flex-col justify-center items-center bg-black/35 shadow-red-600 px-4 w-full sm:h-[40vh] md:h-[50vh] lg:h-[60vh] min-h-[50vh] text-cst text-white">
           <div className="relative flex justify-center items-center mx-auto w-auto max-w-4xl">
             <h2 className="mt-6 sm:mt-10 px-2 font-genty text-3xl sm:text-4xl md:text-6xl lg:text-8xl text-center">
               Photo Booth

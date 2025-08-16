@@ -4,28 +4,60 @@ import { PhotoFramesProps } from "@/lib/types/camera";
 const PhotoFrames = (props: PhotoFramesProps) => {
   switch (props.type) {
     case "classic":
-      return <ClassicFrame photosArr={props.photoArr} bg={"bg-white"} />;
+      return (
+        <ClassicFrame
+          photosArr={props.photoArr}
+          bg={"bg-white"}
+          onImageClick={props.onImageClick}
+        />
+      );
     case "dark":
       // Implement Dark frame rendering
-      return <ClassicFrame photosArr={props.photoArr} bg={"bg-gray-800"} />;
+      return (
+        <ClassicFrame
+          photosArr={props.photoArr}
+          bg={"bg-gray-800"}
+          onImageClick={props.onImageClick}
+        />
+      );
     case "moon":
       // Implement Moon frame rendering
-      return <ClassicFrame photosArr={props.photoArr} bg={"moon-frame-bg"} />;
+      return (
+        <ClassicFrame
+          photosArr={props.photoArr}
+          bg={"moon-frame-bg"}
+          onImageClick={props.onImageClick}
+        />
+      );
     case "retro":
       // Implement Retro frame rendering
-      return <RetroFrame photosArr={props.photoArr} bg={"bg-black"} />;
+      return (
+        <RetroFrame
+          photosArr={props.photoArr}
+          bg={"bg-black"}
+          onImageClick={props.onImageClick}
+        />
+      );
     case "party":
       // Implement Party frame rendering
-      return <ClassicFrame photosArr={props.photoArr} bg={"shine-frame-bg"} />;
+      return (
+        <ClassicFrame
+          photosArr={props.photoArr}
+          bg={"shine-frame-bg"}
+          onImageClick={props.onImageClick}
+        />
+      );
   }
 };
 
 const ClassicFrame = ({
   photosArr,
   bg,
+  onImageClick,
 }: {
   photosArr: string[];
   bg: string;
+  onImageClick: (imageUrl: string) => void;
 }) => {
   return (
     <div
@@ -38,6 +70,7 @@ const ClassicFrame = ({
           alt={`Captured photo ${index + 1}`}
           className="shadow-lg rounded-md object-cover"
           crossOrigin="anonymous"
+          onClick={() => onImageClick(photo)}
           width={120}
           height={120}
           unoptimized
@@ -51,7 +84,15 @@ const ClassicFrame = ({
   );
 };
 
-const RetroFrame = ({ photosArr, bg }: { photosArr: string[]; bg: string }) => {
+const RetroFrame = ({
+  photosArr,
+  bg,
+  onImageClick,
+}: {
+  photosArr: string[];
+  bg: string;
+  onImageClick: (imageUrl: string) => void;
+}) => {
   return (
     <div
       className={`flex flex-row gap-1 sm:gap-2 ${bg} p-2 sm:p-3 rounded-lg shadow-lg max-w-full overflow-hidden`}
@@ -72,6 +113,7 @@ const RetroFrame = ({ photosArr, bg }: { photosArr: string[]; bg: string }) => {
             alt={`Captured photo ${index + 1}`}
             crossOrigin="anonymous"
             className="shadow-lg rounded-sm object-cover"
+            onClick={() => onImageClick(photo)}
             width={120}
             height={120}
             unoptimized

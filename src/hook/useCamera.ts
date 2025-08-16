@@ -210,6 +210,7 @@ export const useCamera = (): UseCameraReturn => {
 
       localStorage.removeItem("photos");
       setPhotosArr([]);
+      router.replace("/profile");
     } catch (err) {
       console.error("Failed to save photos:", err);
     }

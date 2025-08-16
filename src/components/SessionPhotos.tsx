@@ -3,8 +3,10 @@ import { PhotosSession } from "@/lib/types/camera";
 
 function SessionPhotos({
   listOfSavedSessions,
+  onEdit,
 }: {
   listOfSavedSessions: PhotosSession[];
+  onEdit: (index: PhotosSession) => void;
 }) {
   return (
     <section className="flex flex-col flex-7 items-center bg-[#F2EDF1] px-15 py-10 w-full text-center">
@@ -19,13 +21,14 @@ function SessionPhotos({
             <div
               key={session.id}
               className="flex flex-col items-center bg-white shadow-lg hover:shadow-xl p-6 rounded-xl hover:scale-[1.02] transition"
+              onClick={() => onEdit(session)}
             >
               <h3 className="mb-4 font-semibold text-blue-700 text-lg">
                 {session.created_at
                   ? new Date(session.created_at).toLocaleDateString()
                   : ""}
               </h3>
-              <div className="relative mb-4 w-[140px] h-[120px]">
+              <div className="relative mt-25 lg:mt-10 mb-4 w-[140px] h-[120px]">
                 {session.photo_urls.slice(0, 4).map((url, idx) => {
                   const offsets = [
                     { bottom: 0, left: 0, z: 40 },

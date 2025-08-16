@@ -55,7 +55,7 @@ const Nav = ({ currentPage }: NavProps) => {
 
   return (
     <>
-      <nav className="z-3 flex justify-around bg-pink-2 px-6 md:px-10 py-4 md:py-6 w-full h-auto overflow-hidden">
+      <nav className="z-15 flex justify-around bg-pink-2 px-6 md:px-10 py-4 md:py-6 w-full h-auto overflow-hidden">
         <Link
           className="relative flex items-center shadow-red-500 h-auto text-cst"
           href={"/"}

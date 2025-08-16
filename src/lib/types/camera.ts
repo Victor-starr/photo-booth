@@ -60,4 +60,5 @@ export interface UseCameraReturn {
 export interface PhotoFramesProps {
   photoArr: string[];
   type: "classic" | "dark" | "retro" | "moon" | "party";
+  onImageClick: (imageUrl: string) => void;
 }
