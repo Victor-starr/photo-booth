@@ -12,7 +12,7 @@ import ImagePopUp from "@/components/ImagePopUp";
 import Link from "next/link";
 import { FaBackspace } from "react-icons/fa";
 
-function CustomizePage() {
+function CustomizePage({ params }: { params: { session: string } }) {
   const [sessionData, setSessionData] = useState<PhotosSession | null>(null);
   const [frameType, setFrameType] =
     useState<PhotoFramesProps["type"]>("classic");
@@ -22,10 +22,10 @@ function CustomizePage() {
 
   useEffect(() => {
     const selectedSession = localStorage.getItem("selectedSession");
-    if (selectedSession) {
+    if (selectedSession && params.session === JSON.parse(selectedSession).id) {
       setSessionData(JSON.parse(selectedSession));
     }
-  }, []);
+  }, [params.session]);
 
   const handleImagePopup = (imageUrl: string) => {
     setImageDisplay(imageUrl);
