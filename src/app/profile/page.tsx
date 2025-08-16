@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { PhotosSession } from "@/lib/types/camera";
 
 function ProfilePage() {
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
   const [invalidImage, setInvalidImage] = useState(false);
   const { listOfSavedSessions } = useCamera();
   const router = useRouter();
@@ -22,19 +22,6 @@ function ProfilePage() {
     router.push(`/customize/${session.id}`);
   };
 
-  if (loading) {
-    return (
-      <>
-        <Nav currentPage="profile" />
-        <section className="flex flex-col justify-center items-center bg-[#F2EDF1] px-4 py-8 lg:py-18 min-h-[calc(100vh-140px)]">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl text-center">
-            Checking profile information...
-          </h2>
-        </section>
-        <Footer />
-      </>
-    );
-  }
   return (
     <AuthGuardWrapper>
       <Nav currentPage="profile" />
