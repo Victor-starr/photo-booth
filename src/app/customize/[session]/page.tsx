@@ -14,7 +14,7 @@ import { FaBackspace } from "react-icons/fa";
 import { useParams } from "next/navigation";
 
 function CustomizePage() {
-  const params = useParams<{ session: string }>();
+  const { session } = useParams();
   const [sessionData, setSessionData] = useState<PhotosSession | null>(null);
   const [frameType, setFrameType] =
     useState<PhotoFramesProps["type"]>("classic");
@@ -24,10 +24,10 @@ function CustomizePage() {
 
   useEffect(() => {
     const selectedSession = localStorage.getItem("selectedSession");
-    if (selectedSession && params.session === JSON.parse(selectedSession).id) {
+    if (selectedSession && session === JSON.parse(selectedSession).id) {
       setSessionData(JSON.parse(selectedSession));
     }
-  }, [params.session]);
+  }, [session]);
 
   const handleImagePopup = (imageUrl: string) => {
     setImageDisplay(imageUrl);
