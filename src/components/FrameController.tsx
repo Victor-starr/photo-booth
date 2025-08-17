@@ -1,45 +1,27 @@
 import { PhotoFramesProps } from "@/lib/types/camera";
-import { exportPhotoStrip } from "@/utils/imageExport";
 import { VscDebugRestart } from "react-icons/vsc";
 import { FaDownload } from "react-icons/fa";
 import { FaSave } from "react-icons/fa";
+import { Spinner } from "./LoadingScreen";
 
 interface FrameControllerProps {
+  loading: boolean;
   frameType: PhotoFramesProps["type"];
   setFrameType: (type: PhotoFramesProps["type"]) => void;
   startOverAgain: () => void;
-  savePhotos: (frameType: string) => Promise<void>;
-  exportRef: React.RefObject<HTMLDivElement | null>;
+  handleExport: (frameType: PhotoFramesProps["type"]) => Promise<void>;
+  handleSave: (frameType: PhotoFramesProps["type"]) => Promise<void>;
   controllerType: "customize" | "session";
 }
 function FrameController({
   frameType,
   setFrameType,
   startOverAgain,
-  savePhotos,
-  exportRef,
   controllerType,
+  handleExport,
+  handleSave,
+  loading,
 }: FrameControllerProps) {
-  const handleExport = async () => {
-    if (!exportRef.current) return;
-
-    try {
-      await exportPhotoStrip(exportRef.current, frameType);
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : "Failed to export image";
-      alert(errorMessage);
-    }
-  };
-
-  const handleSave = async () => {
-    try {
-      await savePhotos(frameType);
-      alert("Photos saved successfully!");
-    } catch {
-      alert("Failed to save photos.");
-    }
-  };
   const frameOptions: PhotoFramesProps["type"][] = [
     "classic",
     "dark",
@@ -70,24 +52,51 @@ function FrameController({
         {controllerType === "customize" && (
           <>
             <button
-              onClick={() => handleSave()}
+              onClick={() => handleSave(frameType)}
               className="flex justify-center items-center gap-2 bg-blue-8 hover:bg-white shadow-blue-950 shadow-custom-position px-4 lg:px-6 py-2 border border-black rounded-lg text-white hover:text-blue-500 text-sm lg:text-base transition-colors"
+              disabled={loading}
             >
-              <FaSave /> Save
+              {loading ? (
+                <>
+                  <Spinner size="small" /> Save
+                </>
+              ) : (
+                <>
+                  <FaSave /> Save
+                </>
+              )}
             </button>
             <button
               onClick={startOverAgain}
-              className="flex justify-center items-center gap-2 bg-gray-100 hover:bg-pink-8 shadow-custom-position px-4 lg:px-6 py-2 border border-black rounded-lg hover:text-white text-sm lg:text-base transition-colors"
+              className="flex justify-center items-center gap-2 bg-gray-300 hover:bg-pink-8 shadow-custom-position px-4 lg:px-6 py-2 border border-black rounded-lg hover:text-white text-sm lg:text-base transition-colors"
+              disabled={loading}
             >
-              <VscDebugRestart /> Start Over
+              {loading ? (
+                <>
+                  <Spinner size="small" /> Restart
+                </>
+              ) : (
+                <>
+                  <VscDebugRestart /> Restart
+                </>
+              )}
             </button>
           </>
         )}
         <button
-          onClick={handleExport}
+          onClick={() => handleExport(frameType)}
           className="flex justify-center items-center gap-2 bg-blue-9 hover:bg-white shadow-custom-position px-4 lg:px-6 py-2 border border-black rounded-lg text-white hover:text-blue-9 text-sm lg:text-base transition-colors"
+          disabled={loading}
         >
-          <FaDownload /> Export
+          {loading ? (
+            <>
+              <Spinner size="small" /> Export
+            </>
+          ) : (
+            <>
+              <FaDownload /> Export
+            </>
+          )}
         </button>
       </div>
     </aside>

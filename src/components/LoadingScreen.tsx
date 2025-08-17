@@ -51,9 +51,23 @@ export const LoadingcheckAuth = ({
   return null;
 };
 
-export const Spinner = ({ text }: { text?: string }) => (
+export const Spinner = ({
+  text,
+  size,
+}: {
+  text?: string;
+  size?: "small" | "medium" | "large";
+}) => (
   <div className="flex flex-col justify-center items-center w-full h-full">
-    <div className="mx-auto mb-2 border-white border-b-2 rounded-full w-20 h-20 animate-spin"></div>
+    <div
+      className={`mx-auto mb-2 border-white border-b-2 rounded-full ${
+        size === "small"
+          ? "w-4 h-4"
+          : size === "large"
+          ? "w-24 h-24"
+          : "w-20 h-20"
+      } animate-spin`}
+    ></div>
     {text && <span className="mt-1 text-white text-xl">{text}</span>}
   </div>
 );
