@@ -38,7 +38,7 @@ const PhotoCaptureControls = ({ camera }: PhotoCaptureControlsProps) => {
       />
       <button
         onClick={toggleAspectRatio}
-        className="hidden md:block lg:block top-2 right-2 absolute bg-white/50 hover:bg-white/70 shadow-lg p-2 rounded-full text-white"
+        className="hidden md:block lg:block top-2 right-2 absolute bg-black/50 hover:bg-black/70 shadow-lg p-2 rounded-full text-white"
         title="Toggle Aspect Ratio"
       >
         <IoMdQrScanner />

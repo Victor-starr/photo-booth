@@ -25,7 +25,7 @@ const CameraWorkspace = ({ camera }: CameraWorkspaceProps) => {
       />
 
       <div
-        className={`relative bg-black shadow-2xl border-4 border-blue-8 rounded-2xl flex justify-center items-center transition-all duration-300
+        className={`relative overflow-hidden bg-black shadow-2xl border-4 border-blue-8 rounded-2xl flex justify-center items-center transition-all duration-300
           w-full min-h-[300px] sm:min-h-[400px] sm:w-[90%] 
           ${
             isWideAspectRatio
