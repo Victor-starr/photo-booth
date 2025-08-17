@@ -4,7 +4,7 @@ import { useAuth } from "@/hook/useAuth";
 import { useCamera } from "@/hook/useCamera";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import LoadingScreen, { LoadingcheckAuth } from "@/components/LoadingScreen";
+import LoadingScreen from "@/components/LoadingScreen";
 
 export function AuthGuardWrapper({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, loading } = useAuth();
@@ -15,10 +15,24 @@ export function AuthGuardWrapper({ children }: { children: React.ReactNode }) {
       router.replace("/login");
     }
   }, [isAuthenticated, loading, router]);
-
-  if (loading) return <LoadingcheckAuth loading={true} />;
+  if (loading)
+    return (
+      <LoadingScreen
+        type="spinner"
+        title="Loading your profile..."
+        subtitle="Please wait while we check your authentication."
+        showSpinner={true}
+      />
+    );
   if (!isAuthenticated)
-    return <LoadingcheckAuth loading={false} noAccess={true} />;
+    return (
+      <LoadingScreen
+        type="no-access"
+        title="Access Denied"
+        subtitle="You must be logged in to view this page. Redirecting to login..."
+        showSpinner={true}
+      />
+    );
   return <>{children}</>;
 }
 
@@ -32,7 +46,24 @@ export function GuestGuardWrapper({ children }: { children: React.ReactNode }) {
     }
   }, [isAuthenticated, loading, router]);
 
-  if (loading || isAuthenticated) return <LoadingcheckAuth loading={loading} />;
+  if (loading)
+    return (
+      <LoadingScreen
+        type="spinner"
+        title="Checking authentication..."
+        subtitle="Please wait while we verify your session."
+        showSpinner={true}
+      />
+    );
+  if (isAuthenticated)
+    return (
+      <LoadingScreen
+        type="no-access"
+        title="Already logged in"
+        subtitle="Redirecting to home page..."
+        showSpinner={true}
+      />
+    );
   return <>{children}</>;
 }
 
@@ -55,15 +86,23 @@ export function MaxPhotoCountWrapper({
   }, [photosArr.length, router, isAuthenticated, loading]);
 
   if (loading) {
-    return <LoadingScreen title="Checking authentication..." showSpinner />;
+    return (
+      <LoadingScreen
+        type="spinner"
+        title="Loading your photos..."
+        subtitle="Please wait while we load your photos."
+        showSpinner={true}
+      />
+    );
   }
 
   if (!isAuthenticated) {
     return (
       <LoadingScreen
-        title="You need to be logged in!"
-        subtitle="Redirecting to login page..."
-        showSpinner
+        type="no-access"
+        title="Login Required"
+        subtitle="You need to be logged in to continue. Redirecting to login page..."
+        showSpinner={true}
       />
     );
   }
@@ -71,9 +110,10 @@ export function MaxPhotoCountWrapper({
   if (photosArr.length >= 4) {
     return (
       <LoadingScreen
-        title="You already have enough photos!"
-        subtitle="Redirecting to customize page..."
-        showSpinner
+        type="error"
+        title="Maximum Photo Limit Reached"
+        subtitle="You already have enough photos. Redirecting to customize page..."
+        showSpinner={true}
       />
     );
   }
@@ -98,15 +138,23 @@ export function NoPhotosWrapper({ children }: { children: React.ReactNode }) {
   }, [photosArr.length, router, isAuthenticated, loading]);
 
   if (loading) {
-    return <LoadingScreen title="Checking authentication..." showSpinner />;
+    return (
+      <LoadingScreen
+        type="spinner"
+        title="Loading your photos..."
+        subtitle="Please wait while we load your photos."
+        showSpinner={true}
+      />
+    );
   }
 
   if (!isAuthenticated) {
     return (
       <LoadingScreen
-        title="You need to be logged in!"
-        subtitle="Redirecting to login page..."
-        showSpinner
+        type="no-access"
+        title="Login Required"
+        subtitle="You need to be logged in to view your photos. Redirecting to login page..."
+        showSpinner={true}
       />
     );
   }
@@ -114,9 +162,10 @@ export function NoPhotosWrapper({ children }: { children: React.ReactNode }) {
   if (photosArr.length === 0) {
     return (
       <LoadingScreen
-        title="No photos found!"
-        subtitle="Redirecting to session page..."
-        showSpinner
+        type="error"
+        title="No Photos Found"
+        subtitle="You have not taken any photos yet. Redirecting to session page..."
+        showSpinner={true}
       />
     );
   }
