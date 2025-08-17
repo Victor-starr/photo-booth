@@ -6,15 +6,19 @@ import type {
   CameraRef,
   UseCameraReturn,
   PhotosSession,
+  PhotoFramesProps,
 } from "@/lib/types/camera";
 import { createClient } from "@/utils/supabase/client";
+import { exportPhotoStrip } from "@/utils/imageExport";
 import { useAuth } from "./useAuth";
 
 export const useCamera = (): UseCameraReturn => {
   const cameraRef = useRef<CameraRef>(null!);
+  const exportRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
 
   // TODO: GROUPED STATE THEM
+  const [loading, setLoading] = useState(false);
   const [permissionStatus, setPermissionStatus] =
     useState<PermissionState>("prompt");
   const [isRequestingPermission, setIsRequestingPermission] = useState(false);
@@ -38,6 +42,7 @@ export const useCamera = (): UseCameraReturn => {
     if (user?.id) {
       (async () => {
         try {
+          setLoading(true);
           const { data, error } = await supabase
             .from("photo_sessions")
             .select("*")
@@ -48,6 +53,8 @@ export const useCamera = (): UseCameraReturn => {
           }
         } catch (error) {
           console.error("Failed to fetch user saved sessions:", error);
+        } finally {
+          setLoading(false);
         }
       })();
     }
@@ -56,12 +63,15 @@ export const useCamera = (): UseCameraReturn => {
   useEffect(() => {
     const initializePhotos = () => {
       try {
+        setLoading(true);
         const storedPhotos = localStorage.getItem("photos");
         const parsedPhotos = storedPhotos ? JSON.parse(storedPhotos) : [];
         setPhotosArr(parsedPhotos);
         setNumOfTakenPhotos(4 - parsedPhotos.length);
       } catch (error) {
         console.error("Failed to parse localStorage photos:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -88,7 +98,6 @@ export const useCamera = (): UseCameraReturn => {
     } else {
       if (cameraRef.current) {
         const photo = cameraRef.current.takePhoto();
-        console.log("Photo captured:", photo ? "Success" : "Failed");
         setCapturedImage(photo);
         const existingPhotos = JSON.parse(
           localStorage.getItem("photos") || "[]"
@@ -158,6 +167,7 @@ export const useCamera = (): UseCameraReturn => {
   const toggleAspectRatio = () => {
     setIsWideAspectRatio(!isWideAspectRatio);
   };
+
   const savePhotos = async (frameType: string) => {
     const photoArr = localStorage.getItem("photos")
       ? JSON.parse(localStorage.getItem("photos")!)
@@ -169,6 +179,7 @@ export const useCamera = (): UseCameraReturn => {
     }
 
     try {
+      setLoading(true);
       const uploadedUrls: string[] = [];
 
       for (const photo of photoArr) {
@@ -213,11 +224,14 @@ export const useCamera = (): UseCameraReturn => {
       router.replace("/profile");
     } catch (err) {
       console.error("Failed to save photos:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
   const userSavedSessionsList = async () => {
     try {
+      setLoading(true);
       const { data, error } = await supabase
         .from("photo_sessions")
         .select("*")
@@ -229,32 +243,57 @@ export const useCamera = (): UseCameraReturn => {
       }
     } catch (error) {
       console.error("Failed to fetch user saved sessions:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const startSession = () => {
+    setLoading(true);
     localStorage.removeItem("photos");
     setPhotosArr([]);
     setNumOfTakenPhotos(4);
     setCapturedImage(undefined);
     setIsSessionActive(true);
+    setLoading(false);
   };
 
   const endSession = () => {
+    setLoading(true);
     setIsSessionActive(false);
     setCapturedImage(undefined);
     setIsCountdownActive(false);
     setIsCapturing(false);
+    setLoading(false);
   };
 
   const startOverAgain = () => {
+    setLoading(true);
     endSession();
     startSession();
+    setLoading(false);
     router.replace("/session");
   };
 
+  const handleExport = async (frameType: PhotoFramesProps["type"]) => {
+    if (!exportRef.current) return;
+
+    try {
+      setLoading(true);
+      await exportPhotoStrip(exportRef.current, frameType);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to export image";
+      alert(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
+    loading,
     cameraRef,
+    exportRef,
     permissionStatus,
     isRequestingPermission,
     requestPermission,
@@ -277,5 +316,6 @@ export const useCamera = (): UseCameraReturn => {
     savePhotos,
     userSavedSessionsList,
     listOfSavedSessions,
+    handleExport,
   };
 };

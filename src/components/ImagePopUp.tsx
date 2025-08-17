@@ -22,7 +22,7 @@ function ImagePopUp({
         <div className="flex justify-center items-center min-w-[300px] min-h-[300px]">
           {imgLoading && (
             <div className="z-10 absolute inset-0 flex justify-center items-center bg-black bg-opacity-40">
-              <Spinner text="Loading image..." />
+              <Spinner size="large" text="Loading image..." />
             </div>
           )}
           <Image

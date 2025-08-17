@@ -6,15 +6,21 @@ import { NoPhotosWrapper } from "@/guard/Guards";
 import { useCamera } from "@/hook/useCamera";
 import PhotoFrames from "@/components/PhotoFrames";
 import { PhotoFramesProps } from "@/lib/types/camera";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import ImagePopUp from "@/components/ImagePopUp";
 import FrameController from "@/components/FrameController";
 
 export default function SessionPage() {
   const [frameType, setFrameType] =
     useState<PhotoFramesProps["type"]>("classic");
-  const { photosArr, startOverAgain, savePhotos } = useCamera();
-  const exportRef = useRef<HTMLDivElement | null>(null);
+  const {
+    loading,
+    exportRef,
+    photosArr,
+    startOverAgain,
+    handleExport,
+    savePhotos,
+  } = useCamera();
   const [imageDisplay, setImageDisplay] = useState<string | null>(null);
 
   const handleImagePopup = (imageUrl: string) => {
@@ -75,9 +81,10 @@ export default function SessionPage() {
           frameType={frameType}
           setFrameType={setFrameType}
           startOverAgain={startOverAgain}
-          savePhotos={savePhotos}
-          exportRef={exportRef}
           controllerType={"customize"}
+          handleExport={handleExport}
+          handleSave={savePhotos}
+          loading={loading}
         />
       </section>
       <Footer />

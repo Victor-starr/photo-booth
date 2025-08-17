@@ -1,7 +1,7 @@
 "use client";
 
 import { PhotoFramesProps, PhotosSession } from "@/lib/types/camera";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import PhotoFrames from "@/components/PhotoFrames";
 import FrameController from "@/components/FrameController";
 import { useCamera } from "@/hook/useCamera";
@@ -18,8 +18,8 @@ function CustomizePage() {
   const [sessionData, setSessionData] = useState<PhotosSession | null>(null);
   const [frameType, setFrameType] =
     useState<PhotoFramesProps["type"]>("classic");
-  const { startOverAgain, savePhotos } = useCamera();
-  const exportRef = useRef<HTMLDivElement | null>(null);
+  const { loading, exportRef, startOverAgain, handleExport, savePhotos } =
+    useCamera();
   const [imageDisplay, setImageDisplay] = useState<string | null>(null);
 
   useEffect(() => {
@@ -102,9 +102,10 @@ function CustomizePage() {
           frameType={frameType}
           setFrameType={setFrameType}
           startOverAgain={startOverAgain}
-          savePhotos={savePhotos}
-          exportRef={exportRef}
           controllerType={"session"}
+          handleExport={handleExport}
+          handleSave={savePhotos}
+          loading={loading}
         />
       </section>
       <Footer />

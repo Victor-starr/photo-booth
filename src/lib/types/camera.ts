@@ -19,8 +19,12 @@ export interface PhotosSession {
 
 // Main camera hook return type
 export interface UseCameraReturn {
+  //loading status
+  loading: boolean;
   // Camera ref
   cameraRef: RefObject<CameraRef>;
+  // Export ref
+  exportRef: RefObject<HTMLDivElement | null>;
 
   // Permission handling
   permissionStatus: PermissionState;
@@ -52,9 +56,12 @@ export interface UseCameraReturn {
   startSession: () => void;
   endSession: () => void;
   startOverAgain: () => void;
-  savePhotos: (frameType: string) => Promise<void>;
   userSavedSessionsList: () => Promise<void>;
   listOfSavedSessions: PhotosSession[];
+
+  //customize management
+  handleExport: (frameType: PhotoFramesProps["type"]) => Promise<void>;
+  savePhotos: (frameType: string) => Promise<void>;
 }
 
 export interface PhotoFramesProps {
