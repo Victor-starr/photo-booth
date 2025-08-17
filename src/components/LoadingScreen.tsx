@@ -1,55 +1,67 @@
 import Footer from "@/components/_Footer";
 import Nav from "@/components/_Nav";
 
+type LoadingScreenType =
+  | "default"
+  | "spinner"
+  | "error"
+  | "success"
+  | "no-access";
+
 interface LoadingScreenProps {
   title: string;
   subtitle?: string;
   showSpinner?: boolean;
+  type?: LoadingScreenType;
 }
 
 export default function LoadingScreen({
   title,
   subtitle,
   showSpinner = false,
+  type = "default",
 }: LoadingScreenProps) {
+  let color = "text-black";
+  let spinner = showSpinner;
+  let displayTitle = title;
+  let displaySubtitle = subtitle;
+
+  switch (type) {
+    case "spinner":
+      spinner = true;
+      break;
+    case "error":
+      color = "text-red-600";
+      break;
+    case "success":
+      color = "text-green-600";
+      break;
+    case "no-access":
+      color = "text-yellow-600";
+      if (!title) displayTitle = "You do not have access.";
+      if (!subtitle) displaySubtitle = "Redirecting to login page...";
+      spinner = true;
+      break;
+    default:
+      break;
+  }
+
   return (
     <>
       <Nav />
       <div className="flex flex-col justify-center items-center h-[85vh]">
         <div className="text-center">
-          {showSpinner && (
+          {spinner && (
             <div className="mx-auto mb-4 border-gray-900 border-b-2 rounded-full w-8 h-8 animate-spin"></div>
           )}
-          <h2 className="mb-4 text-2xl">{title}</h2>
-          {subtitle && <p>{subtitle}</p>}
+          <h2 className={`mb-4 text-2xl ${color}`}>{displayTitle}</h2>
+          {displaySubtitle && <p>{displaySubtitle}</p>}
         </div>
       </div>
       <Footer />
     </>
   );
 }
-
-export const LoadingcheckAuth = ({
-  loading,
-  noAccess,
-}: {
-  loading: boolean;
-  noAccess?: boolean;
-}) => {
-  if (loading) {
-    return <LoadingScreen title="Checking authentication..." showSpinner />;
-  }
-  if (noAccess) {
-    return (
-      <LoadingScreen
-        title="You do not have access."
-        subtitle="Redirecting to login page..."
-        showSpinner
-      />
-    );
-  }
-  return null;
-};
 
 export const Spinner = ({
   text,

@@ -10,7 +10,7 @@ import { GuestGuardWrapper } from "@/guard/Guards";
 import Link from "next/link";
 
 export default function VerifyEmail() {
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
   const [isResending, setIsResending] = useState(false);
   const [resendMessage, setResendMessage] = useState<string | null>(null);
 
@@ -38,24 +38,6 @@ export default function VerifyEmail() {
       setIsResending(false);
     }
   };
-
-  // Show loading state while checking auth
-  if (loading) {
-    return (
-      <GuestGuardWrapper>
-        <Nav />
-        <section className="flex flex-col justify-center items-center px-4 min-h-screen">
-          <div className="bg-blue-2 shadow-lg p-8 rounded-2xl w-full max-w-md text-center">
-            <div className="mx-auto mb-4 border-b-2 border-blue-8 rounded-full w-12 h-12 animate-spin"></div>
-            <p className="text-blue-8 text-xl">
-              Checking verification status...
-            </p>
-          </div>
-        </section>
-        <Footer />
-      </GuestGuardWrapper>
-    );
-  }
 
   return (
     <GuestGuardWrapper>
