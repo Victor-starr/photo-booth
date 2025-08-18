@@ -7,14 +7,14 @@ import { useEffect } from "react";
 import LoadingScreen from "@/components/LoadingScreen";
 
 export function AuthGuardWrapper({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !user) {
+    if (!loading && !isAuthenticated) {
       router.replace("/login");
     }
-  }, [user, loading, router]);
+  }, [isAuthenticated, loading, router]);
   if (loading)
     return (
       <LoadingScreen
@@ -24,7 +24,7 @@ export function AuthGuardWrapper({ children }: { children: React.ReactNode }) {
         showSpinner={true}
       />
     );
-  if (!user)
+  if (!isAuthenticated)
     return (
       <LoadingScreen
         type="no-access"
@@ -37,14 +37,14 @@ export function AuthGuardWrapper({ children }: { children: React.ReactNode }) {
 }
 
 export function GuestGuardWrapper({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && user) {
+    if (!loading && isAuthenticated) {
       router.replace("/");
     }
-  }, [user, loading, router]);
+  }, [isAuthenticated, loading, router]);
 
   if (loading)
     return (
@@ -55,7 +55,7 @@ export function GuestGuardWrapper({ children }: { children: React.ReactNode }) {
         showSpinner={true}
       />
     );
-  if (user)
+  if (isAuthenticated)
     return (
       <LoadingScreen
         type="no-access"
@@ -73,17 +73,17 @@ export function MaxPhotoCountWrapper({
   children: React.ReactNode;
 }) {
   const { photosArr } = useCamera();
-  const { user, loading } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !user) {
+    if (!loading && !isAuthenticated) {
       return router.replace("/login");
     }
-    if (!loading && user && photosArr.length >= 4) {
+    if (!loading && isAuthenticated && photosArr.length >= 4) {
       return router.replace("/customize");
     }
-  }, [photosArr.length, router, user, loading]);
+  }, [photosArr.length, router, isAuthenticated, loading]);
 
   if (loading) {
     return (
@@ -95,7 +95,8 @@ export function MaxPhotoCountWrapper({
       />
     );
   }
-  if (!user) {
+
+  if (!isAuthenticated) {
     return (
       <LoadingScreen
         type="no-access"
@@ -122,19 +123,19 @@ export function MaxPhotoCountWrapper({
 
 export function NoPhotosWrapper({ children }: { children: React.ReactNode }) {
   const { photosArr } = useCamera();
-  const { user, loading } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !user) {
+    if (!loading && !isAuthenticated) {
       router.replace("/login");
       return;
     }
-    if (!loading && user && photosArr.length === 0) {
+    if (!loading && isAuthenticated && photosArr.length === 0) {
       router.replace("/session");
       return;
     }
-  }, [photosArr.length, router, user, loading]);
+  }, [photosArr.length, router, isAuthenticated, loading]);
 
   if (loading) {
     return (
@@ -146,7 +147,8 @@ export function NoPhotosWrapper({ children }: { children: React.ReactNode }) {
       />
     );
   }
-  if (!user) {
+
+  if (!isAuthenticated) {
     return (
       <LoadingScreen
         type="no-access"
