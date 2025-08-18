@@ -20,38 +20,14 @@ export default function SessionPage() {
     startOverAgain,
     handleExport,
     savePhotos,
+    handleFileChange,
+    customFrame,
   } = useCamera();
   const [imageDisplay, setImageDisplay] = useState<string | null>(null);
 
   const handleImagePopup = (imageUrl: string) => {
     setImageDisplay(imageUrl);
   };
-
-  if (photosArr.length < 4) {
-    return (
-      <NoPhotosWrapper>
-        <Nav currentPage="customize" />
-        <div className="flex flex-col justify-center items-center px-4 py-8 min-h-[calc(100vh-140px)]">
-          <>
-            <h2 className="mb-4 text-xl sm:text-2xl text-center">
-              Not enough photos!
-            </h2>
-            <p className="mb-6 text-center">
-              You have {photosArr.length} photo
-              {photosArr.length > 1 ? "s" : ""}. Need 4 to customize.
-            </p>
-            <a
-              href="/session"
-              className="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg font-medium text-white transition-colors"
-            >
-              Go take more
-            </a>
-          </>
-        </div>
-        <Footer />
-      </NoPhotosWrapper>
-    );
-  }
 
   return (
     <NoPhotosWrapper>
@@ -71,20 +47,26 @@ export default function SessionPage() {
         <div className="flex flex-1 justify-center w-full max-w-sm lg:max-w-lg">
           <div ref={exportRef} className="flex justify-center w-full">
             <PhotoFrames
-              photoArr={photosArr}
-              type={frameType}
-              onImageClick={handleImagePopup}
+              {...{
+                photoArr: photosArr,
+                type: frameType,
+                bgCustom: customFrame,
+                onImageClick: handleImagePopup,
+                frame_custom: customFrame,
+              }}
             />
           </div>
         </div>
         <FrameController
           frameType={frameType}
+          customFrame={customFrame}
           setFrameType={setFrameType}
           startOverAgain={startOverAgain}
           controllerType={"customize"}
           handleExport={handleExport}
           handleSave={savePhotos}
           loading={loading}
+          handleFileChange={handleFileChange}
         />
       </section>
       <Footer />

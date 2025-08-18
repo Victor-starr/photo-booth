@@ -11,6 +11,8 @@ import type {
 import { createClient } from "@/utils/supabase/client";
 import { exportPhotoStrip } from "@/utils/imageExport";
 import { useAuth } from "./useAuth";
+import { photoSessionInsert } from "@/utils/supabase/PhotoSessionInsert";
+import { storageUpload } from "@/utils/supabase/StorageUpload";
 
 export const useCamera = (): UseCameraReturn => {
   const cameraRef = useRef<CameraRef>(null!);
@@ -31,6 +33,7 @@ export const useCamera = (): UseCameraReturn => {
   const [isSessionActive, setIsSessionActive] = useState(false);
   const [numOfTakenPhotos, setNumOfTakenPhotos] = useState(4);
   const [photosArr, setPhotosArr] = useState<string[]>([]);
+  const [customFrame, setCustomFrame] = useState<string | undefined>(undefined);
   const [listOfSavedSessions, setListOfSavedSessions] = useState<
     PhotosSession[]
   >([]);
@@ -168,7 +171,7 @@ export const useCamera = (): UseCameraReturn => {
     setIsWideAspectRatio(!isWideAspectRatio);
   };
 
-  const savePhotos = async (frameType: string) => {
+  const savePhotos = async (frame_style: PhotoFramesProps["type"]) => {
     const photoArr = localStorage.getItem("photos")
       ? JSON.parse(localStorage.getItem("photos")!)
       : [];
@@ -194,55 +197,50 @@ export const useCamera = (): UseCameraReturn => {
 
         const filePath = `${user?.id}/${crypto.randomUUID()}.jpg`;
 
-        const { error: uploadError } = await supabase.storage
-          .from("photos")
-          .upload(filePath, blob, {
-            contentType: "image/jpeg",
-          });
+        const signedUrl = await storageUpload({
+          file: blob,
+          storageName: "photos",
+          filePath,
+        });
 
-        if (uploadError) throw uploadError;
-
-        const { data: signedData, error: signError } = await supabase.storage
-          .from("photos")
-          .createSignedUrl(filePath, 60 * 60 * 24 * 365);
-
-        if (signError) throw signError;
-
-        uploadedUrls.push(signedData.signedUrl);
+        uploadedUrls.push(signedUrl);
       }
 
-      const { error: dbError } = await supabase.from("photo_sessions").insert({
-        profile_id: user?.id,
-        frame_style: frameType || "default",
-        photo_urls: uploadedUrls,
-      });
+      let frameCustomUrl: string | null = null;
+      if (frame_style === "custom" && customFrame) {
+        // Upload custom frame
+        const base64Data = customFrame.split(",")[1];
+        const byteCharacters = atob(base64Data);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let j = 0; j < byteCharacters.length; j++) {
+          byteNumbers[j] = byteCharacters.charCodeAt(j);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: "image/jpeg" });
 
-      if (dbError) throw dbError;
+        const framePath = `${user?.id}/frame_${crypto.randomUUID()}.jpg`;
+
+        frameCustomUrl = await storageUpload({
+          file: blob,
+          storageName: "frame_bg",
+          filePath: framePath,
+        });
+      }
+
+      if (user?.id) {
+        await photoSessionInsert({
+          profile_id: user?.id,
+          frame_style,
+          frame_custom: frameCustomUrl,
+          photo_urls: uploadedUrls,
+        });
+      }
 
       localStorage.removeItem("photos");
       setPhotosArr([]);
       router.replace("/profile");
     } catch (err) {
       console.error("Failed to save photos:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const userSavedSessionsList = async () => {
-    try {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from("photo_sessions")
-        .select("*")
-        .eq("profile_id", user?.id);
-      setListOfSavedSessions(data || []);
-
-      if (error) {
-        console.error("Error fetching user saved sessions:", error);
-      }
-    } catch (error) {
-      console.error("Failed to fetch user saved sessions:", error);
     } finally {
       setLoading(false);
     }
@@ -289,6 +287,17 @@ export const useCamera = (): UseCameraReturn => {
       setLoading(false);
     }
   };
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64 = reader.result as string;
+        setCustomFrame(base64);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return {
     loading,
@@ -300,6 +309,7 @@ export const useCamera = (): UseCameraReturn => {
     capturedImage,
     numOfTakenPhotos,
     photosArr,
+    customFrame,
     isCapturing,
     takePhoto,
     isCountdownActive,
@@ -314,8 +324,8 @@ export const useCamera = (): UseCameraReturn => {
     endSession,
     startOverAgain,
     savePhotos,
-    userSavedSessionsList,
     listOfSavedSessions,
     handleExport,
+    handleFileChange,
   };
 };

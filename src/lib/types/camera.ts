@@ -14,6 +14,7 @@ export interface PhotosSession {
   profile_id: string;
   created_at: string;
   frame_style: string;
+  frame_custom: string | null;
   photo_urls: string[];
 }
 
@@ -56,16 +57,18 @@ export interface UseCameraReturn {
   startSession: () => void;
   endSession: () => void;
   startOverAgain: () => void;
-  userSavedSessionsList: () => Promise<void>;
   listOfSavedSessions: PhotosSession[];
 
   //customize management
+  customFrame: string | undefined;
   handleExport: (frameType: PhotoFramesProps["type"]) => Promise<void>;
-  savePhotos: (frameType: string) => Promise<void>;
+  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  savePhotos: (frameType: PhotoFramesProps["type"]) => Promise<void>;
 }
 
 export interface PhotoFramesProps {
   photoArr: string[];
-  type: "classic" | "dark" | "retro" | "moon" | "party";
+  type: "classic" | "dark" | "retro" | "moon" | "party" | "custom";
+  // frame_custom: string | null;
   onImageClick: (imageUrl: string) => void;
 }

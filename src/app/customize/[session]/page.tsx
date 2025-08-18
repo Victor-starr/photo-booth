@@ -18,14 +18,23 @@ function CustomizePage() {
   const [sessionData, setSessionData] = useState<PhotosSession | null>(null);
   const [frameType, setFrameType] =
     useState<PhotoFramesProps["type"]>("classic");
-  const { loading, exportRef, startOverAgain, handleExport, savePhotos } =
-    useCamera();
+
+  const {
+    loading,
+    exportRef,
+    startOverAgain,
+    handleExport,
+    savePhotos,
+    handleFileChange,
+    customFrame,
+  } = useCamera();
   const [imageDisplay, setImageDisplay] = useState<string | null>(null);
 
   useEffect(() => {
     const selectedSession = localStorage.getItem("selectedSession");
     if (selectedSession && session === JSON.parse(selectedSession).id) {
       setSessionData(JSON.parse(selectedSession));
+      setFrameType(JSON.parse(selectedSession).frame_style);
     }
   }, [session]);
 
@@ -70,7 +79,7 @@ function CustomizePage() {
 
   return (
     <AuthGuardWrapper>
-      <Nav currentPage="customize" />
+      <Nav currentPage="profile" />
       <section className="relative flex lg:flex-row flex-col lg:justify-center items-center gap-6 lg:gap-10 bg-[#F2EDF1] px-4 py-0 lg:py-18 min-h-[calc(100vh-140px)] overflow-y-auto">
         <h2 className="lg:top-5 lg:left-1/2 static lg:absolute shadow-pink-8 px-4 pt-5 lg:pt-0 small-text-cst text-[clamp(1.25rem,4vw,2rem)] md:text-cst lg:text-[clamp(2rem,2vw,3rem)] text-center lg:-translate-x-1/2">
           {sessionData?.created_at
@@ -93,19 +102,24 @@ function CustomizePage() {
         )}
         <div ref={exportRef}>
           <PhotoFrames
-            photoArr={(sessionData?.photo_urls as string[]) || []}
-            type={frameType}
-            onImageClick={handleImagePopup}
+            {...{
+              photoArr: (sessionData?.photo_urls as string[]) || [],
+              type: frameType,
+              bgCustom: customFrame || (sessionData?.frame_custom as string),
+              onImageClick: handleImagePopup,
+            }}
           />
         </div>
         <FrameController
           frameType={frameType}
+          customFrame={sessionData?.frame_custom as string}
           setFrameType={setFrameType}
           startOverAgain={startOverAgain}
           controllerType={"session"}
           handleExport={handleExport}
           handleSave={savePhotos}
           loading={loading}
+          handleFileChange={handleFileChange}
         />
       </section>
       <Footer />
