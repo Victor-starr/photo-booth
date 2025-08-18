@@ -1,24 +1,28 @@
 import { PhotoFramesProps } from "@/lib/types/camera";
 import { VscDebugRestart } from "react-icons/vsc";
 import { FaDownload } from "react-icons/fa";
-import { FaSave } from "react-icons/fa";
+import { FaSave, FaRegEdit } from "react-icons/fa";
 import { Spinner } from "./LoadingScreen";
 interface FrameControllerProps {
   loading: boolean;
   frameType: PhotoFramesProps["type"];
+  customFrame?: string;
   setFrameType: (type: PhotoFramesProps["type"]) => void;
   startOverAgain: () => void;
   handleExport: (frameType: PhotoFramesProps["type"]) => Promise<void>;
   handleSave: (frameType: PhotoFramesProps["type"]) => Promise<void>;
+  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   controllerType: "customize" | "session";
 }
 function FrameController({
   frameType,
+  customFrame,
   setFrameType,
   startOverAgain,
   controllerType,
   handleExport,
   handleSave,
+  handleFileChange,
   loading,
 }: FrameControllerProps) {
   const frameOptions: PhotoFramesProps["type"][] = [
@@ -27,6 +31,7 @@ function FrameController({
     "retro",
     "moon",
     "party",
+    "custom",
   ];
 
   return (
@@ -36,17 +41,46 @@ function FrameController({
       </h2>
 
       <div className="flex flex-wrap gap-2 lg:gap-3 xl:gap-4">
-        {frameOptions.map((t) => (
+        {frameOptions
+          .filter((t) => t !== "custom")
+          .map((t) => (
+            <button
+              key={t}
+              onClick={() => setFrameType(t)}
+              className={`px-3 lg:px-5 py-2 rounded-md border border-black shadow-custom-position bg-white hover:bg-blue-5 hover:text-white text-sm lg:text-base transition-colors ${
+                frameType === t ? "shadow-pink-8" : "shadow-black"
+              }`}
+            >
+              {t.charAt(0).toUpperCase() + t.slice(1)}
+            </button>
+          ))}
+        {customFrame && (
           <button
-            key={t}
-            onClick={() => setFrameType(t)}
+            key={customFrame}
+            onClick={() => setFrameType("custom")}
             className={`px-3 lg:px-5 py-2 rounded-md border border-black shadow-custom-position bg-white hover:bg-blue-5 hover:text-white text-sm lg:text-base transition-colors ${
-              frameType === t ? "shadow-pink-8" : "shadow-black"
+              frameType === "custom" ? "shadow-pink-8" : "shadow-black"
             }`}
           >
-            {t.charAt(0).toUpperCase() + t.slice(1)}
+            Custom
           </button>
-        ))}
+        )}
+        <label
+          className={` flex justify-center items-center px-3 lg:px-5 py-2 rounded-md border border-black shadow-custom-position bg-white hover:bg-blue-5 hover:text-white text-md lg:text-lg transition-colors cursor-pointer ${
+            frameType === "custom" ? "shadow-pink-8" : "shadow-black"
+          }`}
+        >
+          <FaRegEdit />
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              handleFileChange(e);
+              setFrameType("custom");
+            }}
+          />
+        </label>
       </div>
       <div className="flex lg:flex-row flex-col gap-3 lg:gap-4">
         {controllerType === "customize" && (

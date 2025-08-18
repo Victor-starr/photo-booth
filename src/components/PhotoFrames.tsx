@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { PhotoFramesProps } from "@/lib/types/camera";
 
-const PhotoFrames = (props: PhotoFramesProps) => {
+const PhotoFrames = (props: PhotoFramesProps & { bgCustom?: string }) => {
   switch (props.type) {
     case "classic":
       return (
@@ -16,7 +16,7 @@ const PhotoFrames = (props: PhotoFramesProps) => {
       return (
         <ClassicFrame
           photosArr={props.photoArr}
-          bg={"bg-gray-800"}
+          bg={"bg-[#1e2939]"}
           onImageClick={props.onImageClick}
         />
       );
@@ -44,6 +44,14 @@ const PhotoFrames = (props: PhotoFramesProps) => {
         <ClassicFrame
           photosArr={props.photoArr}
           bg={"shine-frame-bg"}
+          onImageClick={props.onImageClick}
+        />
+      );
+    case "custom":
+      return (
+        <CustomFrame
+          photosArr={props.photoArr}
+          bgImage={props.bgCustom}
           onImageClick={props.onImageClick}
         />
       );
@@ -132,6 +140,50 @@ const RetroFrame = ({
           ></span>
         ))}
       </div>
+    </div>
+  );
+};
+
+const CustomFrame = ({
+  photosArr,
+  bgImage,
+  onImageClick,
+}: {
+  photosArr: string[];
+  bgImage?: string;
+  onImageClick: (imageUrl: string) => void;
+}) => {
+  return (
+    <div
+      className={`flex flex-col gap-2  p-3 sm:p-4 md:p-6 rounded-lg shadow-lg `}
+      style={
+        bgImage
+          ? {
+              backgroundImage: `url(${bgImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }
+          : undefined
+      }
+    >
+      {photosArr.map((photo, index) => (
+        <Image
+          key={index}
+          src={photo}
+          alt={`Captured photo ${index + 1}`}
+          className="shadow-lg rounded-md object-cover"
+          crossOrigin="anonymous"
+          onClick={() => onImageClick(photo)}
+          width={120}
+          height={120}
+          unoptimized
+          style={{
+            width: "clamp(100px, 15vw, 140px)",
+            height: "clamp(100px, 15vw, 140px)",
+          }}
+        />
+      ))}
     </div>
   );
 };
