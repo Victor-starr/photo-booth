@@ -10,8 +10,8 @@ import { useRouter } from "next/navigation";
 import { PhotosSession } from "@/lib/types/camera";
 
 function ProfilePage() {
-  const { user, loading } = useAuth();
-  const { listOfSavedSessions } = useCamera();
+  const { user } = useAuth();
+  const { listOfSavedSessions, loading } = useCamera();
   const router = useRouter();
 
   const handleRedirectionToCustomize = (session: PhotosSession) => {
