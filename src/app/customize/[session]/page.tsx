@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  PhotoFramesProps,
-  PhotosSession,
-  StickerTheme,
-} from "@/lib/types/camera";
+import { FrameType, PhotosSession, StickerTheme } from "@/lib/types/camera";
 import { useEffect, useState } from "react";
 import PhotoFrames from "@/components/PhotoFrames";
 import FrameController from "@/components/FrameController";
@@ -20,8 +16,7 @@ import { useParams } from "next/navigation";
 function CustomizePage() {
   const { session } = useParams();
   const [sessionData, setSessionData] = useState<PhotosSession | null>(null);
-  const [frameType, setFrameType] =
-    useState<PhotoFramesProps["type"]>("classic");
+  const [frameType, setFrameType] = useState<FrameType>("classic");
   const [stickerType, setStickerType] = useState<StickerTheme>("none");
   const {
     loading,

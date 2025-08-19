@@ -61,17 +61,25 @@ export interface UseCameraReturn {
 
   //customize management
   customFrame: string | undefined;
-  handleExport: (frameType: PhotoFramesProps["type"]) => Promise<void>;
+  handleExport: (frameType: FrameType) => Promise<void>;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  savePhotos: (frameType: PhotoFramesProps["type"]) => Promise<void>;
+  savePhotos: (frameType: FrameType) => Promise<void>;
 }
 
 export interface PhotoFramesProps {
   photoArr: string[];
-  type: "classic" | "dark" | "retro" | "moon" | "party" | "summer" | "custom";
+  type: FrameType;
   stickerType: StickerTheme;
   onImageClick: (imageUrl: string) => void;
 }
+export type FrameType =
+  | "classic"
+  | "dark"
+  | "retro"
+  | "moon"
+  | "party"
+  | "summer"
+  | "custom";
 
 export type StickerTheme =
   | "none"

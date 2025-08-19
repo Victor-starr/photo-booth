@@ -1,18 +1,18 @@
-import { PhotoFramesProps, StickerTheme } from "@/lib/types/camera";
+import { FrameType, StickerTheme } from "@/lib/types/camera";
 import { VscDebugRestart } from "react-icons/vsc";
 import { FaDownload } from "react-icons/fa";
 import { FaSave, FaRegEdit } from "react-icons/fa";
 import { Spinner } from "./LoadingScreen";
 interface FrameControllerProps {
   loading: boolean;
-  frameType: PhotoFramesProps["type"];
+  frameType: FrameType;
   customFrame?: string;
   stickerType: StickerTheme;
   setStickerType: (type: StickerTheme) => void;
-  setFrameType: (type: PhotoFramesProps["type"]) => void;
+  setFrameType: (type: FrameType) => void;
   startOverAgain: () => void;
-  handleExport: (frameType: PhotoFramesProps["type"]) => Promise<void>;
-  handleSave: (frameType: PhotoFramesProps["type"]) => Promise<void>;
+  handleExport: (frameType: FrameType) => Promise<void>;
+  handleSave: (frameType: FrameType) => Promise<void>;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   controllerType: "customize" | "session";
 }
@@ -29,7 +29,7 @@ function FrameController({
   handleFileChange,
   loading,
 }: FrameControllerProps) {
-  const frameOptions: PhotoFramesProps["type"][] = [
+  const frameOptions: FrameType[] = [
     "classic",
     "dark",
     "retro",

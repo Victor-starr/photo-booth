@@ -5,14 +5,13 @@ import Nav from "@/components/_Nav";
 import { NoPhotosWrapper } from "@/guard/Guards";
 import { useCamera } from "@/hook/useCamera";
 import PhotoFrames from "@/components/PhotoFrames";
-import { PhotoFramesProps, StickerTheme } from "@/lib/types/camera";
+import { FrameType, StickerTheme } from "@/lib/types/camera";
 import { useState } from "react";
 import ImagePopUp from "@/components/ImagePopUp";
 import FrameController from "@/components/FrameController";
 
 export default function SessionPage() {
-  const [frameType, setFrameType] =
-    useState<PhotoFramesProps["type"]>("classic");
+  const [frameType, setFrameType] = useState<FrameType>("classic");
   const [stickerType, setStickerType] = useState<StickerTheme>("none");
   const {
     loading,

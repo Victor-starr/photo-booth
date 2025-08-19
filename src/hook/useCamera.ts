@@ -6,7 +6,7 @@ import type {
   CameraRef,
   UseCameraReturn,
   PhotosSession,
-  PhotoFramesProps,
+  FrameType,
 } from "@/lib/types/camera";
 import { createClient } from "@/utils/supabase/client";
 import { exportPhotoStrip } from "@/utils/imageExport";
@@ -171,7 +171,7 @@ export const useCamera = (): UseCameraReturn => {
     setIsWideAspectRatio(!isWideAspectRatio);
   };
 
-  const savePhotos = async (frame_style: PhotoFramesProps["type"]) => {
+  const savePhotos = async (frame_style: FrameType) => {
     const photoArr = localStorage.getItem("photos")
       ? JSON.parse(localStorage.getItem("photos")!)
       : [];
@@ -273,7 +273,7 @@ export const useCamera = (): UseCameraReturn => {
     router.replace("/session");
   };
 
-  const handleExport = async (frameType: PhotoFramesProps["type"]) => {
+  const handleExport = async (frameType: FrameType) => {
     if (!exportRef.current) return;
 
     try {
