@@ -98,3 +98,9 @@ div {
   background-position: center;
   background-repeat: no-repeat;
 }
+.summer-frame-bg {
+  background-image: url("/img/summer-frame.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
