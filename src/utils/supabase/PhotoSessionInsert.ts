@@ -7,7 +7,14 @@ export async function photoSessionInsert({
   photo_urls,
 }: {
   profile_id: string;
-  frame_style: "classic" | "dark" | "retro" | "moon" | "party" | "custom";
+  frame_style:
+    | "classic"
+    | "dark"
+    | "retro"
+    | "moon"
+    | "party"
+    | "summer"
+    | "custom";
   frame_custom?: string | null;
   photo_urls: string[];
 }) {
