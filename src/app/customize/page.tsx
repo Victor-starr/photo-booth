@@ -5,7 +5,7 @@ import Nav from "@/components/_Nav";
 import { NoPhotosWrapper } from "@/guard/Guards";
 import { useCamera } from "@/hook/useCamera";
 import PhotoFrames from "@/components/PhotoFrames";
-import { PhotoFramesProps } from "@/lib/types/camera";
+import { PhotoFramesProps, StickerTheme } from "@/lib/types/camera";
 import { useState } from "react";
 import ImagePopUp from "@/components/ImagePopUp";
 import FrameController from "@/components/FrameController";
@@ -13,6 +13,7 @@ import FrameController from "@/components/FrameController";
 export default function SessionPage() {
   const [frameType, setFrameType] =
     useState<PhotoFramesProps["type"]>("classic");
+  const [stickerType, setStickerType] = useState<StickerTheme>("none");
   const {
     loading,
     exportRef,
@@ -44,23 +45,24 @@ export default function SessionPage() {
           />
         )}
 
-        <div className="flex flex-1 justify-center w-full max-w-sm lg:max-w-lg">
-          <div ref={exportRef} className="flex justify-center w-full">
-            <PhotoFrames
-              {...{
-                photoArr: photosArr,
-                type: frameType,
-                bgCustom: customFrame,
-                onImageClick: handleImagePopup,
-                frame_custom: customFrame,
-              }}
-            />
-          </div>
+        <div ref={exportRef} className="w-[200px]">
+          <PhotoFrames
+            {...{
+              photoArr: photosArr,
+              type: frameType,
+              stickerType: stickerType,
+              bgCustom: customFrame,
+              onImageClick: handleImagePopup,
+              frame_custom: customFrame,
+            }}
+          />
         </div>
         <FrameController
           frameType={frameType}
           customFrame={customFrame}
           setFrameType={setFrameType}
+          stickerType={stickerType}
+          setStickerType={setStickerType}
           startOverAgain={startOverAgain}
           controllerType={"customize"}
           handleExport={handleExport}

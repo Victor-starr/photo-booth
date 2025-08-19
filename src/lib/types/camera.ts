@@ -68,7 +68,17 @@ export interface UseCameraReturn {
 
 export interface PhotoFramesProps {
   photoArr: string[];
-  type: "classic" | "dark" | "retro" | "moon" | "party" | "custom";
-  // frame_custom: string | null;
+  type: "classic" | "dark" | "retro" | "moon" | "party" | "summer" | "custom";
+  stickerType: StickerTheme;
   onImageClick: (imageUrl: string) => void;
 }
+
+export type StickerTheme =
+  | "none"
+  | "food"
+  | "summer"
+  | "winter"
+  | "halloween"
+  | "party"
+  | "school"
+  | "night";

@@ -1,6 +1,10 @@
 "use client";
 
-import { PhotoFramesProps, PhotosSession } from "@/lib/types/camera";
+import {
+  PhotoFramesProps,
+  PhotosSession,
+  StickerTheme,
+} from "@/lib/types/camera";
 import { useEffect, useState } from "react";
 import PhotoFrames from "@/components/PhotoFrames";
 import FrameController from "@/components/FrameController";
@@ -18,7 +22,7 @@ function CustomizePage() {
   const [sessionData, setSessionData] = useState<PhotosSession | null>(null);
   const [frameType, setFrameType] =
     useState<PhotoFramesProps["type"]>("classic");
-
+  const [stickerType, setStickerType] = useState<StickerTheme>("none");
   const {
     loading,
     exportRef,
@@ -100,11 +104,12 @@ function CustomizePage() {
             onClose={() => setImageDisplay(null)}
           />
         )}
-        <div ref={exportRef}>
+        <div ref={exportRef} className="w-[200px]">
           <PhotoFrames
             {...{
               photoArr: (sessionData?.photo_urls as string[]) || [],
               type: frameType,
+              stickerType: stickerType,
               bgCustom: customFrame || (sessionData?.frame_custom as string),
               onImageClick: handleImagePopup,
             }}
@@ -114,6 +119,8 @@ function CustomizePage() {
           frameType={frameType}
           customFrame={sessionData?.frame_custom as string}
           setFrameType={setFrameType}
+          stickerType={stickerType}
+          setStickerType={setStickerType}
           startOverAgain={startOverAgain}
           controllerType={"session"}
           handleExport={handleExport}
