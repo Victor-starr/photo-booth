@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { GuestGuardWrapper } from "@/guard/Guards";
 import { useAuth } from "@/hook/useAuth";
