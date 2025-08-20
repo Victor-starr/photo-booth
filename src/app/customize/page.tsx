@@ -1,14 +1,15 @@
 "use client";
 
-import Footer from "@/components/_Footer";
-import Nav from "@/components/_Nav";
+import { useState } from "react";
 import { NoPhotosWrapper } from "@/guard/Guards";
 import { useCamera } from "@/hook/useCamera";
-import PhotoFrames from "@/components/PhotoFrames";
-import { FrameType, StickerTheme } from "@/lib/types/camera";
-import { useState } from "react";
+import { useCustomize } from "@/hook/useCustomize";
+import PhotoFrames, { LoadingFrameTemplate } from "@/components/PhotoFrames";
 import ImagePopUp from "@/components/ImagePopUp";
 import FrameController from "@/components/FrameController";
+import Footer from "@/components/_Footer";
+import Nav from "@/components/_Nav";
+import { FrameType, StickerTheme } from "@/lib/types/camera";
 
 export default function SessionPage() {
   const [frameType, setFrameType] = useState<FrameType>("classic");
@@ -17,12 +18,12 @@ export default function SessionPage() {
     loading,
     exportRef,
     photosArr,
-    startOverAgain,
     handleExport,
     savePhotos,
     handleFileChange,
     customFrame,
-  } = useCamera();
+  } = useCustomize();
+  const { startOverAgain } = useCamera();
   const [imageDisplay, setImageDisplay] = useState<string | null>(null);
 
   const handleImagePopup = (imageUrl: string) => {
@@ -43,19 +44,24 @@ export default function SessionPage() {
             onClose={() => setImageDisplay(null)}
           />
         )}
-
-        <div ref={exportRef} className="w-[200px]">
-          <PhotoFrames
-            {...{
-              photoArr: photosArr,
-              type: frameType,
-              stickerType: stickerType,
-              bgCustom: customFrame,
-              onImageClick: handleImagePopup,
-              frame_custom: customFrame,
-            }}
-          />
-        </div>
+        {loading ? (
+          <div className="w-[200px]">
+            <LoadingFrameTemplate />
+          </div>
+        ) : (
+          <div ref={exportRef} className="w-[200px]">
+            <PhotoFrames
+              {...{
+                photoArr: photosArr,
+                type: frameType,
+                stickerType: stickerType,
+                bgCustom: customFrame,
+                onImageClick: handleImagePopup,
+                frame_custom: customFrame,
+              }}
+            />
+          </div>
+        )}
         <FrameController
           frameType={frameType}
           customFrame={customFrame}

@@ -1,12 +1,10 @@
-import { FaCamera } from "react-icons/fa";
-import { UseCameraReturn } from "@/lib/types/camera";
+"use client";
+import { useCamera } from "@/hook/useCamera";
 import CameraWorkspace from "@/components/CameraWorkspace";
+import { FaCamera } from "react-icons/fa";
 
-interface SessionLauncherProps {
-  camera: UseCameraReturn;
-}
-
-const SessionLauncher = ({ camera }: SessionLauncherProps) => {
+const SessionLauncher = () => {
+  const camera = useCamera();
   const { isSessionActive, startSession } = camera;
 
   return (

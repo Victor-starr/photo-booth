@@ -1,9 +1,10 @@
 "use client";
 import { useState } from "react";
-import { login } from "@/app/login/action";
 import Link from "next/link";
+import { useAuth } from "@/hook/useAuth";
 
 const LoginForm = () => {
+  const { login } = useAuth();
   const [formMsg, setFormMsg] = useState<{
     message: string;
     status?: boolean;
@@ -40,6 +41,10 @@ const LoginForm = () => {
       } else {
         setFormMsg({ message: "An unknown error occurred." });
       }
+    } finally {
+      setTimeout(() => {
+        handleInputInteraction();
+      }, 2000);
     }
   };
 

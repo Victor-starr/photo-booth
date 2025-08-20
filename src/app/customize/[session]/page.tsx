@@ -1,17 +1,18 @@
 "use client";
 
-import { FrameType, PhotosSession, StickerTheme } from "@/lib/types/camera";
 import { useEffect, useState } from "react";
-import PhotoFrames from "@/components/PhotoFrames";
-import FrameController from "@/components/FrameController";
-import { useCamera } from "@/hook/useCamera";
-import Nav from "@/components/_Nav";
-import { AuthGuardWrapper } from "@/guard/Guards";
-import Footer from "@/components/_Footer";
-import ImagePopUp from "@/components/ImagePopUp";
-import Link from "next/link";
-import { FaBackspace } from "react-icons/fa";
 import { useParams } from "next/navigation";
+import { useCustomize } from "@/hook/useCustomize";
+import Link from "next/link";
+import { AuthGuardWrapper } from "@/guard/Guards";
+import { useCamera } from "@/hook/useCamera";
+import ImagePopUp from "@/components/ImagePopUp";
+import FrameController from "@/components/FrameController";
+import PhotoFrames, { LoadingFrameTemplate } from "@/components/PhotoFrames";
+import Nav from "@/components/_Nav";
+import Footer from "@/components/_Footer";
+import { FrameType, PhotosSession, StickerTheme } from "@/lib/types/customize";
+import { FaBackspace } from "react-icons/fa";
 
 function CustomizePage() {
   const { session } = useParams();
@@ -21,12 +22,12 @@ function CustomizePage() {
   const {
     loading,
     exportRef,
-    startOverAgain,
     handleExport,
     savePhotos,
     handleFileChange,
     customFrame,
-  } = useCamera();
+  } = useCustomize();
+  const { startOverAgain } = useCamera();
   const [imageDisplay, setImageDisplay] = useState<string | null>(null);
 
   useEffect(() => {
@@ -99,17 +100,23 @@ function CustomizePage() {
             onClose={() => setImageDisplay(null)}
           />
         )}
-        <div ref={exportRef} className="w-[200px]">
-          <PhotoFrames
-            {...{
-              photoArr: (sessionData?.photo_urls as string[]) || [],
-              type: frameType,
-              stickerType: stickerType,
-              bgCustom: customFrame || (sessionData?.frame_custom as string),
-              onImageClick: handleImagePopup,
-            }}
-          />
-        </div>
+        {loading ? (
+          <div className="w-[200px]">
+            <LoadingFrameTemplate />
+          </div>
+        ) : (
+          <div ref={exportRef} className="w-[200px]">
+            <PhotoFrames
+              {...{
+                photoArr: (sessionData?.photo_urls as string[]) || [],
+                type: frameType,
+                stickerType: stickerType,
+                bgCustom: customFrame || (sessionData?.frame_custom as string),
+                onImageClick: handleImagePopup,
+              }}
+            />
+          </div>
+        )}
         <FrameController
           frameType={frameType}
           customFrame={sessionData?.frame_custom as string}

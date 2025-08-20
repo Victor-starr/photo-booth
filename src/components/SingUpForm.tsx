@@ -1,9 +1,10 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { signup } from "@/app/register/action";
+import { useAuth } from "@/hook/useAuth";
 
 const SingUpForm = () => {
+  const { signup } = useAuth();
   const [formMsg, setFormMsg] = useState<{
     message: string;
     status?: boolean;
@@ -31,6 +32,10 @@ const SingUpForm = () => {
 
       // If no error, signup was successful and redirect will happen
       setIsLoading(false);
+      setFormMsg({
+        message: "Registration successful! Redirecting...",
+        status: true,
+      });
     } catch (error) {
       setIsLoading(false);
       setIsFormLocked(true);
@@ -39,6 +44,10 @@ const SingUpForm = () => {
       } else {
         setFormMsg({ message: "An unknown error occurred." });
       }
+    } finally {
+      setTimeout(() => {
+        handleInputInteraction();
+      }, 2000);
     }
   };
 

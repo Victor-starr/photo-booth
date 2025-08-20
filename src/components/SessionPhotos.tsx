@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { PhotosSession } from "@/lib/types/camera";
+import { PhotosSession } from "@/lib/types/customize";
 
 function SessionPhotos({
   listOfSavedSessions,

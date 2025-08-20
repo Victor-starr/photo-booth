@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { PhotoFramesProps, StickerTheme } from "@/lib/types/camera";
+import { PhotoFramesProps, StickerTheme } from "@/lib/types/customize";
 
 const PhotoFrames = (props: PhotoFramesProps & { bgCustom?: string }) => {
   switch (props.type) {
@@ -216,6 +216,19 @@ const PhotoContent = ({
             />
           )}
         </span>
+      ))}
+    </div>
+  );
+};
+
+export const LoadingFrameTemplate = () => {
+  return (
+    <div className="flex flex-col justify-center items-center gap-2 bg-gray-300 shadow-lg p-3 sm:p-4 md:p-6 rounded-lg">
+      {Array.from({ length: 4 }).map((_, i) => (
+        <div
+          key={i}
+          className="bg-gray-200 rounded-lg w-full h-32 animate-pulse"
+        ></div>
       ))}
     </div>
   );

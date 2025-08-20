@@ -9,14 +9,6 @@ export interface CameraRef {
   switchCamera?: () => void;
   getNumberOfCameras?: () => number;
 }
-export interface PhotosSession {
-  id: string;
-  profile_id: string;
-  created_at: string;
-  frame_style: string;
-  frame_custom: string | null;
-  photo_urls: string[];
-}
 
 // Main camera hook return type
 export interface UseCameraReturn {
@@ -57,13 +49,6 @@ export interface UseCameraReturn {
   startSession: () => void;
   endSession: () => void;
   startOverAgain: () => void;
-  listOfSavedSessions: PhotosSession[];
-
-  //customize management
-  customFrame: string | undefined;
-  handleExport: (frameType: FrameType) => Promise<void>;
-  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  savePhotos: (frameType: FrameType) => Promise<void>;
 }
 
 export interface PhotoFramesProps {

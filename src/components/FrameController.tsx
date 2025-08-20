@@ -1,21 +1,8 @@
-import { FrameType, StickerTheme } from "@/lib/types/camera";
+import { Spinner } from "@/components/LoadingScreen";
 import { VscDebugRestart } from "react-icons/vsc";
-import { FaDownload } from "react-icons/fa";
-import { FaSave, FaRegEdit } from "react-icons/fa";
-import { Spinner } from "./LoadingScreen";
-interface FrameControllerProps {
-  loading: boolean;
-  frameType: FrameType;
-  customFrame?: string;
-  stickerType: StickerTheme;
-  setStickerType: (type: StickerTheme) => void;
-  setFrameType: (type: FrameType) => void;
-  startOverAgain: () => void;
-  handleExport: (frameType: FrameType) => Promise<void>;
-  handleSave: (frameType: FrameType) => Promise<void>;
-  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  controllerType: "customize" | "session";
-}
+import { FaSave, FaRegEdit, FaDownload } from "react-icons/fa";
+import { FrameControllerProps } from "@/lib/types/customize";
+import { FrameType, StickerTheme } from "@/lib/types/camera";
 function FrameController({
   frameType,
   customFrame,

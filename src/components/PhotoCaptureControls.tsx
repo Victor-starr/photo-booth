@@ -1,14 +1,10 @@
 import { Camera } from "react-camera-pro";
-import { FaCamera } from "react-icons/fa";
+import { UseCameraReturn } from "@/lib/types/camera";
 import { MdOutlineFlipCameraAndroid } from "react-icons/md";
 import { IoMdQrScanner } from "react-icons/io";
-import { UseCameraReturn } from "@/lib/types/camera";
+import { FaCamera } from "react-icons/fa";
 
-interface PhotoCaptureControlsProps {
-  camera: UseCameraReturn;
-}
-
-const PhotoCaptureControls = ({ camera }: PhotoCaptureControlsProps) => {
+const PhotoCaptureControls = ({ camera }: { camera: UseCameraReturn }) => {
   const {
     cameraRef,
     takePhoto,

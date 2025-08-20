@@ -1,43 +1,12 @@
-"use client";
-
+import Link from "next/link";
+import { GuestGuardWrapper } from "@/guard/Guards";
 import { useAuth } from "@/hook/useAuth";
-import { useState } from "react";
-import { createClient } from "@/utils/supabase/client";
 import Footer from "@/components/_Footer";
 import Nav from "@/components/_Nav";
 import { FaCheck } from "react-icons/fa";
-import { GuestGuardWrapper } from "@/guard/Guards";
-import Link from "next/link";
 
 export default function VerifyEmail() {
-  const { user } = useAuth();
-  const [isResending, setIsResending] = useState(false);
-  const [resendMessage, setResendMessage] = useState<string | null>(null);
-
-  const handleResendEmail = async () => {
-    if (!user?.email) return;
-
-    setIsResending(true);
-    setResendMessage(null);
-
-    try {
-      const supabase = createClient();
-      const { error } = await supabase.auth.resend({
-        type: "signup",
-        email: user.email,
-      });
-
-      if (error) {
-        setResendMessage("Failed to resend email. Please try again.");
-      } else {
-        setResendMessage("Verification email sent! Please check your inbox.");
-      }
-    } catch {
-      setResendMessage("Failed to resend email. Please try again.");
-    } finally {
-      setIsResending(false);
-    }
-  };
+  const { user, isResending, resendMessage, handleResendEmail } = useAuth();
 
   return (
     <GuestGuardWrapper>

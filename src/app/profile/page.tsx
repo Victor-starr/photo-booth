@@ -1,17 +1,17 @@
 "use client";
+import { useRouter } from "next/navigation";
+import { useCustomize } from "@/hook/useCustomize";
 import { useAuth } from "@/hook/useAuth";
-import Nav from "@/components/_Nav";
-import Footer from "@/components/_Footer";
 import { AuthGuardWrapper } from "@/guard/Guards";
 import Image from "next/image";
-import { useCamera } from "@/hook/useCamera";
+import Nav from "@/components/_Nav";
 import SessionPhotos from "@/components/SessionPhotos";
-import { useRouter } from "next/navigation";
-import { PhotosSession } from "@/lib/types/camera";
+import Footer from "@/components/_Footer";
+import { PhotosSession } from "@/lib/types/customize";
 
 function ProfilePage() {
   const { user } = useAuth();
-  const { listOfSavedSessions, loading } = useCamera();
+  const { listOfSavedSessions, loading } = useCustomize();
   const router = useRouter();
 
   const handleRedirectionToCustomize = (session: PhotosSession) => {
