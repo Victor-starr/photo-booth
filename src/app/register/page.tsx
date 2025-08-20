@@ -1,7 +1,7 @@
+import { GuestGuardWrapper } from "@/guard/Guards";
+import SingUpForm from "@/components/SingUpForm";
 import Footer from "@/components/_Footer";
 import Nav from "@/components/_Nav";
-import SingUpForm from "@/components/SingUpForm";
-import { GuestGuardWrapper } from "@/guard/Guards";
 
 export default function RegisterPage() {
   return (

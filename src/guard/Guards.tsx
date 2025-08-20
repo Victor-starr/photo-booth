@@ -1,9 +1,8 @@
 "use client";
-
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/hook/useAuth";
 import { useCamera } from "@/hook/useCamera";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import LoadingScreen from "@/components/LoadingScreen";
 
 export function AuthGuardWrapper({ children }: { children: React.ReactNode }) {

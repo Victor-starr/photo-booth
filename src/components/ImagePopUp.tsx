@@ -1,7 +1,7 @@
+import { useState } from "react";
 import Image from "next/image";
-import { FaWindowClose } from "react-icons/fa";
-import React, { useState } from "react";
 import { Spinner } from "@/components/LoadingScreen";
+import { FaWindowClose } from "react-icons/fa";
 
 function ImagePopUp({
   imageUrl,

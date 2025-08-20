@@ -1,10 +1,10 @@
+import Link from "next/link";
+import { redirect } from "next/navigation";
 import { useAuth } from "@/hook/useAuth";
 import { useCamera } from "@/hook/useCamera";
 import useLocalStorageBoolean from "@/hook/useLocalStorageBoolean";
-import Link from "next/link";
 import { IoClose } from "react-icons/io5";
 import { MdAdsClick } from "react-icons/md";
-import { redirect } from "next/navigation";
 
 function NavSuggestion() {
   const { photosArr } = useCamera();

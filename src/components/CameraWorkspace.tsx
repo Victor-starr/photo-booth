@@ -1,6 +1,6 @@
+import PhotoCaptureControls from "@/components/PhotoCaptureControls";
+import CaptureCountdown from "@/components/CaptureCountdown";
 import { UseCameraReturn } from "@/lib/types/camera";
-import PhotoCaptureControls from "./PhotoCaptureControls";
-import CaptureCountdown from "./CaptureCountdown";
 
 interface CameraWorkspaceProps {
   camera: UseCameraReturn;

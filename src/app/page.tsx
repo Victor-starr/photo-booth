@@ -1,8 +1,8 @@
 import Image from "next/image";
-import Nav from "../components/_Nav";
 import Link from "next/link";
-import Footer from "../components/_Footer";
-import FormFeedBack from "../components/FormFeedBack";
+import Nav from "@/components/_Nav";
+import FormFeedBack from "@/components/FormFeedBack";
+import Footer from "@/components/_Footer";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaPaintBrush } from "react-icons/fa";
 import { IoTimer } from "react-icons/io5";

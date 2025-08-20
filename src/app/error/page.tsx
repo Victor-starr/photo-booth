@@ -1,6 +1,6 @@
+import Link from "next/link";
 import Footer from "@/components/_Footer";
 import Nav from "@/components/_Nav";
-import Link from "next/link";
 
 export default function ErrorPage() {
   return (

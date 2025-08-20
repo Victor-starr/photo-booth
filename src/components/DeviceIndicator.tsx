@@ -1,5 +1,3 @@
-import React from "react";
-
 const DeviceIndicator = () => {
   return (
     <div className="right-4 bottom-4 z-101 fixed flex justify-center items-center">

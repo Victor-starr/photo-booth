@@ -1,7 +1,7 @@
+import { GuestGuardWrapper } from "@/guard/Guards";
 import Footer from "@/components/_Footer";
 import Nav from "@/components/_Nav";
 import LoginForm from "@/components/LoginForm";
-import { GuestGuardWrapper } from "@/guard/Guards";
 
 export default function LoginPage() {
   return (

@@ -1,10 +1,8 @@
-"use client";
-
+import Link from "next/link";
+import { GuestGuardWrapper } from "@/guard/Guards";
 import Footer from "@/components/_Footer";
 import Nav from "@/components/_Nav";
 import { FaCheck } from "react-icons/fa";
-import { GuestGuardWrapper } from "@/guard/Guards";
-import Link from "next/link";
 
 export default function EmailVerifiedThankYou() {
   return (
