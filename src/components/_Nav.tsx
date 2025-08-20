@@ -1,13 +1,11 @@
 "use client";
-
-import { useAuth } from "@/hook/useAuth";
 import Link from "next/link";
+import { useAuth } from "@/hook/useAuth";
 import { useRouter } from "next/navigation";
+import NavSuggestion from "@/components/NavSuggestion";
 import { IoCamera, IoPersonSharp } from "react-icons/io5";
 import { LuLogOut, LuLogIn } from "react-icons/lu";
-import { FaGithub } from "react-icons/fa";
-import NavSuggestion from "./NavSuggestion";
-import { FaCameraRetro } from "react-icons/fa";
+import { FaCameraRetro, FaGithub } from "react-icons/fa";
 
 interface NavProps {
   currentPage?: string;
@@ -20,11 +18,10 @@ const Nav = ({ currentPage }: NavProps) => {
     switch (navigate) {
       case "/login":
         router.push("/login");
-        break;
       case "/logout":
         try {
-          router.push("/");
           await logout();
+          router.push("/");
         } catch (error) {
           console.error("Error logging out:", error);
         }

@@ -1,14 +1,10 @@
-"use client";
-import Footer from "@/components/_Footer";
-import Nav from "@/components/_Nav";
-import SessionLauncher from "@/components/SessionLauncher";
-import { MaxPhotoCountWrapper } from "@/guard/Guards";
 import Image from "next/image";
-import { useCamera } from "@/hook/useCamera";
+import { MaxPhotoCountWrapper } from "@/guard/Guards";
+import Footer from "@/components/_Footer";
+import SessionLauncher from "@/components/SessionLauncher";
+import Nav from "@/components/_Nav";
 
 export default function SessionPage() {
-  const camera = useCamera();
-
   return (
     <MaxPhotoCountWrapper>
       <Nav currentPage="session" />
@@ -24,7 +20,7 @@ export default function SessionPage() {
           Capture 4 photos * Customize * Share
         </h2>
         <div className="z-10 flex justify-center mt-16 lg:mt-20 w-full">
-          <SessionLauncher camera={camera} />
+          <SessionLauncher />
         </div>
         <Image
           src={"/svg/retro_photo_4.svg"}
