@@ -18,6 +18,7 @@ const Nav = ({ currentPage }: NavProps) => {
     switch (navigate) {
       case "/login":
         router.push("/login");
+        break;
       case "/logout":
         try {
           await logout();
@@ -25,6 +26,7 @@ const Nav = ({ currentPage }: NavProps) => {
         } catch (error) {
           console.error("Error logging out:", error);
         }
+        break;
     }
   };
 
