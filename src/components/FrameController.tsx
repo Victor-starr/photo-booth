@@ -107,7 +107,7 @@ function FrameController({
         {controllerType === "customize" && (
           <>
             <button
-              onClick={async () => await handleSave(frameType)}
+              onClick={handleSave}
               className="flex justify-center items-center gap-2 bg-blue-8 hover:bg-white shadow-blue-950 shadow-custom-position px-4 lg:px-6 py-2 border border-black rounded-lg text-white hover:text-blue-500 text-sm lg:text-base transition-colors"
               disabled={loading}
             >
@@ -122,7 +122,7 @@ function FrameController({
               )}
             </button>
             <button
-              onClick={() => startOverAgain()}
+              onClick={startOverAgain}
               className="flex justify-center items-center gap-2 bg-gray-300 hover:bg-pink-8 shadow-custom-position px-4 lg:px-6 py-2 border border-black rounded-lg hover:text-white text-sm lg:text-base transition-colors"
               disabled={loading}
             >

@@ -6,11 +6,13 @@ import { useCustomize } from "@/hook/useCustomize";
 import Link from "next/link";
 import { AuthGuardWrapper } from "@/guard/Guards";
 import { useCamera } from "@/hook/useCamera";
+import useConfirmPopUp from "@/hook/useConfirmPopUp";
 import ImagePopUp from "@/components/ImagePopUp";
 import FrameController from "@/components/FrameController";
 import PhotoFrames, { LoadingFrameTemplate } from "@/components/PhotoFrames";
 import Nav from "@/components/_Nav";
 import Footer from "@/components/_Footer";
+import ConfirmPopUp from "@/components/ConfirmPopUp";
 import { FrameType, PhotosSession, StickerTheme } from "@/lib/types/customize";
 import { FaBackspace } from "react-icons/fa";
 
@@ -19,6 +21,7 @@ function CustomizePage() {
   const [sessionData, setSessionData] = useState<PhotosSession | null>(null);
   const [frameType, setFrameType] = useState<FrameType>("classic");
   const [stickerType, setStickerType] = useState<StickerTheme>("none");
+  const confirmPopUp = useConfirmPopUp();
   const {
     loading,
     exportRef,
@@ -123,13 +126,30 @@ function CustomizePage() {
           setFrameType={setFrameType}
           stickerType={stickerType}
           setStickerType={setStickerType}
-          startOverAgain={startOverAgain}
+          startOverAgain={() =>
+            confirmPopUp.showPopUp(
+              "Are you sure you want to restart? This will clear your current strip.",
+              startOverAgain
+            )
+          }
           controllerType={"session"}
           handleExport={handleExport}
-          handleSave={savePhotos}
+          handleSave={() =>
+            confirmPopUp.showPopUp(
+              "Are you sure you want to save this strip?",
+              () => savePhotos(frameType)
+            )
+          }
           loading={loading}
           handleFileChange={handleFileChange}
         />
+        {confirmPopUp.open && (
+          <ConfirmPopUp
+            message={confirmPopUp.message}
+            onConfirm={confirmPopUp.handleConfirm}
+            onCancel={confirmPopUp.handleCancel}
+          />
+        )}
       </section>
       <Footer />
     </AuthGuardWrapper>

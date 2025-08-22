@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useAuthReturn, User } from "@/lib/types/auth";
 import { createClient } from "@/utils/supabase/client";
 import { validateEmail } from "@/utils/validation";
+import axios from "axios";
 
 export function useAuth(): useAuthReturn {
   const [user, setUser] = useState<User | null>(null);
@@ -12,6 +13,7 @@ export function useAuth(): useAuthReturn {
   const [isResending, setIsResending] = useState(false);
   const [resendMessage, setResendMessage] = useState<string | null>(null);
   const supabase = createClient();
+  const router = useRouter();
 
   useEffect(() => {
     // Get initial user
@@ -58,7 +60,7 @@ export function useAuth(): useAuthReturn {
       return { error: error.message };
     }
 
-    redirect("/");
+    router.push("/");
   }
 
   async function signup(formData: FormData) {
@@ -118,7 +120,7 @@ export function useAuth(): useAuthReturn {
       }
     }
 
-    redirect("/verify-email");
+    router.push("/verify-email");
   }
 
   const logout = async () => {
@@ -128,6 +130,8 @@ export function useAuth(): useAuthReturn {
       await supabase.auth.signOut();
     } catch (error) {
       console.error("Error during logout:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -156,6 +160,27 @@ export function useAuth(): useAuthReturn {
     }
   };
 
+  const userDelete = async () => {
+    if (!user) return;
+
+    setLoading(true);
+    try {
+      await axios.delete("/auth/delete", {
+        data: {
+          user,
+        },
+      });
+      setUser(null);
+      localStorage.removeItem("photos");
+      localStorage.removeItem("selectedSession");
+      router.push("/");
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     user,
     loading,
@@ -163,6 +188,7 @@ export function useAuth(): useAuthReturn {
     login,
     signup,
     logout,
+    userDelete,
     handleResendEmail,
     isResending,
     resendMessage,

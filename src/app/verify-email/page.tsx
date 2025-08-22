@@ -36,22 +36,25 @@ export default function VerifyEmail() {
               <li>
                 • If you have already verified your email but are not
                 redirected, try logging in:
-                <Link
-                  href="/login"
-                  className="ml-2 py-1 rounded text-blue-5 hover:text-blue-8 active:text-blue-8 text-xs underline transition"
-                >
-                  Go to Login
-                </Link>
               </li>
             </ul>
-
-            <button
-              onClick={handleResendEmail}
-              disabled={isResending || !user?.email}
-              className="bg-blue-8 hover:bg-blue-9 disabled:bg-blue-4 px-4 py-2 rounded-lg w-full text-white text-sm transition disabled:cursor-not-allowed"
-            >
-              {isResending ? "Sending..." : "Resend Verification Email"}
-            </button>
+            <div className="flex flex-row gap-3">
+              <button
+                onClick={handleResendEmail}
+                disabled={isResending || !user?.email}
+                className="bg-blue-8 hover:bg-blue-9 disabled:bg-blue-4 px-4 py-2 rounded-lg text-white text-sm transition disabled:cursor-not-allowed"
+              >
+                {isResending ? "Sending..." : "Resend Verification Email"}
+              </button>
+              <Link href="/login" passHref>
+                <button
+                  type="button"
+                  className="bg-blue-5 hover:bg-blue-8 active:bg-blue-8 px-4 py-2 rounded-lg text-white text-sm underline transition"
+                >
+                  Login
+                </button>
+              </Link>
+            </div>
 
             {resendMessage && (
               <p

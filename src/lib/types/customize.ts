@@ -17,7 +17,7 @@ export interface FrameControllerProps {
   setFrameType: (type: FrameType) => void;
   startOverAgain: () => void;
   handleExport: (frameType: FrameType) => Promise<void>;
-  handleSave: (frameType: FrameType) => Promise<void>;
+  handleSave: () => void;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   controllerType: "customize" | "session";
 }
