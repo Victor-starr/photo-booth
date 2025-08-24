@@ -74,7 +74,7 @@ export default function SessionPage() {
           startOverAgain={() =>
             confirmPopUp.showPopUp(
               "Are you sure you want to restart? This will clear your current strip.",
-              startOverAgain
+              () => startOverAgain()
             )
           }
           controllerType={"customize"}
