@@ -12,6 +12,7 @@ import {
 import {
   fetchUserPhotoSessions,
   photoSessionInsert,
+  photoSessionDelete,
 } from "@/utils/supabase/PhotoSession";
 
 export function useCustomize(): useCustomizeReturn {
@@ -150,6 +151,18 @@ export function useCustomize(): useCustomizeReturn {
       reader.readAsDataURL(file);
     }
   };
+
+  const handlePhotoSessionDelete = async (id: string) => {
+    try {
+      setLoading(true);
+      await photoSessionDelete(id);
+      router.push("/profile");
+    } catch (error) {
+      console.error("Failed to delete photo session:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return {
     exportRef,
     loading,
@@ -159,5 +172,6 @@ export function useCustomize(): useCustomizeReturn {
     listOfSavedSessions,
     handleExport,
     handleFileChange,
+    handlePhotoSessionDelete,
   };
 }

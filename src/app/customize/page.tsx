@@ -48,11 +48,11 @@ export default function SessionPage() {
           />
         )}
         {loading ? (
-          <div className="w-[200px]">
+          <div className="w-auto lg:w-[200px]">
             <LoadingFrameTemplate />
           </div>
         ) : (
-          <div ref={exportRef} className="w-[200px]">
+          <div ref={exportRef} className="w-auto lg:w-[200px]">
             <PhotoFrames
               {...{
                 photoArr: photosArr,

@@ -3,6 +3,7 @@ import { VscDebugRestart } from "react-icons/vsc";
 import { FaSave, FaRegEdit, FaDownload } from "react-icons/fa";
 import { FrameControllerProps } from "@/lib/types/customize";
 import { FrameType, StickerTheme } from "@/lib/types/camera";
+import { MdDelete } from "react-icons/md";
 function FrameController({
   frameType,
   customFrame,
@@ -14,6 +15,7 @@ function FrameController({
   handleExport,
   handleSave,
   handleFileChange,
+  handlePhotoDelete,
   loading,
 }: FrameControllerProps) {
   const frameOptions: FrameType[] = [
@@ -138,8 +140,25 @@ function FrameController({
             </button>
           </>
         )}
+        {controllerType === "session" && handlePhotoDelete && (
+          <button
+            onClick={handlePhotoDelete}
+            className="flex justify-center items-center gap-2 bg-orange-400 hover:bg-orange-500 shadow-custom-position shadow-gray-700 px-4 lg:px-6 py-2 border border-black rounded-lg text-white hover:text-red-600 text-sm lg:text-base transition-colors"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <Spinner size="small" /> Delete
+              </>
+            ) : (
+              <>
+                <MdDelete /> Delete
+              </>
+            )}
+          </button>
+        )}
         <button
-          onClick={async () => await handleExport(frameType)}
+          onClick={() => handleExport(frameType)}
           className="flex justify-center items-center gap-2 bg-blue-9 hover:bg-white shadow-custom-position px-4 lg:px-6 py-2 border border-black rounded-lg text-white hover:text-blue-9 text-sm lg:text-base transition-colors"
           disabled={loading}
         >

@@ -29,6 +29,7 @@ function CustomizePage() {
     savePhotos,
     handleFileChange,
     customFrame,
+    handlePhotoSessionDelete,
   } = useCustomize();
   const { startOverAgain } = useCamera();
   const [imageDisplay, setImageDisplay] = useState<string | null>(null);
@@ -104,11 +105,11 @@ function CustomizePage() {
           />
         )}
         {loading ? (
-          <div className="w-[200px]">
+          <div className="w-auto lg:w-[200px]">
             <LoadingFrameTemplate />
           </div>
         ) : (
-          <div ref={exportRef} className="w-[200px]">
+          <div ref={exportRef} className="w-auto lg:w-[200px]">
             <PhotoFrames
               {...{
                 photoArr: (sessionData?.photo_urls as string[]) || [],
@@ -140,6 +141,7 @@ function CustomizePage() {
               () => savePhotos(frameType)
             )
           }
+          handlePhotoDelete={() => handlePhotoSessionDelete(sessionData.id)}
           loading={loading}
           handleFileChange={handleFileChange}
         />

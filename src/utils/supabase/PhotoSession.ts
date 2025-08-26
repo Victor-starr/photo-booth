@@ -24,6 +24,45 @@ export async function photoSessionInsert({
   if (error) throw error;
 }
 
+export async function photoSessionDelete(id: string): Promise<void> {
+  const supabase = createClient();
+
+  const { data: sessionData, error: fetchError } = await supabase
+    .from("photo_sessions")
+    .select("photo_urls, frame_custom")
+    .eq("id", id)
+    .single();
+
+  if (fetchError) throw fetchError;
+
+  if (
+    sessionData &&
+    Array.isArray(sessionData.photo_urls) &&
+    sessionData.photo_urls.length > 0
+  ) {
+    const { error: photoRemoveError } = await supabase.storage
+      .from("photos")
+      .remove(sessionData.photo_urls);
+
+    if (photoRemoveError) throw photoRemoveError;
+  }
+
+  if (sessionData && sessionData.frame_custom) {
+    const { error: frameRemoveError } = await supabase.storage
+      .from("frame_bg")
+      .remove([sessionData.frame_custom]);
+
+    if (frameRemoveError) throw frameRemoveError;
+  }
+
+  const { error: deleteError } = await supabase
+    .from("photo_sessions")
+    .delete()
+    .eq("id", id);
+
+  if (deleteError) throw deleteError;
+}
+
 export async function fetchUserPhotoSessions(
   profileId: string
 ): Promise<PhotosSession[] | null> {

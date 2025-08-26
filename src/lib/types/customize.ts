@@ -7,6 +7,7 @@ export interface useCustomizeReturn {
   handleExport: (frameType: FrameType) => Promise<void>;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   savePhotos: (frameType: FrameType) => Promise<void>;
+  handlePhotoSessionDelete: (id: string) => Promise<void>;
 }
 export interface FrameControllerProps {
   loading: boolean;
@@ -19,6 +20,7 @@ export interface FrameControllerProps {
   handleExport: (frameType: FrameType) => Promise<void>;
   handleSave: () => void;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handlePhotoDelete?: () => Promise<void>;
   controllerType: "customize" | "session";
 }
 
