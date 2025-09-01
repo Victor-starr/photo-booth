@@ -227,7 +227,7 @@ export const LoadingFrameTemplate = () => {
       {Array.from({ length: 4 }).map((_, i) => (
         <div
           key={i}
-          className="bg-gray-200 rounded-lg w-full h-32 animate-pulse"
+          className="bg-gray-200 rounded-lg w-32 h-32 animate-pulse"
         ></div>
       ))}
     </div>

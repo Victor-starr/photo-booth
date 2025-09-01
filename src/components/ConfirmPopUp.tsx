@@ -6,7 +6,7 @@ interface ConfirmPopUpProps {
 
 const ConfirmPopUp = ({ message, onConfirm, onCancel }: ConfirmPopUpProps) => {
   return (
-    <div className="z-100 absolute flex justify-center items-center bg-black/80 w-screen h-screen">
+    <div className="z-100 absolute flex justify-center items-center bg-black/80 w-screen h-full">
       <div className="bg-pink-5 shadow-md px-10 py-6 rounded text-center">
         <h2 className="shadow-blue-8 small-text-cst text-2xl lg:text-3xl">
           {message}

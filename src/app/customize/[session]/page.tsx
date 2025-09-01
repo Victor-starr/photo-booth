@@ -141,7 +141,12 @@ function CustomizePage() {
               () => savePhotos(frameType)
             )
           }
-          handlePhotoDelete={() => handlePhotoSessionDelete(sessionData.id)}
+          handlePhotoDelete={() =>
+            confirmPopUp.showPopUp(
+              "Are you sure you want to delete this strip?",
+              () => handlePhotoSessionDelete(sessionData.id)
+            )
+          }
           loading={loading}
           handleFileChange={handleFileChange}
         />

@@ -70,7 +70,7 @@ export const Spinner = ({
   text?: string;
   size?: "small" | "medium" | "large";
 }) => (
-  <div className="flex flex-col justify-center items-center w-full h-full">
+  <div className="flex flex-col justify-center items-center w-auto h-full">
     <div
       className={`mx-auto mb-2 border-white border-b-2 rounded-full ${
         size === "small"

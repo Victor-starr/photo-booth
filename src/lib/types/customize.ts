@@ -20,7 +20,7 @@ export interface FrameControllerProps {
   handleExport: (frameType: FrameType) => Promise<void>;
   handleSave: () => void;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handlePhotoDelete?: () => Promise<void>;
+  handlePhotoDelete?: () => void;
   controllerType: "customize" | "session";
 }
 
