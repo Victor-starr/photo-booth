@@ -2,54 +2,114 @@
 
 ![Photo Booth Logo](./public/svg/bg.svg)
 
-## Overview
+A lightweight web app for capturing, customizing, and sharing themed photos. Built with Next.js and TypeScript for a responsive, event-friendly experience.
 
-Photo Booth is a modern web application for capturing, customizing, and sharing photos in themed sessions. Built with Next.js and TypeScript, it offers a fun, interactive experience for users at events, parties, or personal use.
+## Quick start
 
-## Features
+Prerequisites: Node 18+, npm, a Supabase project.
 
-- **User Authentication:** Register, login, email verification, and sign out flows.
-- **Photo Capture:** Use your device camera to take photos directly in the browser.
-- **Session Management:** Launch and manage photo sessions, view session photos, and customize session settings.
-- **Profile:** Display user information, including all saved photo sessions.
-- **Photo Customization:** Apply frames, overlays, and effects to your photos. Choose from seasonal, party, retro, and more themes.
-- **Countdown & Controls:** Countdown timer for photo capture, device indicator, and easy-to-use controls.
-- **Image Export & Sharing:** Export images and share them with friends or on social media.
-- **Responsive UI:** Works seamlessly on desktop and mobile devices.
-- **Loading & Feedback:** Loading screens and form feedback for smooth user experience.
+1. Clone and install
 
-## Tech Stack
+```bash
+git clone <repo-url>
+cd photo-booth
+npm install
+```
 
-- **Frontend:** Next.js, TypeScript
-- **Styling:** TailwindCSS
-- **Database:** Supabase (PostgreSQL)
-- **Authentication & Storage:** Supabase
-- **Libraries:** React Icons, html2canvas, react-camera-pro
+2. Configure environment
+   Create a `.env.local` file (see example below) with your Supabase project URL and anon key.
 
-## Directory Structure
+3. Run locally
 
-- `src/app/` — Main app pages and routes
-- `src/components/` — Reusable UI components
-- `src/guard/` — Route guards and access control
-- `src/hook/` — Custom React hooks
-- `src/lib/types/` — Type definitions
-- `src/utils/` — Utility functions (image export, validation, Supabase helpers)
-- `public/` — Static assets (images, SVGs, fonts)
+```bash
+npm run dev
+# Open http://localhost:3000
+```
 
-## Getting Started
+## Environment variables (example)
 
-1. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-2. **Run the development server:**
-   ```bash
-   npm run dev
-   ```
-3. **Open [http://localhost:3000](http://localhost:3000) in your browser.**
+Create `.env.local` with your own values:
 
-## Environment Variables
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://<<your-project-ref>>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<<your-anon-key>>
+NEXT_PUBLIC_SITE_URL=https://<<your-domain>>
+SUPABASE_SERVICE_ROLE_KEY=<<your-service-role-key>>
+NEXT_PUBLIC_DEVMODE=true # optional, for development features ( true/false )
+```
 
-Set up your `.env.local` file with Supabase credentials and any other required environment variables.
+## Features (high level)
 
-Made with ❤️ by Victor-starr
+- Authentication: register, login, email verification, sign out
+- Camera capture: in-browser photo capture with countdown and device indicator
+- Session management: create/manage sessions and view session photos
+- Photo customization: frames, overlays, themes (seasonal, party, retro)
+- Export & share: image export and social sharing
+- Responsive UI: works on desktop and mobile
+- Feedback: loading states and form validation
+
+## Tech stack
+
+- Frontend: Next.js, TypeScript
+- Styling: Tailwind CSS
+- Backend: Supabase (Postgres, Auth, Storage)
+- Libraries: react-icons, html2canvas, react-camera-pro
+
+## Project structure
+
+src/
+app/ # Next.js pages and routes
+components/ # Reusable UI components
+guard/ # Route guards and access control
+hook/ # Custom React hooks
+lib/types/ # Type definitions
+utils/ # Utilities: image export, validation, Supabase helpers
+public/ # Static assets (images, SVGs, fonts)
+
+## Supabase schema
+
+Run the following SQL (or adapt into migrations) to create the basic tables:
+
+```sql
+-- Create extension for gen_random_uuid()
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+-- Profiles table
+CREATE TABLE IF NOT EXISTS profiles (
+   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+   updated_at timestamptz NOT NULL DEFAULT now(),
+   avatar_url text,
+   username text UNIQUE
+);
+
+-- Photo sessions table (one-to-one -> profile_id is UNIQUE)
+CREATE TABLE IF NOT EXISTS photo_sessions (
+   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+   profile_id uuid NOT NULL UNIQUE,
+   created_at timestamptz NOT NULL DEFAULT now(),
+   frame_style text,
+   photo_urls jsonb,
+   frame_custom text,
+   CONSTRAINT fk_profiles FOREIGN KEY (profile_id) REFERENCES profiles (id) ON DELETE CASCADE
+);
+```
+
+## Useful scripts
+
+(assumes standard package.json)
+
+- npm run dev — development server
+- npm run build — production build
+- npm start — start production server
+- npm run lint — run linters
+
+## Notes & tips
+
+- Ensure camera permissions in the browser for photo capture.
+- Store large images in Supabase Storage and keep metadata in Postgres.
+- Use Supabase project settings to rotate keys if needed.
+- For deployments, set environment variables in the hosting provider (Vercel, Netlify, etc.).
+
+Contributions welcome — open an issue or pull request.
+
+Made with care by Victor-starr
